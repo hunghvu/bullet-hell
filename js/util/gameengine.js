@@ -10,6 +10,9 @@ class GameEngine {
         this.wheel = null;
         this.surfaceWidth = null;
         this.surfaceHeight = null;
+
+
+        this.hoverMouse = false;
     };
 
     init(ctx) {
