@@ -1,24 +1,19 @@
-var gameEngine = new GameEngine();
+let gameEngine = new GameEngine();
 
-var ASSET_MANAGER = new AssetManager();
+let ASSET_MANAGER = new AssetManager();
 
 // Download sprite sheet
 ASSET_MANAGER.queueDownload("./assets/sprites/playerSprite.png");
 
 
 ASSET_MANAGER.downloadAll(function () {
-	var canvas = document.getElementById('gameWorld');
-	var ctx = canvas.getContext('2d');
+	let canvas = document.getElementById('gameWorld');
+	let ctx = canvas.getContext('2d');
 
 	gameEngine.init(ctx);
 	let player = new Player(gameEngine, 100, 100);
+	player.addMouseListenerCanvas(canvas)
 	gameEngine.addEntity(player);
-	// Mouse position
-	canvas.addEventListener('mousemove', event => {
-		let canvasRect = canvas.getBoundingClientRect();
-		player.canvasX = event.clientX - canvasRect.left;
-		player.canvasY = event.clientY - canvasRect.top;
-	})
 	gameEngine.start();
 });
 
