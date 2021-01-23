@@ -11,44 +11,69 @@ class Player {
         this.canvasX = 0;
         this.canvasY = 0;
         this.state = 0; // 0 means stands still, 1 is moving to the left, 2 is moving to the right.
-        this.canvas = null;
         this.lastMouseX = 0;
         this.lastMouseY = 0;
 
+        // A work around to display parallax background. Technically, it should be determined
+        //  by the camera instead. And the background should have its own class.
+        this.speed = 0.5;
+        this.background = new Image();
+        this.background.src = "./assets/background.png";
+        this.backgroundPositionY = 0;
+        this.canvas = null;
     }
 
+    /**
+     * This function helps moving the character around based on mouse movement.
+     * @param {canvas} canvas Canvas for game.
+     */
     addMouseListenerCanvas(canvas) {
+        // Side task, adjust origin of the background. This can move to another function later.
         this.canvas = canvas;
-        // Mouse position
-        this.canvas.addEventListener('mousemove', event => {
-            let canvasRect = this.canvas.getBoundingClientRect();
+        this.backgroundPositionY = (this.background.height - this.canvas.height) * -1;
+
+        // A separate timer to detect if the mouse has stopped moving
+        //  Source: https://stackoverflow.com/questions/17646825/how-to-detect-when-mouse-has-stopped
+        let timer = null;
+        canvas.addEventListener('mousemove', event => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                this.state = 0;
+            }, 500);
+
+            // Only get mouse coordinate inside canvas
+            let canvasRect = canvas.getBoundingClientRect();
             let newMouseX = event.clientX - canvasRect.left;
             let newMouseY = event.clientY - canvasRect.top;
-            // if (newMouseX < this.lastMouseX) {
-            //     this.state = 1;
-            // } else if (newMouseX === this.lastMouseX) {
-            //     this.state = 0;
-            // } else if (newMouseX > this.lastMouseX) {
-            //     this.state = 2;
-            // }
-            this.lastMouseX = newMouseX;
+
+            // Change state of direction
+            if (newMouseX < this.lastMouseX) {
+                this.state = 1;
+            } else if (newMouseX === this.lastMouseX) {
+                this.state = 0;
+            } else if (newMouseX > this.lastMouseX) {
+                this.state = 2;
+            }
+
+            //
+            this.lastMouseX = newMouseX; // Real mouse position
+            this.lastMouseY = newMouseY;
+            this.canvasX = newMouseX - 40; // Modified position so the mouse is at
+            this.canvasY = newMouseY - 48; //  the center of character sprite
+
             console.log(this.state);
-            this.canvasX = newMouseX;
-            this.canvasY = newMouseY;
         })
     }
 
     loadAnimations() {
-        // for (var i = 0; i < 8; i++) {
-            // this.animation[0] = new Animator(this.spriteSheet, 16, 16 , 32, 48, 8, 0.5, 0, false, true);
-            let playerStill = new Animator(this.spriteSheet, 16, 16, 32, 48, 8, 0.125, 0, false, true);
-            let playerLeft = new Animator(this.spriteSheet, 16, 48, 32, 48, 8, 0.125, 0, false, true);
-            let playerRight = new Animator(this.spriteSheet, 16, 80, 32, 48, 8, 0.125, 0, false, true);
-            this.animation.push(playerStill);
-            this.animation.push(playerLeft);
-            this.animation.push(playerRight);
-            // console.log(reimu);
-        // }
+
+        let playerStill = new Animator(this.spriteSheet, 16, 16, 32, 48, 8, 0.125, 0, false, true);
+        let playerLeft = new Animator(this.spriteSheet, 16, 64, 32, 48, 8, 0.125, 0, false, true);
+        let playerRight = new Animator(this.spriteSheet, 16, 112, 32, 48, 8, 0.125, 0, false, true);
+        this.animation.push(playerStill);
+        this.animation.push(playerLeft);
+        this.animation.push(playerRight);
+
     }
 
     update() {
@@ -56,17 +81,16 @@ class Player {
     }
 
     draw(ctx) {
-        // for(var i = 0; i < 8; i++) {
+
+        // Draw the image off canvas then gradually move it.
+        ctx.drawImage(this.background, 0, this.backgroundPositionY);
+        if (this.backgroundPositionY <= 0) {
+            this.backgroundPositionY += this.speed;
+        }
 
         this.animation[this.state].drawFrame(this.game.clockTick, ctx, this.canvasX - 40, this.canvasY - 48, 3);
 
-        // }
-        // if (this.state === 0) {
-        //     this.animation[0].drawFrame(this.game.clockTick, ctx, this.canvasX - 40, this.canvasY - 48, 3);
-        // } else if (this.state === 1) {
-        //     this.animation[1].drawFrame(this.game.clockTick, ctx, this.canvasX - 40, this.canvasY - 48, 3);
-        // } else {
-        //     this.animation[2].drawFrame(this.game.clockTick, ctx, this.canvasX - 40, this.canvasY - 48, 3);
-        // }
+
+
     }
 }
