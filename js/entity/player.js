@@ -14,19 +14,6 @@ class Player {
         this.lastMouseX = 0;
         this.lastMouseY = 0;
 
-        // A work around to display parallax background. Technically, it should be determined
-        //  by the camera instead. And the background should have its own class.
-        this.speed = 0.5;
-        this.background = new Image();
-        this.background.src = "./assets/background.png";
-        this.backgroundPositionY = 0;
-
-        this.speedFar = 0.2;
-        this.backgroundFar = new Image();
-        this.backgroundFar.src = "./assets/background-far.jpg";
-        this.backgroundFarPositionY = 0;
-        this.canvas = null;
-
         // Orb angle.
         this.orbSpeed = 1;
         this.orbAngle = 0;
@@ -38,11 +25,6 @@ class Player {
      * @param {canvas} canvas Canvas for game.
      */
     addMouseListenerCanvas(canvas) {
-        // Side task, adjust origin of the background. This can move to another function later.
-        this.canvas = canvas;
-        this.backgroundPositionY = (this.background.height - this.canvas.height) * -1;
-        this.backgroundFarPositionY = (this.background.height - this.canvas.height) * -1;
-
         // A separate timer to detect if the mouse has stopped moving
         //  Source: https://stackoverflow.com/questions/17646825/how-to-detect-when-mouse-has-stopped
         let timer = null;
@@ -98,16 +80,7 @@ class Player {
 
     draw(ctx) {
 
-        // Draw the image off canvas then gradually move it.
-        ctx.drawImage(this.backgroundFar, 0, this.backgroundFarPositionY);
-        ctx.save();
-        ctx.globalAlpha = 0.7;
-        ctx.drawImage(this.background, 0, this.backgroundPositionY);
-        ctx.restore();
-        if (this.backgroundPositionY <= 0) {
-            this.backgroundPositionY += this.speed;
-            this.backgroundFarPositionY += this.speedFar;
-        }
+
 
         this.animation[this.state].drawFrame(this.game.clockTick, ctx, this.canvasX, this.canvasY, 3);
 
