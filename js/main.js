@@ -14,7 +14,9 @@ ASSET_MANAGER.downloadAll(function () {
 	let player = new Player(gameEngine, 100, 100);
 	player.addMouseListenerCanvas(canvas)
 	gameEngine.addEntity(player);
-	gameEngine.start();
+
+	// Set a timer so the "quite-heavy" background is hopefully loaded
+	timer = setTimeout (() => gameEngine.start(), 1200);
 });
 
 
