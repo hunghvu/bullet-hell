@@ -26,6 +26,11 @@ class Player {
         this.backgroundFar.src = "./assets/background-far.jpg";
         this.backgroundFarPositionY = 0;
         this.canvas = null;
+
+        // Orb angle.
+        this.orbSpeed = 1;
+        this.orbAngle = 0;
+        this.radius = 80;
     }
 
     /**
@@ -45,6 +50,8 @@ class Player {
             clearTimeout(timer);
             timer = setTimeout(() => {
                 this.state = 0;
+                this.lastMouseX = event.clientX;
+                this.lastMouseY = event.clientY;
             }, 500);
 
             // Only get mouse coordinate inside canvas
@@ -80,6 +87,9 @@ class Player {
         this.animation.push(playerLeft);
         this.animation.push(playerRight);
 
+        let orb = new Animator (this.spriteSheet, 96, 160, 16, 16, 1, 0.125, 0, false, true);
+        this.animation.push(orb); // At index 3.
+
     }
 
     update() {
@@ -101,7 +111,16 @@ class Player {
 
         this.animation[this.state].drawFrame(this.game.clockTick, ctx, this.canvasX, this.canvasY, 3);
 
+        let radian = -this.orbAngle * Math.PI / 180;
 
+        // Manually adjust magic number so the orb can fly around the character.
+        // As the character shap is not symmetric, this have to be done manually.
+        this.animation[3].drawFrame(this.game.clockTick, ctx, 
+            this.canvasX + 24 + this.radius * Math.cos(radian),
+            this.canvasY + 30 + this.radius * Math.sin(radian),
+            3
+            )
+        this.orbAngle += this.orbSpeed;
 
     }
 }
