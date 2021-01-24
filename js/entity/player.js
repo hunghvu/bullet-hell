@@ -20,6 +20,11 @@ class Player {
         this.background = new Image();
         this.background.src = "./assets/background.png";
         this.backgroundPositionY = 0;
+
+        this.speedFar = 0.2;
+        this.backgroundFar = new Image();
+        this.backgroundFar.src = "./assets/background-far.jpg";
+        this.backgroundFarPositionY = 0;
         this.canvas = null;
     }
 
@@ -31,6 +36,7 @@ class Player {
         // Side task, adjust origin of the background. This can move to another function later.
         this.canvas = canvas;
         this.backgroundPositionY = (this.background.height - this.canvas.height) * -1;
+        this.backgroundFarPositionY = (this.background.height - this.canvas.height) * -1;
 
         // A separate timer to detect if the mouse has stopped moving
         //  Source: https://stackoverflow.com/questions/17646825/how-to-detect-when-mouse-has-stopped
@@ -83,12 +89,17 @@ class Player {
     draw(ctx) {
 
         // Draw the image off canvas then gradually move it.
+        ctx.drawImage(this.backgroundFar, 0, this.backgroundFarPositionY);
+        ctx.save();
+        ctx.globalAlpha = 0.7;
         ctx.drawImage(this.background, 0, this.backgroundPositionY);
+        ctx.restore();
         if (this.backgroundPositionY <= 0) {
             this.backgroundPositionY += this.speed;
+            this.backgroundFarPositionY += this.speedFar;
         }
 
-        this.animation[this.state].drawFrame(this.game.clockTick, ctx, this.canvasX - 40, this.canvasY - 48, 3);
+        this.animation[this.state].drawFrame(this.game.clockTick, ctx, this.canvasX, this.canvasY, 3);
 
 
 
