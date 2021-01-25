@@ -4,7 +4,7 @@ class Animator {
 
         this.elapsedTime = 0;
         this.totalTime = this.frameCount * this.frameDuration;
-        console.log(this.spritesheet);
+        // console.log(this.spritesheet);
     };
 
     drawFrame(tick, ctx, x, y, scale) {
