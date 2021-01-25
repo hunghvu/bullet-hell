@@ -16,6 +16,7 @@ class Player {
         this.playerFrameHeight = 48;
         this.frameTime = 0.125;
         this.scaler = 3;
+        this.frameCount = 8;
 
         // Attach weapons to player
         this.weapon = new Weapon(this);
@@ -71,9 +72,9 @@ class Player {
 
     loadAnimations() {
 
-        let playerStill = new Animator(this.spriteSheet, 16, 16, this.playerFrameWidth, this.playerFrameHeight, 8, this.frameTime, 0, false, true);
-        let playerLeft = new Animator(this.spriteSheet, 16, 64, this.playerFrameWidth, this.playerFrameHeight, 8, this.frameTime, 0, false, true);
-        let playerRight = new Animator(this.spriteSheet, 16, 112, this.playerFrameWidth, this.playerFrameHeight, 8, this.frameTime, 0, false, true);
+        let playerStill = new Animator(this.spriteSheet, 16, 16, this.playerFrameWidth, this.playerFrameHeight, this.frameCount, this.frameTime, 0, false, true);
+        let playerLeft = new Animator(this.spriteSheet, 16, 64, this.playerFrameWidth, this.playerFrameHeight, this.frameCount, this.frameTime, 0, false, true);
+        let playerRight = new Animator(this.spriteSheet, 16, 112, this.playerFrameWidth, this.playerFrameHeight, this.frameCount, this.frameTime, 0, false, true);
         this.animation.push(playerStill);
         this.animation.push(playerLeft);
         this.animation.push(playerRight);

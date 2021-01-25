@@ -1,6 +1,7 @@
 class Weapon {
     constructor(player) {
         
+        // Define properties based on player.
         this.player = player
         this.game = player.game;
         this.x = player.x;
@@ -21,13 +22,19 @@ class Weapon {
         this.orbFrameWidth = 16;
         this.orbFrameHeight = 16;
 
+        this.orbLocationX = 0;
+        this.orbLocationY = 0;
+        this.frameCount = 1;
+
+        this.bullet = new Bullet(this);
+
         this.loadAnimation();
     }
 
     loadAnimation() {
-        let orbBlue = new Animator (this.spriteSheet, 80, 160, this.orbFrameWidth, this.orbFrameHeight, 1, this.frameTime, 0, false, true);
-        let orbOrange = new Animator (this.spriteSheet, 96, 160, this.orbFrameWidth, this.orbFrameHeight, 1, this.frameTime, 0, false, true);
-        let orbPurple = new Animator (this.spriteSheet, 112, 160, this.orbFrameWidth, this.orbFrameHeight, 1, this.frameTime, 0, false, true);
+        let orbBlue = new Animator (this.spriteSheet, 80, 160, this.orbFrameWidth, this.orbFrameHeight, this.frameCount, this.frameTime, 0, false, true);
+        let orbOrange = new Animator (this.spriteSheet, 96, 160, this.orbFrameWidth, this.orbFrameHeight, this.frameCount, this.frameTime, 0, false, true);
+        let orbPurple = new Animator (this.spriteSheet, 112, 160, this.orbFrameWidth, this.orbFrameHeight, this.frameCount, this.frameTime, 0, false, true);
         this.orbList.push(orbBlue);
         this.orbList.push(orbOrange);
         this.orbList.push(orbPurple);
@@ -45,12 +52,11 @@ class Weapon {
         //+ this.radius * Math.sin(radian)
 
         // Orb width and frame width have 1:2 ratio, but height is 1:3, so the formular are different
-        this.orbList[this.orbState].drawFrame(this.game.clockTick, ctx, 
-            this.player.canvasX + this.orbFrameWidth / 2 * this.scaler + this.radius * Math.cos(radian),
-            this.player.canvasY + this.player.playerFrameHeight / 2 * 3 - this.orbFrameHeight / 2 * this.scaler +  this.radius * Math.sin(radian),
-            3);
+        this.orbLocationX = this.player.canvasX + this.orbFrameWidth / 2 * this.scaler + this.radius * Math.cos(radian);
+        this.orbLocationY = this.player.canvasY + this.player.playerFrameHeight / 2 * 3 - this.orbFrameHeight / 2 * this.scaler +  this.radius * Math.sin(radian)
+        this.orbList[this.orbState].drawFrame(this.game.clockTick, ctx, this.orbLocationX, this.orbLocationY, this.scaler);
         this.orbAngle += this.orbSpeed;
 
-        console.log(this.player.canvasX + this.orbFrameWidth / 2 * this.scaler + this.radius * Math.cos(radian))
+        // console.log(this.player.canvasX + this.orbFrameWidth / 2 * this.scaler + this.radius * Math.cos(radian))
     }
 }
