@@ -58,7 +58,12 @@ class Weapon {
         this.orbLocationX = this.player.canvasX + this.orbFrameWidth / 2 * this.scaler + this.radius * Math.cos(radian);
         this.orbLocationY = this.player.canvasY + this.player.playerFrameHeight / 2 * 3 - this.orbFrameHeight / 2 * this.scaler +  this.radius * Math.sin(radian)
         this.orbList[this.orbState].drawFrame(this.game.clockTick, ctx, this.orbLocationX, this.orbLocationY, this.scaler);
-        this.orbAngle += this.orbSpeed;
+        if (this.orbAngle === 360) {
+            this.orbAngle = 0;
+        } else {
+            this.orbAngle += this.orbSpeed;
+        }
+        console.log(this.orbAngle)
 
         // console.log(this.player.canvasX + this.orbFrameWidth / 2 * this.scaler + this.radius * Math.cos(radian))
     }
