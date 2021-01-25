@@ -9,7 +9,7 @@ class Player {
         this.animation = [];
         this.canvasX = 0;
         this.canvasY = 0;
-        this.state = 0; // 0 means stands still, 1 is moving to the left, 2 is moving to the right.
+        this.animationState = 0; // 0 means stands still, 1 is moving to the left, 2 is moving to the right.
         this.lastMouseX = 0;
         this.lastMouseY = 0;
         this.playerFrameWidth = 32;
@@ -17,13 +17,8 @@ class Player {
         this.frameTime = 0.125;
         this.scaler = 3;
 
-
-        // Orb angle.
-        this.orbSpeed = 1;
-        this.orbAngle = 0;
-        this.radius = 100;
-        this.orbFrameWidth = 16;
-        this.orbFrameHeight = 16;
+        // Attach weapons to player
+        this.weapon = new Weapon(this);
 
         // load will stays at bottom
         this.loadAnimations();
@@ -40,7 +35,7 @@ class Player {
         canvas.addEventListener('mousemove', event => {
             clearTimeout(timer);
             timer = setTimeout(() => {
-                this.state = 0;
+                this.animationState = 0;
                 this.lastMouseX = event.clientX;
                 this.lastMouseY = event.clientY;
             }, 500);
@@ -52,11 +47,11 @@ class Player {
 
             // Change state of direction
             if (newMouseX < this.lastMouseX) {
-                this.state = 1;
+                this.animationState = 1;
             } else if (newMouseX === this.lastMouseX) {
-                this.state = 0;
+                this.animationState = 0;
             } else if (newMouseX > this.lastMouseX) {
-                this.state = 2;
+                this.animationState = 2;
             }
 
             //
@@ -65,7 +60,7 @@ class Player {
             this.canvasX = newMouseX - this.playerFrameWidth / 2 * this.scaler; // Modified position so the mouse is at
             this.canvasY = newMouseY - this.playerFrameHeight / 2 * this.scaler; //  the center of character sprite
 
-            console.log(this.state);
+            console.log(this.animationState);
         })
     }
 
@@ -83,8 +78,7 @@ class Player {
         this.animation.push(playerLeft);
         this.animation.push(playerRight);
 
-        let orb = new Animator (this.spriteSheet, 96, 160, this.orbFrameWidth, this.orbFrameHeight, 1, this.frameTime, 0, false, true);
-        this.animation.push(orb); // At index 3.
+
 
     }
 
@@ -94,23 +88,7 @@ class Player {
 
     draw(ctx) {
 
-
-
-        this.animation[this.state].drawFrame(this.game.clockTick, ctx, this.canvasX, this.canvasY, this.scaler);
-
-        let radian = -this.orbAngle * Math.PI / 180;
-
-        //+ this.radius * Math.cos(radian)
-        //+ this.radius * Math.sin(radian)
-
-        // Orb width and frame width have 1:2 ratio, but height is 1:3, so the formular are different
-        this.animation[3].drawFrame(this.game.clockTick, ctx, 
-            this.canvasX + this.orbFrameWidth / 2 * this.scaler + this.radius * Math.cos(radian),
-            this.canvasY + this.playerFrameHeight / 2 * 3 - this.orbFrameHeight / 2 * this.scaler +  this.radius * Math.sin(radian),
-            3);
-        this.orbAngle += this.orbSpeed;
-
-
+        this.animation[this.animationState].drawFrame(this.game.clockTick, ctx, this.canvasX, this.canvasY, this.scaler);
 
     }
 }

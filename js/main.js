@@ -28,6 +28,7 @@ ASSET_MANAGER.downloadAll(function () {
 	player.addMouseListenerCanvas(canvas)
 	player.setPlayerInitialPosition(canvas);
 	gameEngine.addEntity(player);
+	gameEngine.addEntity(player.weapon)
 
 	gameEngine.start();
 });
