@@ -1,6 +1,8 @@
+/**
+ * This class represents the bullets shot displayed ingame.
+ */
 class Bullet {
     constructor(weapon){
-
 
         // Link sprite sheet
         this.spriteSheet = ASSET_MANAGER.getAsset("./assets/sprites/playerSprite.png");
@@ -15,7 +17,11 @@ class Bullet {
 
         this.weaponState = 0; // 0 is red bullet, 1 is orange bullet, 2 is purple bullet
         this.frameCount = 1;
-        this.bulletSpeed = 1000;
+        this.bulletSpeed = 50;
+
+        // Shot once every 10 degree of orb trajectory
+        this.previousAngle = weapon.orbAngle;
+        this.bulletAngleInterval = 10;
 
         // this.bulletTypeList = [];
         this.bulletOnSceneList = [];
@@ -47,18 +53,22 @@ class Bullet {
         } else if (this.weaponState === 2) {
             bulletOnScence = new Animator(this.spriteSheet, 152, 193, 56, 13, this.frameCount, this.frameTime, 0, false, true); // purple bullet
         }
-        
+
         bulletOnScence.x = -this.y;
         bulletOnScence.y = this.x;
-        this.privateAddBulletOnScreen(bulletOnScence);
+
+        if (this.weapon.orbAngle - this.previousAngle === this.bulletAngleInterval || this.weapon.orbAngle === 0) {
+            this.privateAddBulletOnScreen(bulletOnScence);
+            this.previousAngle = this.weapon.orbAngle;
+        }
         if (this.bulletOnSceneList !== undefined) {
             for (var i = this.bulletOnSceneList.length - 1; i > 0; i--) {
-                console.log(i + " " + this.bulletOnSceneList[i].x)
+
+                // Remove the bullet when it is out of canvas
                 if (this.bulletOnSceneList[i].x >= 0){
                     this.bulletOnSceneList.splice(i, 1);
-                    console.log(true);
                 } else {
-                    this.bulletOnSceneList[i].x++;
+                    this.bulletOnSceneList[i].x += this.bulletSpeed;
                 }
 
             }
@@ -78,13 +88,16 @@ class Bullet {
 
     }
 
-
+    /**
+     * Temporary helper class, used for dev only
+     * @param {*} bullet 
+     */
     privateAddBulletOnScreen(bullet){
         // Temporary limit on number of bullet on screen, used for dev only
-        if (this.bulletOnSceneList.length == 10) {
-            console.log(this.bulletOnSceneList.length)
-            return;
-        }
+        // if (this.bulletOnSceneList.length == 10) {
+        //     console.log(this.bulletOnSceneList.length)
+        //     return;
+        // }
         // console.log(this.bulletOnSceneList.length);
         this.bulletOnSceneList.push(bullet);
     }

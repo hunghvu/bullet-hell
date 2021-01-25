@@ -1,3 +1,6 @@
+/**
+ * This class represents player's weapon.
+ */
 class Weapon {
     constructor(player) {
         

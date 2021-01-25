@@ -1,3 +1,6 @@
+/**
+ * This class represents a player.
+ */
 class Player {
     constructor(game, x, y){
         Object.assign(this, {game, x, y});

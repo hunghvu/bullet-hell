@@ -1,14 +1,17 @@
+/**
+ * This class represents background of the game.
+ */
 class Background {
     constructor (game, x, y){
         Object.assign(this, {game, x, y});
         // A work around to display parallax background. 
         //  Technically, it should be determined by the camera instead. 
-        this.speed = 0.5;
+        this.speed = 0.25; // the background seems to vibrate on low speed on a large screen?
         this.backgroundNear = new Image();
         this.backgroundNear.src = ASSET_MANAGER.getAsset("./assets/background-near.png").src;
         this.backgroundPositionY = 0;
 
-        this.speedFar = 0.2;
+        this.speedFar = 0.1;
         this.backgroundFar = new Image();
         this.backgroundFar.src = ASSET_MANAGER.getAsset("./assets/background-far.png").src;
         this.backgroundFarPositionY = 0;
@@ -16,7 +19,6 @@ class Background {
     }
 
     setBackgroundInitialPosition(canvas){
-
         this.canvas = canvas;
         // console.log(this.backgroundNear.src);
         this.backgroundPositionY = (this.backgroundNear.height - this.canvas.height) * -1;
