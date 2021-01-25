@@ -7,12 +7,14 @@ class Player {
 
         // Frames for animation
         this.animation = [];
-        this.loadAnimations();
         this.canvasX = 0;
         this.canvasY = 0;
         this.state = 0; // 0 means stands still, 1 is moving to the left, 2 is moving to the right.
         this.lastMouseX = 0;
         this.lastMouseY = 0;
+        this.frameWidth = 32;
+        this.frameHeight = 48;
+        this.loadAnimations();
 
         // Orb angle.
         this.orbSpeed = 1;
@@ -54,17 +56,22 @@ class Player {
             this.lastMouseX = newMouseX; // Real mouse position
             this.lastMouseY = newMouseY;
             this.canvasX = newMouseX - 40; // Modified position so the mouse is at
-            this.canvasY = newMouseY - 48; //  the center of character sprite
+            this.canvasY = newMouseY - this.frameHeight; //  the center of character sprite
 
             console.log(this.state);
         })
     }
 
+    setPlayerInitialPosition(canvas) {
+        this.canvasX = canvas.width / 2 - this.frameWidth;
+        this.canvasY = canvas.height / 3;
+    }
+
     loadAnimations() {
 
-        let playerStill = new Animator(this.spriteSheet, 16, 16, 32, 48, 8, 0.125, 0, false, true);
-        let playerLeft = new Animator(this.spriteSheet, 16, 64, 32, 48, 8, 0.125, 0, false, true);
-        let playerRight = new Animator(this.spriteSheet, 16, 112, 32, 48, 8, 0.125, 0, false, true);
+        let playerStill = new Animator(this.spriteSheet, 16, 16, this.frameWidth, this.frameHeight, 8, 0.125, 0, false, true);
+        let playerLeft = new Animator(this.spriteSheet, 16, 64, this.frameWidth, this.frameHeight, 8, 0.125, 0, false, true);
+        let playerRight = new Animator(this.spriteSheet, 16, 112, this.frameWidth, this.frameHeight, 8, 0.125, 0, false, true);
         this.animation.push(playerStill);
         this.animation.push(playerLeft);
         this.animation.push(playerRight);
@@ -91,9 +98,10 @@ class Player {
         this.animation[3].drawFrame(this.game.clockTick, ctx, 
             this.canvasX + 24 + this.radius * Math.cos(radian),
             this.canvasY + 30 + this.radius * Math.sin(radian),
-            3
-            )
+            3);
         this.orbAngle += this.orbSpeed;
+
+
 
     }
 }

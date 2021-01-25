@@ -30,8 +30,14 @@ class Animator {
             this.height * scale);
 
         // if (PARAMS.DEBUG) {
-        //     ctx.strokeStyle = 'Green';
-        //     ctx.strokeRect(x, y, this.width * scale, this.height * scale);
+            ctx.strokeStyle = 'Green';
+            ctx.strokeRect(x, y, this.width * scale, this.height * scale);
+            ctx.beginPath();
+            ctx.moveTo(ctx.canvas.width / 2, 0);
+            ctx.lineTo(ctx.canvas.width / 2, ctx.canvas.height);
+            ctx.moveTo(0, ctx.canvas.height / 2,);
+            ctx.lineTo(ctx.canvas.width, ctx.canvas.height/ 2);
+            ctx.stroke();
         // }
     };
 

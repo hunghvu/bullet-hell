@@ -26,6 +26,7 @@ ASSET_MANAGER.downloadAll(function () {
 	// Add player to the game
 	let player = new Player(gameEngine, 100, 100);
 	player.addMouseListenerCanvas(canvas)
+	player.setPlayerInitialPosition(canvas);
 	gameEngine.addEntity(player);
 
 	gameEngine.start();
