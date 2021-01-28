@@ -73,6 +73,8 @@ class Bullet {
         bulletOnSceneOne = new Animator(this.spriteSheet, 15, 193, 65, 13, this.frameCount, this.frameTime, 0, false, true); // red bullet
         bulletOnSceneOne.x = -this.yLevel1;
         bulletOnSceneOne.y = this.xLevel1;
+        bulletOnSceneOne.level = 0;
+        bulletOnSceneOne.side = null;
 
         if (this.bulletState === 1 || this.bulletState === 2) {
             bulletOnSceneTwo_1 = new Animator(this.spriteSheet, 83, 192, 57, 7, this.frameCount, this.frameTime, 0, false, true); // orange bullet
@@ -81,12 +83,23 @@ class Bullet {
             bulletOnSceneTwo_4 = new Animator(this.spriteSheet, 83, 192, 57, 7, this.frameCount, this.frameTime, 0, false, true);
             bulletOnSceneTwo_1.x = -this.yLevel2_1;
             bulletOnSceneTwo_1.y = this.xLevel2_1;
+            bulletOnSceneTwo_1.level = 1;
+            bulletOnSceneTwo_1.side = "right";
+
             bulletOnSceneTwo_2.x = -this.yLevel2_2;
             bulletOnSceneTwo_2.y = this.xLevel2_2;
+            bulletOnSceneTwo_2.level = 1;
+            bulletOnSceneTwo_2.side = null;
+
             bulletOnSceneTwo_3.x = -this.yLevel2_3;
             bulletOnSceneTwo_3.y = this.xLevel2_3;
+            bulletOnSceneTwo_3.level = 1;
+            bulletOnSceneTwo_3.side = null;
+
             bulletOnSceneTwo_4.x = -this.yLevel2_4;
             bulletOnSceneTwo_4.y = this.xLevel2_4;
+            bulletOnSceneTwo_4.level = 1;
+            bulletOnSceneTwo_4.side = "left";
             // console.log(bulletOnSceneTwo_4.x, bulletOnSceneTwo_4.y );
         } 
         
@@ -114,6 +127,15 @@ class Bullet {
                     this.bulletOnSceneList.splice(i, 1);
                 } else {
                     this.bulletOnSceneList[i].x += this.bulletSpeed;
+
+                    // When rotate 45 degree counter clockwise => X vert up, Y hort right => Y+ to right, Y- to left
+                    if(this.bulletOnSceneList[i].level === 1) {
+                        if (this.bulletOnSceneList[i].side === "right") {
+                            this.bulletOnSceneList[i].y += (this.bulletSpeed/5);
+                        } else if (this.bulletOnSceneList[i].side === "left") {
+                            this.bulletOnSceneList[i].y -= (this.bulletSpeed/5);
+                        }
+                    } 
                 }
 
             }
