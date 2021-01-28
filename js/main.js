@@ -31,6 +31,14 @@ ASSET_MANAGER.downloadAll(function () {
 	gameEngine.addEntity(player.weapon);
 	gameEngine.addEntity(player.weapon.bullet);
 
+	// For testing only
+	window.addEventListener("keydown", event => {
+		if (event.code === "KeyJ") {
+			player.weapon.orbState === 0 ? player.weapon.orbState = 1 : player.weapon.orbState = 0;
+			player.weapon.bullet.bulletState === 0 ? player.weapon.bullet.bulletState = 1 : player.weapon.bullet.bulletState = 0;
+		}
+	});
+
 	gameEngine.start();
 });
 
