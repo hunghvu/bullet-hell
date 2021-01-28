@@ -17,7 +17,7 @@ class Weapon {
 
         // Frames for orb
         this.orbList = []
-        this.orbState = 0; // 0 is blue, 1 is orange, 2 is purprle
+        this.orbState = 1; // 0 is blue, 1 is orange, 2 is purprle
         // Orb angle.
         this.orbSpeed = 1;
         this.orbAngle = 0;
@@ -55,15 +55,30 @@ class Weapon {
         //+ this.radius * Math.sin(radian)
 
         // Orb width and frame width have 1:2 ratio, but height is 1:3, so the formular are different
+        // @todo, the location should be changed when the ratio is returned to 1:1
         this.orbLocationX = this.player.canvasX + this.orbFrameWidth / 2 * this.scaler + this.radius * Math.cos(radian);
         this.orbLocationY = this.player.canvasY + this.player.playerFrameHeight / 2 * 3 - this.orbFrameHeight / 2 * this.scaler +  this.radius * Math.sin(radian)
-        this.orbList[this.orbState].drawFrame(this.game.clockTick, ctx, this.orbLocationX, this.orbLocationY, this.scaler);
+        this.orbList[0].drawFrame(this.game.clockTick, ctx, this.orbLocationX, this.orbLocationY, this.scaler);
+        if(this.orbState == 1 || this.orbState === 2) {
+            this.orbList[1].drawFrame(this.game.clockTick, ctx, 
+                this.player.canvasX + this.player.playerFrameWidth * this.scaler, 
+                this.player.canvasY + this.player.playerFrameHeight * this.scaler + 1, this.scaler);
+            this.orbList[1].drawFrame(this.game.clockTick, ctx, 
+                this.player.canvasX + this.player.playerFrameWidth * this.scaler - this.orbFrameWidth * this.scaler, 
+                this.player.canvasY + this.player.playerFrameHeight * (this.scaler + 1), this.scaler);
+            this.orbList[1].drawFrame(this.game.clockTick, ctx, 
+                this.player.canvasX + this.player.playerFrameWidth * this.scaler - this.orbFrameWidth * this.scaler * 2, 
+                this.player.canvasY + this.player.playerFrameHeight * (this.scaler + 1), this.scaler);
+            this.orbList[1].drawFrame(this.game.clockTick, ctx, 
+                this.player.canvasX + this.player.playerFrameWidth * this.scaler - this.orbFrameWidth * this.scaler * 3, 
+                this.player.canvasY + this.player.playerFrameHeight * this.scaler, this.scaler);   
+        }
         if (this.orbAngle === 360) {
             this.orbAngle = 0;
         } else {
             this.orbAngle += this.orbSpeed;
         }
-        console.log(this.orbAngle)
+        // console.log(this.orbAngle)
 
         // console.log(this.player.canvasX + this.orbFrameWidth / 2 * this.scaler + this.radius * Math.cos(radian))
     }
