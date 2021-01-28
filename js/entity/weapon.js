@@ -25,8 +25,20 @@ class Weapon {
         this.orbFrameWidth = 16;
         this.orbFrameHeight = 16;
 
+        // Level 1 orb
         this.orbLocationX = 0;
         this.orbLocationY = 0;
+
+        // Level 2 orbs (4 orb) + orb level 1
+        this.orb2X_1 = 0;
+        this.orb2Y_1 = 0;
+        this.orb2X_2 = 0;
+        this.orb2Y_2 = 0;
+        this.orb2X_3 = 0;
+        this.orb2Y_3 = 0;
+        this.orb2X_4 = 0;
+        this.orb2Y_4 = 0;
+
         this.frameCount = 1;
 
         this.bullet = new Bullet(this);
@@ -59,20 +71,35 @@ class Weapon {
         this.orbLocationX = this.player.canvasX + this.orbFrameWidth / 2 * this.scaler + this.radius * Math.cos(radian);
         this.orbLocationY = this.player.canvasY + this.player.playerFrameHeight / 2 * 3 - this.orbFrameHeight / 2 * this.scaler +  this.radius * Math.sin(radian)
         this.orbList[0].drawFrame(this.game.clockTick, ctx, this.orbLocationX, this.orbLocationY, this.scaler);
+        
         if(this.orbState == 1 || this.orbState === 2) {
+            
+            // Level 2 orb
+            this.orb2X_1 = this.player.canvasX + this.player.playerFrameWidth * this.scaler;
+            this.orb2Y_1 = this.player.canvasY + this.player.playerFrameHeight * this.scaler + 1;
+            this.orb2X_2 = this.player.canvasX + this.player.playerFrameWidth * this.scaler - this.orbFrameWidth * this.scaler;
+            this.orb2Y_2 = this.player.canvasY + this.player.playerFrameHeight * (this.scaler + 1);
+            this.orb2X_3 = this.player.canvasX + this.player.playerFrameWidth * this.scaler - this.orbFrameWidth * this.scaler * 2;
+            this.orb2Y_3 = this.player.canvasY + this.player.playerFrameHeight * (this.scaler + 1);
+            this.orb2X_4 = this.player.canvasX + this.player.playerFrameWidth * this.scaler - this.orbFrameWidth * this.scaler * 3;
+            this.orb2Y_4 = this.player.canvasY + this.player.playerFrameHeight * this.scaler;
+            // console.log(this.orb2X_1);
+            
             this.orbList[1].drawFrame(this.game.clockTick, ctx, 
-                this.player.canvasX + this.player.playerFrameWidth * this.scaler, 
-                this.player.canvasY + this.player.playerFrameHeight * this.scaler + 1, this.scaler);
+                this.orb2X_1, 
+                this.orb2Y_1, this.scaler);
             this.orbList[1].drawFrame(this.game.clockTick, ctx, 
-                this.player.canvasX + this.player.playerFrameWidth * this.scaler - this.orbFrameWidth * this.scaler, 
-                this.player.canvasY + this.player.playerFrameHeight * (this.scaler + 1), this.scaler);
+                this.orb2X_2, 
+                this.orb2Y_2, this.scaler);
             this.orbList[1].drawFrame(this.game.clockTick, ctx, 
-                this.player.canvasX + this.player.playerFrameWidth * this.scaler - this.orbFrameWidth * this.scaler * 2, 
-                this.player.canvasY + this.player.playerFrameHeight * (this.scaler + 1), this.scaler);
+                this.orb2X_3, 
+                this.orb2Y_3, this.scaler);
             this.orbList[1].drawFrame(this.game.clockTick, ctx, 
-                this.player.canvasX + this.player.playerFrameWidth * this.scaler - this.orbFrameWidth * this.scaler * 3, 
-                this.player.canvasY + this.player.playerFrameHeight * this.scaler, this.scaler);   
+                this.orb2X_4, 
+                this.orb2Y_4, this.scaler);
+
         }
+        
         if (this.orbAngle === 360) {
             this.orbAngle = 0;
         } else {
