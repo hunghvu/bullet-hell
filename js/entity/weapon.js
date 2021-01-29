@@ -44,6 +44,8 @@ class Weapon {
         this.orb3Y_1 = 0;
         this.orb3X_2 = 0;
         this.orb3Y_2 = 0;
+        this.orb3Accumulator = 0;
+        this.orb3Direction = false; // False means moving out, true means inward
 
         this.frameCount = 1;
 
@@ -62,7 +64,43 @@ class Weapon {
     }
 
     update() {
+        // Level 2 orb, right to left
+        this.orb2X_1 = this.player.canvasX + this.player.playerFrameWidth * this.scaler;
+        this.orb2Y_1 = this.player.canvasY + this.player.playerFrameHeight * this.scaler;
 
+        this.orb2X_2 = this.player.canvasX + this.player.playerFrameWidth * this.scaler - this.orbFrameWidth * this.scaler;
+        this.orb2Y_2 = this.player.canvasY + this.player.playerFrameHeight * (this.scaler + 1);
+
+        this.orb2X_3 = this.player.canvasX + this.player.playerFrameWidth * this.scaler - this.orbFrameWidth * this.scaler * 2;
+        this.orb2Y_3 = this.player.canvasY + this.player.playerFrameHeight * (this.scaler + 1);
+
+        this.orb2X_4 = this.player.canvasX + this.player.playerFrameWidth * this.scaler - this.orbFrameWidth * this.scaler * 3;
+        this.orb2Y_4 = this.player.canvasY + this.player.playerFrameHeight * this.scaler;
+
+        // Level 3 orb, right to left
+        this.orb3X_1 = this.orb2X_1; //under orb2_1
+        this.orb3Y_1 = this.orb2Y_2;
+
+        this.orb3X_2 = this.orb2X_4; //under orb2_4
+        this.orb3Y_2 = this.orb3Y_1;
+        // Make level 3 orb move in an out
+        if (this.orb3Direction === false) {
+            this.orb3X_1 += this.orb3Accumulator;
+            this.orb3X_2 -= this.orb3Accumulator; 
+            this.orb3Accumulator ++;
+            if (this.orbFrameWidth * this.scaler < this.orb3Accumulator) {
+                this.orb3Direction = true;
+            }
+        } else if (this.orb3Direction === true) {
+            this.orb3X_1 += this.orb3Accumulator;
+            this.orb3X_2 -= this.orb3Accumulator; 
+            this.orb3Accumulator --;
+            if (this.orb3Accumulator < 0) {
+                this.orb3Direction = false;
+            }
+        }
+
+        
     }
 
     draw(ctx) {
@@ -80,18 +118,7 @@ class Weapon {
         
         if(this.orbState == 1 || this.orbState === 2) {
             
-            // Level 2 orb, right to left
-            this.orb2X_1 = this.player.canvasX + this.player.playerFrameWidth * this.scaler;
-            this.orb2Y_1 = this.player.canvasY + this.player.playerFrameHeight * this.scaler;
 
-            this.orb2X_2 = this.player.canvasX + this.player.playerFrameWidth * this.scaler - this.orbFrameWidth * this.scaler;
-            this.orb2Y_2 = this.player.canvasY + this.player.playerFrameHeight * (this.scaler + 1);
-
-            this.orb2X_3 = this.player.canvasX + this.player.playerFrameWidth * this.scaler - this.orbFrameWidth * this.scaler * 2;
-            this.orb2Y_3 = this.player.canvasY + this.player.playerFrameHeight * (this.scaler + 1);
-
-            this.orb2X_4 = this.player.canvasX + this.player.playerFrameWidth * this.scaler - this.orbFrameWidth * this.scaler * 3;
-            this.orb2Y_4 = this.player.canvasY + this.player.playerFrameHeight * this.scaler;
             // console.log(this.orb2X_1);
             
             this.orbList[1].drawFrame(this.game.clockTick, ctx, 
@@ -111,13 +138,6 @@ class Weapon {
 
         if (this.orbState === 2) {
             
-            // Level 3 orb, right to left
-            this.orb3X_1 = this.orb2X_1; //under orb2_1
-            this.orb3Y_1 = this.orb2Y_2;
-
-            this.orb3X_2 = this.orb2X_4; //under orb2_4
-            this.orb3Y_2 = this.orb3Y_1;
-
             this.orbList[2].drawFrame(this.game.clockTick, ctx, 
                 this.orb3X_1, 
                 this.orb3Y_1, this.scaler);
