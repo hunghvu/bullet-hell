@@ -17,7 +17,7 @@ class Weapon {
 
         // Frames for orb
         this.orbList = []
-        this.orbState = 2; // 0 is blue, 1 is orange, 2 is purprle
+        this.orbState = 0; // 0 is blue, 1 is orange, 2 is purprle
         // Orb angle.
         this.orbSpeed = 1;
         this.orbAngle = 0;
@@ -98,9 +98,7 @@ class Weapon {
             if (this.orb3Accumulator < 0) {
                 this.orb3Direction = false;
             }
-        }
-
-        
+        }      
     }
 
     draw(ctx) {

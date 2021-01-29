@@ -23,6 +23,11 @@ class Bullet {
         this.xLevel2_4 = weapon.orb2X_4 + weapon.orbFrameWidth;
         this.yLevel2_4 = weapon.orb2Y_4 + weapon.orbFrameHeight;
 
+        this.xLevel3_1 = weapon.orb3X_1;
+        this.yLevel3_1 = weapon.orb3Y_1;
+        this.xLevel3_2 = weapon.orb3X_2;
+        this.xLevel3_2 = weapon.orb3X_2;
+
         this.scaler = weapon.scaler;
         this.frameTime = weapon.frameTime;
         this.bulletState = weapon.orbState; // 0 is red bullet, 1 is orange bullet, 2 is purple bullet
@@ -39,6 +44,39 @@ class Bullet {
     }
 
     update() {
+        this.privateUpdateOrbLocation();
+        this.privateInitBullet();
+        this.privateUpdateBulletLocation();
+    }
+
+    draw(ctx) {
+        ctx.save();
+        // Rotate 90 degrees counter clockwise
+        ctx.rotate(-Math.PI / 2);
+
+        this.bulletOnSceneList.forEach(element => {
+            if (element.side === null) {
+                element.drawFrame(this.game.clockTick, ctx, element.x, element.y, this.scaler);
+            }
+        })
+        ctx.restore();
+
+        // Draw a rotated bullet on a separate canvas, then draw that canvas on the main one.
+        this.bulletOnSceneList.forEach(element => {
+            if (element.side === "left") {
+                this.privateDrawLeftRightBullet(105, element, ctx);
+            } else if (element.side === "right") {
+                this.privateDrawLeftRightBullet(75, element, ctx);
+            }
+        });
+
+    }
+
+    /**
+     * This function update the current orbs location on screen.
+     */
+    privateUpdateOrbLocation(){
+        // Right to left
         this.xLevel1 = this.weapon.orbLocationX;
         this.yLevel1 = this.weapon.orbLocationY;
         this.xLevel2_1 = this.weapon.orb2X_1;
@@ -49,20 +87,33 @@ class Bullet {
         this.yLevel2_3 = this.weapon.orb2Y_3 + this.weapon.orbFrameHeight;
         this.xLevel2_4 = this.weapon.orb2X_4;
         this.yLevel2_4 = this.weapon.orb2Y_4;
+        
+        this.xLevel3_1 = this.weapon.orb3X_1;
+        this.yLevel3_1 = this.weapon.orb3Y_1;
+        this.xLevel3_2 = this.weapon.orb3X_2;
+        this.yLevel3_2 = this.weapon.orb3Y_2;
+    }
+
+    /**
+     * This function creates bullets to be shot.
+     */
+    privateInitBullet(){
         let bulletOnSceneOne = null;
         let bulletOnSceneTwo_1 = null;
         let bulletOnSceneTwo_2 = null;
         let bulletOnSceneTwo_3 = null;
         let bulletOnSceneTwo_4 = null;
-        let bulletOnSceneThree = null;
+        let bulletOnSceneThree_1 = null;
+        let bulletOnSceneThree_2 = null;
 
+        // Level 1
         bulletOnSceneOne = new Animator(this.spriteSheet, 15, 193, 65, 13, this.frameCount, this.frameTime, 0, false, true); // red bullet
         bulletOnSceneOne.x = -this.yLevel1;
         bulletOnSceneOne.y = this.xLevel1;
         bulletOnSceneOne.level = 0;
         bulletOnSceneOne.side = null;
 
-        if (this.bulletState === 1 || this.bulletState === 2) {
+        if (this.bulletState === 1 || this.bulletState === 2) { // Level 2
             bulletOnSceneTwo_1 = new Animator(this.spriteSheet, 83, 192, 57, 7, this.frameCount, this.frameTime, 0, false, true); // orange bullet
             bulletOnSceneTwo_2 = new Animator(this.spriteSheet, 83, 192, 57, 7, this.frameCount, this.frameTime, 0, false, true);
             bulletOnSceneTwo_3 = new Animator(this.spriteSheet, 83, 192, 57, 7, this.frameCount, this.frameTime, 0, false, true);
@@ -91,22 +142,45 @@ class Bullet {
             // console.log(bulletOnSceneTwo_4.x, bulletOnSceneTwo_4.y );
         } 
         
-        if (this.bulletState === 2) {
-            bulletOnSceneThree = new Animator(this.spriteSheet, 152, 193, 56, 13, this.frameCount, this.frameTime, 0, false, true); // purple bullet
+        // Also change bullet speed from 50 to 100.
+        if (this.bulletState === 2) { // Level 3
+            bulletOnSceneThree_1 = new Animator(this.spriteSheet, 152, 193, 56, 13, this.frameCount, this.frameTime, 0, false, true); // purple bullet
+            bulletOnSceneThree_1.x = -this.yLevel3_1;
+            bulletOnSceneThree_1.y = this.xLevel3_1;
+            bulletOnSceneThree_1.level = 2;
+            bulletOnSceneThree_1.side = null;
+            // console.log(bulletOnSceneThree_1.x);
+            
+            bulletOnSceneThree_2 = new Animator(this.spriteSheet, 152, 193, 56, 13, this.frameCount, this.frameTime, 0, false, true); // purple bullet
+            bulletOnSceneThree_2.x = -this.yLevel3_2;
+            bulletOnSceneThree_2.y = this.xLevel3_2;
+            bulletOnSceneThree_2.level = 2;
+            bulletOnSceneThree_2.side = null;
+                        // console.log(bulletOnSceneThree_2.x);
+            this.bulletSpeed = 100;
         }
-
-
 
         if (this.weapon.orbAngle - this.previousAngle === this.bulletAngleInterval || this.weapon.orbAngle === 0) {
             this.privateAddBulletOnScreen(bulletOnSceneOne);
             this.previousAngle = this.weapon.orbAngle;
-            if (bulletOnSceneTwo_1 !== null) {
+            if (this.bulletState === 1 || this.bulletState === 2) {
                 this.privateAddBulletOnScreen(bulletOnSceneTwo_1);
                 this.privateAddBulletOnScreen(bulletOnSceneTwo_2);
                 this.privateAddBulletOnScreen(bulletOnSceneTwo_3);
                 this.privateAddBulletOnScreen(bulletOnSceneTwo_4);
             }
+            if (this.bulletState === 2) {
+                // console.log(bulletOnSceneThree_2.x)
+                this.privateAddBulletOnScreen(bulletOnSceneThree_1);
+                this.privateAddBulletOnScreen(bulletOnSceneThree_2);
+            }
         }
+    }
+
+    /**
+     * This function update location of bullets over the time.
+     */
+    privateUpdateBulletLocation(){
         if (this.bulletOnSceneList !== undefined) {
             for (var i = this.bulletOnSceneList.length - 1; i > 0; i--) {
 
@@ -136,29 +210,6 @@ class Bullet {
             // Use to check if a bullet is deleted by observing the list, for dev only.
             // console.log(this.bulletOnSceneList);
         }
-    }
-
-    draw(ctx) {
-        ctx.save();
-        // Rotate 90 degrees counter clockwise
-        ctx.rotate(-Math.PI / 2);
-
-        this.bulletOnSceneList.forEach(element => {
-            if (element.side === null) {
-                element.drawFrame(this.game.clockTick, ctx, element.x, element.y, this.scaler);
-            }
-        })
-        ctx.restore();
-
-        // Draw a rotated bullet on a separate canvas, then draw that canvas on the main one.
-        this.bulletOnSceneList.forEach(element => {
-            if (element.side === "left") {
-                this.privateDrawLeftRightBullet(105, element, ctx);
-            } else if (element.side === "right") {
-                this.privateDrawLeftRightBullet(75, element, ctx);
-            }
-        });
-
     }
 
     /**

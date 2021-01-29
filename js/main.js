@@ -32,10 +32,15 @@ ASSET_MANAGER.downloadAll(function () {
 	gameEngine.addEntity(player.weapon.bullet);
 
 	// For testing only
+	let accumulator = 1;
 	window.addEventListener("keydown", event => {
 		if (event.code === "KeyJ") {
-			player.weapon.orbState === 0 ? player.weapon.orbState = 1 : player.weapon.orbState = 0;
-			player.weapon.bullet.bulletState === 0 ? player.weapon.bullet.bulletState = 1 : player.weapon.bullet.bulletState = 0;
+			if (accumulator > 2) {
+				accumulator = 0;
+			}
+			player.weapon.orbState = accumulator;
+			player.weapon.bullet.bulletState = accumulator;
+			accumulator ++;
 		}
 	});
 
