@@ -17,7 +17,7 @@ class Weapon {
 
         // Frames for orb
         this.orbList = []
-        this.orbState = 1; // 0 is blue, 1 is orange, 2 is purprle
+        this.orbState = 2; // 0 is blue, 1 is orange, 2 is purprle
         // Orb angle.
         this.orbSpeed = 1;
         this.orbAngle = 0;
@@ -38,6 +38,12 @@ class Weapon {
         this.orb2Y_3 = 0;
         this.orb2X_4 = 0;
         this.orb2Y_4 = 0;
+
+        // Level 2 orbs (2 orbs) + orbs level 1 + orb lv 2
+        this.orb3X_1 = 0;
+        this.orb3Y_1 = 0;
+        this.orb3X_2 = 0;
+        this.orb3Y_2 = 0;
 
         this.frameCount = 1;
 
@@ -74,13 +80,16 @@ class Weapon {
         
         if(this.orbState == 1 || this.orbState === 2) {
             
-            // Level 2 orb
+            // Level 2 orb, right to left
             this.orb2X_1 = this.player.canvasX + this.player.playerFrameWidth * this.scaler;
-            this.orb2Y_1 = this.player.canvasY + this.player.playerFrameHeight * this.scaler + 1;
+            this.orb2Y_1 = this.player.canvasY + this.player.playerFrameHeight * this.scaler;
+
             this.orb2X_2 = this.player.canvasX + this.player.playerFrameWidth * this.scaler - this.orbFrameWidth * this.scaler;
             this.orb2Y_2 = this.player.canvasY + this.player.playerFrameHeight * (this.scaler + 1);
+
             this.orb2X_3 = this.player.canvasX + this.player.playerFrameWidth * this.scaler - this.orbFrameWidth * this.scaler * 2;
             this.orb2Y_3 = this.player.canvasY + this.player.playerFrameHeight * (this.scaler + 1);
+
             this.orb2X_4 = this.player.canvasX + this.player.playerFrameWidth * this.scaler - this.orbFrameWidth * this.scaler * 3;
             this.orb2Y_4 = this.player.canvasY + this.player.playerFrameHeight * this.scaler;
             // console.log(this.orb2X_1);
@@ -97,6 +106,24 @@ class Weapon {
             this.orbList[1].drawFrame(this.game.clockTick, ctx, 
                 this.orb2X_4, 
                 this.orb2Y_4, this.scaler);
+
+        }
+
+        if (this.orbState === 2) {
+            
+            // Level 3 orb, right to left
+            this.orb3X_1 = this.orb2X_1; //under orb2_1
+            this.orb3Y_1 = this.orb2Y_2;
+
+            this.orb3X_2 = this.orb2X_4; //under orb2_4
+            this.orb3Y_2 = this.orb3Y_1;
+
+            this.orbList[2].drawFrame(this.game.clockTick, ctx, 
+                this.orb3X_1, 
+                this.orb3Y_1, this.scaler);
+            this.orbList[2].drawFrame(this.game.clockTick, ctx, 
+                this.orb3X_2, 
+                this.orb3Y_2, this.scaler);
 
         }
         
