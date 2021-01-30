@@ -11,8 +11,9 @@ ASSET_MANAGER.queueDownload("./assets/background-far.png");
 
 
 ASSET_MANAGER.downloadAll(function () {
-	let canvas = document.getElementById('gameWorld');
-	let ctx = canvas.getContext('2d');
+	let canvas = document.getElementById("gameWorld");
+	let ctx = canvas.getContext("2d");
+	let canvasInfoBoard = document.getElementById("infoBoard");
 
 	gameEngine.init(ctx);
 	
@@ -30,6 +31,10 @@ ASSET_MANAGER.downloadAll(function () {
 	gameEngine.addEntity(player);
 	gameEngine.addEntity(player.weapon);
 	gameEngine.addEntity(player.weapon.bullet);
+
+	// Add score info to the game
+	let score = new Score(player.weapon, canvasInfoBoard);
+	gameEngine.addEntity(score);
 
 	// For testing only
 	let accumulator = 1;
