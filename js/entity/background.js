@@ -6,12 +6,12 @@ class Background {
         Object.assign(this, {game, x, y});
         // A work around to display parallax background. 
         //  Technically, it should be determined by the camera instead. 
-        this.speed = 0.25; // the background seems to vibrate on low speed on a large screen?
+        this.speedNear = 0.5; // the background seems to vibrate on low speed on a large screen?
         this.backgroundNear = new Image();
         this.backgroundNear.src = ASSET_MANAGER.getAsset("./assets/background-near.png").src;
-        this.backgroundPositionY = 0;
+        this.backgroundNearPositionY = 0;
 
-        this.speedFar = 0.1;
+        this.speedFar = 0.3;
         this.backgroundFar = new Image();
         this.backgroundFar.src = ASSET_MANAGER.getAsset("./assets/background-far.png").src;
         this.backgroundFarPositionY = 0;
@@ -21,8 +21,8 @@ class Background {
     setBackgroundInitialPosition(canvas){
         this.canvas = canvas;
         // console.log(this.backgroundNear.src);
-        this.backgroundPositionY = (this.backgroundNear.height - this.canvas.height) * -1;
-        this.backgroundFarPositionY = (this.backgroundNear.height - this.canvas.height) * -1;
+        this.backgroundNearPositionY = (this.backgroundNear.height - this.canvas.height) * -1;
+        this.backgroundFarPositionY = (this.backgroundFar.height - this.canvas.height) * -1;
     }
 
     update(){
@@ -31,14 +31,28 @@ class Background {
 
     draw(ctx){
         // Draw the image off canvas then gradually move it.
-        ctx.drawImage(this.backgroundFar, 0, this.backgroundFarPositionY);
+        // Image top left will start at negative y (y south, x east) and move toward y = canvas height.
+        // There will be another image right after so it feels continuous/infinite
+        // The transition of background-far is not that smooth compared to near, but it is hidden
+        //  by the opacity of near => unnoticable
+        ctx.drawImage(this.backgroundFar, 0, this.backgroundFarPositionY - this.backgroundFar.height);
+        ctx.drawImage(this.backgroundFar, 0, this.backgroundFarPositionY );
         ctx.save();
-        ctx.globalAlpha = 0.7;
-        ctx.drawImage(this.backgroundNear, 0, this.backgroundPositionY);
+        ctx.globalAlpha = 0.8;
+        ctx.drawImage(this.backgroundNear, 0, this.backgroundNearPositionY - this.backgroundNear.height);
+        ctx.drawImage(this.backgroundNear, 0, this.backgroundNearPositionY);
+
         ctx.restore();
-        if (this.backgroundPositionY <= 0) {
-            this.backgroundPositionY += this.speed;
+        if (this.backgroundNearPositionY <= ctx.canvas.height) {
+            this.backgroundNearPositionY += this.speedNear;
+        } else { 
+            this.backgroundNearPositionY = (this.backgroundNear.height - this.canvas.height) * -1;
+        }
+
+        if(this.backgroundFarPositionY <= ctx.canvas.height) {
             this.backgroundFarPositionY += this.speedFar;
+        } else {
+            this.backgroundFarPositionY = (this.backgroundFar.height - this.canvas.height) * -1;
         }
     }
 }
