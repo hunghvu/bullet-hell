@@ -4,6 +4,7 @@ let ASSET_MANAGER = new AssetManager();
 
 // Download sprite sheet
 ASSET_MANAGER.queueDownload("./assets/sprites/playerSprite.png");
+ASSET_MANAGER.queueDownload("./assets/sprites/enemySprite.png");
 
 // Download background
 ASSET_MANAGER.queueDownload("./assets/background-near.png");
@@ -31,6 +32,10 @@ ASSET_MANAGER.downloadAll(function () {
 	gameEngine.addEntity(player);
 	gameEngine.addEntity(player.weapon);
 	gameEngine.addEntity(player.weapon.bullet);
+
+	// Add enemy to the game
+	let enemy = new Enemy(gameEngine, 100, 100);
+	gameEngine.addEntity(enemy);
 
 	// Add score info to the game
 	let score = new Score(player.weapon, canvasInfoBoard);
