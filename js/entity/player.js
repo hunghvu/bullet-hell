@@ -18,7 +18,7 @@ class Player {
         this.playerFrameWidth = 32;
         this.playerFrameHeight = 48;
         this.frameTime = 0.125;
-        this.scaler = 3;
+        this.scaler = 1;
         this.frameCount = 8;
 
         // Attach weapons to player

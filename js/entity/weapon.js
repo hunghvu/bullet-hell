@@ -21,7 +21,7 @@ class Weapon {
         // Orb angle.
         this.orbSpeed = 1;
         this.orbAngle = 0;
-        this.radius = 100;
+        this.radius = 60;
         this.orbFrameWidth = 16;
         this.orbFrameHeight = 16;
 
@@ -111,7 +111,9 @@ class Weapon {
         // Orb width and frame width have 1:2 ratio, but height is 1:3, so the formular are different
         // @todo, the location should be changed when the ratio is returned to 1:1
         this.orbLocationX = this.player.canvasX + this.orbFrameWidth / 2 * this.scaler + this.radius * Math.cos(radian);
-        this.orbLocationY = this.player.canvasY + this.player.playerFrameHeight / 2 * 3 - this.orbFrameHeight / 2 * this.scaler +  this.radius * Math.sin(radian)
+        this.orbLocationY = this.player.canvasY 
+                            + this.player.playerFrameHeight / 2 * this.scaler 
+                            - this.orbFrameHeight / 2 * this.scaler +  this.radius * Math.sin(radian);
         this.orbList[0].drawFrame(this.game.clockTick, ctx, this.orbLocationX, this.orbLocationY, this.scaler);
         
         if(this.orbState == 1 || this.orbState === 2) {
