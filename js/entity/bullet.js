@@ -76,15 +76,15 @@ class Bullet {
      * This function update the current orbs location on screen.
      */
     privateUpdateOrbLocation(){
-        // Right to left
+        // Right to left, 2_2 and 2_3 are manually tuned depended on the scale.
         this.xLevel1 = this.weapon.orbLocationX;
         this.yLevel1 = this.weapon.orbLocationY;
         this.xLevel2_1 = this.weapon.orb2X_1;
         this.yLevel2_1 = this.weapon.orb2Y_1;
-        this.xLevel2_2 = this.weapon.orb2X_2 + this.weapon.orbFrameWidth;
-        this.yLevel2_2 = this.weapon.orb2Y_2 + this.weapon.orbFrameHeight;
-        this.xLevel2_3 = this.weapon.orb2X_3 + this.weapon.orbFrameWidth;
-        this.yLevel2_3 = this.weapon.orb2Y_3 + this.weapon.orbFrameHeight;
+        this.xLevel2_2 = this.weapon.orb2X_2 + this.weapon.orbFrameWidth / 2;
+        this.yLevel2_2 = this.weapon.orb2Y_2 + this.weapon.orbFrameHeight * 3;
+        this.xLevel2_3 = this.weapon.orb2X_3;
+        this.yLevel2_3 = this.weapon.orb2Y_3 + this.weapon.orbFrameHeight * 3;
         this.xLevel2_4 = this.weapon.orb2X_4;
         this.yLevel2_4 = this.weapon.orb2Y_4;
         
@@ -112,6 +112,7 @@ class Bullet {
         bulletOnSceneOne.y = this.xLevel1;
         bulletOnSceneOne.level = 0;
         bulletOnSceneOne.side = null;
+        
 
         if (this.bulletState === 1 || this.bulletState === 2) { // Level 2
             bulletOnSceneTwo_1 = new Animator(this.spriteSheet, 83, 192, 57, 7, this.frameCount, this.frameTime, 0, false, true); // orange bullet
@@ -120,8 +121,9 @@ class Bullet {
             bulletOnSceneTwo_4 = new Animator(this.spriteSheet, 83, 192, 57, 7, this.frameCount, this.frameTime, 0, false, true);
 
             // X and Y for left and right are manually tuned.
+            // X and Y are initial locations of a bullet on screen, which are used to draw.
             bulletOnSceneTwo_1.x = this.xLevel2_1 - this.weapon.orbFrameWidth * this.scaler;
-            bulletOnSceneTwo_1.y = this.yLevel2_1 - this.weapon.orbFrameHeight * 4 * this.scaler;
+            bulletOnSceneTwo_1.y = this.yLevel2_1 - this.weapon.orbFrameHeight * this.scaler;
             bulletOnSceneTwo_1.level = 1;
             bulletOnSceneTwo_1.side = "right";
 
@@ -136,10 +138,11 @@ class Bullet {
             bulletOnSceneTwo_3.side = null;
 
             bulletOnSceneTwo_4.x = this.xLevel2_4 - this.weapon.orbFrameWidth * this.scaler;
-            bulletOnSceneTwo_4.y = this.yLevel2_4 - this.weapon.orbFrameHeight * 4 * this.scaler + 5;
+            bulletOnSceneTwo_4.y = this.yLevel2_4 - this.weapon.orbFrameHeight * this.scaler;
             bulletOnSceneTwo_4.level = 1;
             bulletOnSceneTwo_4.side = "left";
             // console.log(bulletOnSceneTwo_4.x, bulletOnSceneTwo_4.y );
+            this.bulletSpeed = 50;
         } 
         
         // Also change bullet speed from 50 to 100.
@@ -216,15 +219,15 @@ class Bullet {
      * This function draw left/right bullet of a level 2 weapon.
      * @param {*} angle 
      * @param {*} element 
-     * @param {*} ctx 
+     * @param {*} ctx j
      */
     privateDrawLeftRightBullet(angle, element, ctx) {
         let offScreenCanvas = document.createElement("canvas");
-        offScreenCanvas.width = 70 * 3;
-        offScreenCanvas.height = 70 * 3;
+        offScreenCanvas.width = 210;
+        offScreenCanvas.height = 210;
         let offScreenCtx = offScreenCanvas.getContext("2d");
         offScreenCtx.save();
-        offScreenCtx.translate(20 * 3, 60 * 3);
+        offScreenCtx.translate(20 * this.scaler, 60 * this.scaler);
         offScreenCtx.rotate(-angle * Math.PI / 180);
         element.drawFrame(this.game.clockTick, offScreenCtx, 0, 0, this.scaler);
         ctx.drawImage(offScreenCanvas, element.x, element.y);
