@@ -1,7 +1,7 @@
 /**
  * This class represents the bullets shot displayed ingame.
  */
-class Bullet {
+class BulletReimu {
     constructor(weapon){
 
         // Link sprite sheet

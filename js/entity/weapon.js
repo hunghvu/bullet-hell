@@ -49,7 +49,7 @@ class Weapon {
 
         this.frameCount = 1;
 
-        this.bullet = new Bullet(this);
+        this.bullet = new BulletReimu(this);
 
         this.loadAnimation();
     }
