@@ -1,17 +1,18 @@
 /**
  * This class represents a player.
  */
-class Player {
+class Player extends Character{
     constructor(game, x, y){
+        super(game, x, y);
         Object.assign(this, {game, x, y});
 
         // Link sprite sheet
         this.spriteSheet = ASSET_MANAGER.getAsset("./assets/sprites/playerSprite.png");
 
         // Frames for animation
-        this.animation = [];
-        this.canvasX = 0;
-        this.canvasY = 0;
+        // this.animation = [];
+        // this.canvasX = 0;
+        // this.canvasY = 0;
         this.animationState = 0; // 0 means stands still, 1 is moving to the left, 2 is moving to the right.
         this.lastMouseX = 0;
         this.lastMouseY = 0;
