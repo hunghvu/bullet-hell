@@ -35,6 +35,7 @@ ASSET_MANAGER.downloadAll(function () {
 
 	// Add enemy to the game
 	let enemy = new Enemy(gameEngine, 100, 100);
+	enemy.setEnemyInitialPosition(canvas);
 	gameEngine.addEntity(enemy);
 
 	// Add score info to the game

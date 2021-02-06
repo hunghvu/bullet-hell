@@ -24,15 +24,17 @@ class Enemy extends Character{
 
         // Attach weapons to player
         // this.weapon = new Weapon(this);
+        this.boundingCircleRadius = 40;
+        this.boundingCircle = new BoundingCircle(this.canvasX + this.enemyFrameWidth / 2, this.canvasY + this.enemyFrameHeight / 2, this.boundingCircleRadius);
 
         // load will stays at bottom
         this.loadAnimations();
     }
 
 
-    setPlayerInitialPosition(canvas) {
+    setEnemyInitialPosition(canvas) {
         this.canvasX = canvas.width / 2 - this.enemyFrameWidth / 2 * this.scaler;
-        this.canvasY = canvas.height / 3 * 2;
+        this.canvasY = canvas.height / 3;
     }
 
     loadAnimations() {
@@ -49,12 +51,18 @@ class Enemy extends Character{
     }
 
     update() {
-
+        this.boundingCircle.setLocation(this.canvasX + this.enemyFrameWidth / 2, this.canvasY + this.enemyFrameHeight / 2);
     }
 
     draw(ctx) {
 
         this.animation[this.animationState].drawFrame(this.game.clockTick, ctx, this.canvasX, this.canvasY, this.scaler);
+
+        // For dev only
+        ctx.strokeStyle = "Blue";
+        ctx.beginPath();
+        ctx.arc(this.boundingCircle.centerX, this.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
+        ctx.stroke();
 
     }
 }

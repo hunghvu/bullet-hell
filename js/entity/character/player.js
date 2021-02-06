@@ -25,6 +25,9 @@ class Player extends Character{
         // Attach weapons to player
         this.weapon = new Weapon(this);
 
+        this.boundingCircleRadius = 20;
+        this.boundingCircle = new BoundingCircle(this.canvasX + this.playerFrameWidth / 2, this.canvasY + this.playerFrameHeight / 2, this.boundingCircleRadius);
+
         // load will stays at bottom
         this.loadAnimations();
     }
@@ -64,8 +67,8 @@ class Player extends Character{
             this.lastMouseY = newMouseY;
             this.canvasX = newMouseX - this.playerFrameWidth / 2 * this.scaler; // Modified position so the mouse is at
             this.canvasY = newMouseY - this.playerFrameHeight / 2 * this.scaler; //  the center of character sprite
-
-            console.log(this.animationState);
+            this.boundingCircle.setLocation(this.canvasX + this.playerFrameWidth / 2, this.canvasY + this.playerFrameHeight / 2);
+            // console.log(this.animationState);
         })
     }
 
@@ -94,6 +97,12 @@ class Player extends Character{
     draw(ctx) {
 
         this.animation[this.animationState].drawFrame(this.game.clockTick, ctx, this.canvasX, this.canvasY, this.scaler);
+
+        // For dev only
+        ctx.strokeStyle = "Blue";
+        ctx.beginPath();
+        ctx.arc(this.boundingCircle.centerX, this.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
+        ctx.stroke();
 
     }
 }
