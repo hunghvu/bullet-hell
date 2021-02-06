@@ -51,7 +51,7 @@ class Enemy extends Character{
     }
 
     update() {
-        this.boundingCircle.setLocation(this.canvasX + this.enemyFrameWidth / 2, this.canvasY + this.enemyFrameHeight / 2);
+        this.privateUpdateBC();
     }
 
     draw(ctx) {
@@ -64,5 +64,15 @@ class Enemy extends Character{
         ctx.arc(this.boundingCircle.centerX, this.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
         ctx.stroke();
 
+    }
+    privateUpdateBC() {
+        this.boundingCircle.setLocation(this.canvasX + this.enemyFrameWidth / 2, this.canvasY + this.enemyFrameHeight / 2);
+        this.game.entities.forEach( element => {
+                if (element.boundingCircle && element.boundingCircle !== this.boundingCircle) {
+                    if (element.boundingCircle.isCollided(this.boundingCircle)) {
+                        // console.log(element.boundingCircle.isCollided(this.boundingCircle));
+                    }
+                }
+        })
     }
 }

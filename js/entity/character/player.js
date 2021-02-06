@@ -67,7 +67,6 @@ class Player extends Character{
             this.lastMouseY = newMouseY;
             this.canvasX = newMouseX - this.playerFrameWidth / 2 * this.scaler; // Modified position so the mouse is at
             this.canvasY = newMouseY - this.playerFrameHeight / 2 * this.scaler; //  the center of character sprite
-            this.boundingCircle.setLocation(this.canvasX + this.playerFrameWidth / 2, this.canvasY + this.playerFrameHeight / 2);
             // console.log(this.animationState);
         })
     }
@@ -91,7 +90,7 @@ class Player extends Character{
     }
 
     update() {
-
+        this.privateUpdateBC();
     }
 
     draw(ctx) {
@@ -104,5 +103,16 @@ class Player extends Character{
         ctx.arc(this.boundingCircle.centerX, this.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
         ctx.stroke();
 
+    }
+
+    privateUpdateBC(){
+        this.boundingCircle.setLocation(this.canvasX + this.playerFrameWidth / 2, this.canvasY + this.playerFrameHeight / 2);
+        this.game.entities.forEach( element => {
+                if (element.boundingCircle && element.boundingCircle !== this.boundingCircle) {
+                    if (element.boundingCircle.isCollided(this.boundingCircle)) {
+                        // console.log(element.boundingCircle.isCollided(this.boundingCircle));
+                    }
+                }
+        })
     }
 }
