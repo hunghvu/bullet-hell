@@ -9,7 +9,9 @@ class Bullet {
     }
 
     draw() {
-
+        /**
+         * @todo, find a way to move all draw operations to this class.
+         */
     }
 
     isRemovable() {
@@ -38,6 +40,19 @@ class Bullet {
                 this.y + 10);
         }
         
+    }
+
+    handleCollision(){
+        this.bulletManager.game.entities.forEach( element => {
+            if (element.boundingCircle 
+                && element.boundingCircle !== this.boundingCircle // Not collide itself
+                && element instanceof Enemy // Bullet should only hit enemy. Not collide with previously shot bullet in some cases
+                ) {
+                if (element.boundingCircle.isCollided(this.boundingCircle)) {
+                    // console.log(element);
+                }
+            }
+    })
     }
 
  

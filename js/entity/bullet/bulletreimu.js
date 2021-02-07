@@ -62,11 +62,11 @@ class BulletReimu {
         // Draw a rotated bullet on a separate canvas, then draw that canvas on the main one.
         this.bulletOnSceneList.forEach(element => {
             if (element.side === "left") {
-                this.privateDrawRotatedBullet(105, element.animator, ctx, 20, 60);
+                this.privateDrawRotatedBullet(105, element, ctx, 20, 60);
             } else if (element.side === "right") {
-                this.privateDrawRotatedBullet(75, element.animator, ctx, 20, 60);
+                this.privateDrawRotatedBullet(75, element, ctx, 20, 60);
             } else if (element.side === null) {
-                this.privateDrawRotatedBullet(90, element.animator, ctx, 0, 70);
+                this.privateDrawRotatedBullet(90, element, ctx, 0, 70);
             }
 
             // For dev only. Draw bounding circle
@@ -224,26 +224,15 @@ class BulletReimu {
                     this.bulletOnSceneList.splice(i, 1);
                 }  else {
                     this.bulletOnSceneList[i].updateLocation();
-                    this.privateHandleCollision(i);
+                    this.bulletOnSceneList[i].handleCollision();
                 }
-                // console.log(this.game.entities);
+                console.log(this.game.entities);
             }
             // Use to check if a bullet is deleted by observing the list, for dev only.
             // console.log(this.bulletOnSceneList);
         }
     }
-    privateHandleCollision(index){
-        this.game.entities.forEach( element => {
-            if (element.boundingCircle 
-                && element.boundingCircle !== this.bulletOnSceneList[index].boundingCircle // Not collide itself
-                && element instanceof Enemy // Bullet should only hit enemy. Not collide with previously shot bullet in some cases
-                ) {
-                if (element.boundingCircle.isCollided(this.bulletOnSceneList[index].boundingCircle)) {
-                    // console.log(element);
-                }
-            }
-    })
-    }
+
 
     /**
      * This function helps draw a bullet with a rotated angle.
@@ -260,7 +249,7 @@ class BulletReimu {
         let offScreenCtx = offScreenCanvas.getContext("2d");
         offScreenCtx.translate(translateX, translateY);
         offScreenCtx.rotate(-angle * Math.PI / 180);
-        element.drawFrame(this.game.clockTick, offScreenCtx, 0, 0, this.scaler);
+        element.animator.drawFrame(this.game.clockTick, offScreenCtx, 0, 0, this.scaler);
         ctx.drawImage(offScreenCanvas, element.x, element.y);
         /**
          * @todo There is a bug where, if an orb is initialized at 0, 0, the first offscreen ctx
