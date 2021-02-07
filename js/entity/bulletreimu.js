@@ -33,11 +33,15 @@ class BulletReimu {
         this.bulletState = weapon.orbState; // 0 is red bullet, 1 is orange bullet, 2 is purple bullet
         
         this.frameCount = 1;
-        this.bulletSpeed = 50;
+        this.bulletSpeed = 10;
 
         // Shot once every 10 degree of orb trajectory
         this.previousAngle = weapon.orbAngle;
         this.bulletAngleInterval = 10;
+
+        // Add bounding circle for each bullet, bullet will have its own bounding circle
+        this.bcRadius = 30;
+
 
         // this.bulletTypeList = [];
         this.bulletOnSceneList = [];
@@ -57,6 +61,12 @@ class BulletReimu {
         this.bulletOnSceneList.forEach(element => {
             if (element.side === null) {
                 element.drawFrame(this.game.clockTick, ctx, element.x, element.y, this.scaler);
+                
+                // For dev only.
+                // ctx.beginPath();
+                // ctx.arc(element.x, element.y, this.boundingCircleRadius, 0, Math.PI * 2);
+                // console.log(element.boundingCircle.centerX)
+                // ctx.stroke();
             }
         })
         ctx.restore();
@@ -112,6 +122,7 @@ class BulletReimu {
         bulletOnSceneOne.y = this.xLevel1;
         bulletOnSceneOne.level = 0;
         bulletOnSceneOne.side = null;
+        bulletOnSceneOne.boundingCircle = new BoundingCircle(bulletOnSceneOne.x, bulletOnSceneOne.y, this.bcRadius);
         
 
         if (this.bulletState === 1 || this.bulletState === 2) { // Level 2
@@ -126,23 +137,27 @@ class BulletReimu {
             bulletOnSceneTwo_1.y = this.yLevel2_1 - this.weapon.orbFrameHeight * this.scaler;
             bulletOnSceneTwo_1.level = 1;
             bulletOnSceneTwo_1.side = "right";
+            bulletOnSceneTwo_1.boundingCircle = new BoundingCircle(bulletOnSceneTwo_1.x, bulletOnSceneTwo_1.y, this.bcRadius);
 
             bulletOnSceneTwo_2.x = -this.yLevel2_2;
             bulletOnSceneTwo_2.y = this.xLevel2_2;
             bulletOnSceneTwo_2.level = 1;
             bulletOnSceneTwo_2.side = null;
+            bulletOnSceneTwo_2.boundingCircle = new BoundingCircle(bulletOnSceneTwo_2.x, bulletOnSceneTwo_2.y, this.bcRadius);
 
             bulletOnSceneTwo_3.x = -this.yLevel2_3;
             bulletOnSceneTwo_3.y = this.xLevel2_3;
             bulletOnSceneTwo_3.level = 1;
             bulletOnSceneTwo_3.side = null;
+            bulletOnSceneTwo_3.boundingCircle = new BoundingCircle(bulletOnSceneTwo_3.x, bulletOnSceneTwo_3.y, this.bcRadius);
 
             bulletOnSceneTwo_4.x = this.xLevel2_4 - this.weapon.orbFrameWidth * this.scaler;
             bulletOnSceneTwo_4.y = this.yLevel2_4 - this.weapon.orbFrameHeight * this.scaler;
             bulletOnSceneTwo_4.level = 1;
             bulletOnSceneTwo_4.side = "left";
+            bulletOnSceneTwo_4.boundingCircle = new BoundingCircle(bulletOnSceneTwo_4.x, bulletOnSceneTwo_4.y, this.bcRadius);
             // console.log(bulletOnSceneTwo_4.x, bulletOnSceneTwo_4.y );
-            this.bulletSpeed = 50;
+            this.bulletSpeed = 5;
         } 
         
         // Also change bullet speed from 50 to 100.
@@ -152,6 +167,7 @@ class BulletReimu {
             bulletOnSceneThree_1.y = this.xLevel3_1;
             bulletOnSceneThree_1.level = 2;
             bulletOnSceneThree_1.side = null;
+            bulletOnSceneThree_1.boundingCircle = new BoundingCircle(bulletOnSceneThree_1.x, bulletOnSceneThree_1.y, this.bcRadius);
             // console.log(bulletOnSceneThree_1.x);
             
             bulletOnSceneThree_2 = new Animator(this.spriteSheet, 152, 193, 56, 13, this.frameCount, this.frameTime, 0, false, true); // purple bullet
@@ -159,7 +175,8 @@ class BulletReimu {
             bulletOnSceneThree_2.y = this.xLevel3_2;
             bulletOnSceneThree_2.level = 2;
             bulletOnSceneThree_2.side = null;
-                        // console.log(bulletOnSceneThree_2.x);
+            bulletOnSceneThree_2.boundingCircle = new BoundingCircle(bulletOnSceneThree_2.x, bulletOnSceneThree_2.y, this.bcRadius);
+
             this.bulletSpeed = 100;
         }
 
@@ -208,11 +225,22 @@ class BulletReimu {
                         this.bulletOnSceneList[i].y -= this.bulletSpeed;
                         this.bulletOnSceneList[i].x += this.bulletSpeed / 5;
                     }
+                    this.privateUpdateBC(i);
                 }
             }
             // Use to check if a bullet is deleted by observing the list, for dev only.
             // console.log(this.bulletOnSceneList);
         }
+    }
+    privateUpdateBC(index){
+        this.bulletOnSceneList[index].boundingCircle.setLocation(this.bulletOnSceneList[index].x, this.bulletOnSceneList[index].y);
+        this.game.entities.forEach( element => {
+            if (element.boundingCircle && element.boundingCircle !== this.bulletOnSceneList[index].boundingCircle) {
+                if (element.boundingCircle.isCollided(this.bulletOnSceneList[index].boundingCircle)) {
+                    // console.log(element.boundingCircle.isCollided(this.boundingCircle));
+                }
+            }
+    })
     }
 
     /**
@@ -231,6 +259,7 @@ class BulletReimu {
         offScreenCtx.rotate(-angle * Math.PI / 180);
         element.drawFrame(this.game.clockTick, offScreenCtx, 0, 0, this.scaler);
         ctx.drawImage(offScreenCanvas, element.x, element.y);
+
     }
     /**
      * Temporary helper class, used for dev only
