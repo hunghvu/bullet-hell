@@ -33,17 +33,16 @@ class BulletReimu {
         this.bulletState = weapon.orbState; // 0 is red bullet, 1 is orange bullet, 2 is purple bullet
         
         this.frameCount = 1;
-        this.bulletSpeed = 10;
+        this.bulletSpeed = 1;
 
         // Shot once every 10 degree of orb trajectory
         this.previousAngle = weapon.orbAngle;
         this.bulletAngleInterval = 10;
 
         // Add bounding circle for each bullet, bullet will have its own bounding circle
-        this.bcRadius = 30;
+        this.boundingCircleRadius = 10;
 
 
-        // this.bulletTypeList = [];
         this.bulletOnSceneList = [];
     }
 
@@ -61,12 +60,11 @@ class BulletReimu {
         this.bulletOnSceneList.forEach(element => {
             if (element.side === null) {
                 element.drawFrame(this.game.clockTick, ctx, element.x, element.y, this.scaler);
-                
-                // For dev only.
-                // ctx.beginPath();
-                // ctx.arc(element.x, element.y, this.boundingCircleRadius, 0, Math.PI * 2);
-                // console.log(element.boundingCircle.centerX)
-                // ctx.stroke();
+
+            // For dev only. Draw bounding circle
+            ctx.beginPath();
+            ctx.arc(element.boundingCircle.centerX, element.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
+            ctx.stroke();
             }
         })
         ctx.restore();
@@ -78,6 +76,11 @@ class BulletReimu {
             } else if (element.side === "right") {
                 this.privateDrawLeftRightBullet(75, element, ctx);
             }
+
+            // For dev only. Draw bounding circle
+            ctx.beginPath();
+            ctx.arc(element.boundingCircle.centerX, element.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
+            ctx.stroke();
         });
 
     }
@@ -177,7 +180,7 @@ class BulletReimu {
             bulletOnSceneThree_2.side = null;
             bulletOnSceneThree_2.boundingCircle = new BoundingCircle(bulletOnSceneThree_2.x, bulletOnSceneThree_2.y, this.bcRadius);
 
-            this.bulletSpeed = 100;
+            this.bulletSpeed = 5;
         }
 
         if (this.weapon.orbAngle - this.previousAngle === this.bulletAngleInterval || this.weapon.orbAngle === 0) {
@@ -204,10 +207,15 @@ class BulletReimu {
         if (this.bulletOnSceneList !== undefined) {
             for (var i = this.bulletOnSceneList.length - 1; i > 0; i--) {
 
-                // Remove the bullet when it is out of canvas
+                // Remove the bullet when it is nearly out of canvas.
+                //  Initially, it should be fully out of canvas, however,
+                //  when a bullet is removed from the list, there is a bug where
+                //  its bounding circle unexpectedly move to left screen.
+                //  Remove the bullet sooner at x = -65 is a work around to fix this bug.
+                //  This makes a buggy bounding circle appear off canvas.
                 // Straight bullet (or "null") works on axis where X-north, y-east.
                 // While "left" and "right" works on axis where X-east, y-south.
-                if (this.bulletOnSceneList[i].x >= 0 && this.bulletOnSceneList[i].side === null){
+                if (this.bulletOnSceneList[i].x >= -65 && this.bulletOnSceneList[i].side === null){
                     this.bulletOnSceneList.splice(i, 1);
 
                 } else if (this.bulletOnSceneList[i].y <= 0 
@@ -215,29 +223,37 @@ class BulletReimu {
                         this.bulletOnSceneList.splice(i, 1);
 
                 } else {
-
+                    // Manually tune the location of circle.
                     if (this.bulletOnSceneList[i].side === null) {
                         this.bulletOnSceneList[i].x += this.bulletSpeed;
+                        this.bulletOnSceneList[i].boundingCircle.setLocation(
+                            this.bulletOnSceneList[i].x + 55, 
+                            this.bulletOnSceneList[i].y + 5);
                     } else if (this.bulletOnSceneList[i].side === "left") {
                         this.bulletOnSceneList[i].y -= this.bulletSpeed;
                         this.bulletOnSceneList[i].x -= this.bulletSpeed / 5;
+                        this.bulletOnSceneList[i].boundingCircle.setLocation(
+                            this.bulletOnSceneList[i].x + 10, 
+                            this.bulletOnSceneList[i].y + 10);
                     } else if (this.bulletOnSceneList[i].side === "right") {
                         this.bulletOnSceneList[i].y -= this.bulletSpeed;
                         this.bulletOnSceneList[i].x += this.bulletSpeed / 5;
+                        this.bulletOnSceneList[i].boundingCircle.setLocation(
+                            this.bulletOnSceneList[i].x + 35, 
+                            this.bulletOnSceneList[i].y + 10);
                     }
-                    this.privateUpdateBC(i);
+                    this.privateHandleCollision(i);
                 }
             }
             // Use to check if a bullet is deleted by observing the list, for dev only.
             // console.log(this.bulletOnSceneList);
         }
     }
-    privateUpdateBC(index){
-        this.bulletOnSceneList[index].boundingCircle.setLocation(this.bulletOnSceneList[index].x, this.bulletOnSceneList[index].y);
+    privateHandleCollision(index){
         this.game.entities.forEach( element => {
             if (element.boundingCircle && element.boundingCircle !== this.bulletOnSceneList[index].boundingCircle) {
                 if (element.boundingCircle.isCollided(this.bulletOnSceneList[index].boundingCircle)) {
-                    // console.log(element.boundingCircle.isCollided(this.boundingCircle));
+                    console.log(true);
                 }
             }
     })
@@ -259,8 +275,8 @@ class BulletReimu {
         offScreenCtx.rotate(-angle * Math.PI / 180);
         element.drawFrame(this.game.clockTick, offScreenCtx, 0, 0, this.scaler);
         ctx.drawImage(offScreenCanvas, element.x, element.y);
-
     }
+
     /**
      * Temporary helper class, used for dev only
      * @param {*} bullet 
