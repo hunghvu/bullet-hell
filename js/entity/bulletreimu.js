@@ -50,6 +50,12 @@ class BulletReimu {
         this.privateUpdateOrbLocation();
         this.privateInitBullet();
         this.privateUpdateBulletLocation();
+
+        /**
+         * @todo Because the bullet location is updated before drawn and check for location. There is a bug where, for example,
+         *  when a player stay inside an enemy whose has a radius of bounding circle equal to 10, Let say the bullet speed is 1000, 
+         *  then the bullet passthrough the enemy right away and not counted as collided.
+         */
     }
 
     draw(ctx) {
@@ -61,8 +67,6 @@ class BulletReimu {
                 this.privateDrawRotatedBullet(75, element, ctx, 20, 60);
             } else if (element.side === null) {
                 this.privateDrawRotatedBullet(90, element, ctx, 0, 70);
-                // this.privateDraw90(element, ctx);
-                // element.drawFrame(this.game.clockTick, ctx, element.x, element.y, this.scaler);
             }
 
             // For dev only. Draw bounding circle
@@ -216,9 +220,12 @@ class BulletReimu {
     }
     privateHandleCollision(index){
         this.game.entities.forEach( element => {
-            if (element.boundingCircle && element.boundingCircle !== this.bulletOnSceneList[index].boundingCircle) {
+            if (element.boundingCircle 
+                && element.boundingCircle !== this.bulletOnSceneList[index].boundingCircle // Not collide itself
+                && element instanceof Enemy // Bullet should only hit enemy. Not collide with previously shot bullet in some cases
+                ) {
                 if (element.boundingCircle.isCollided(this.bulletOnSceneList[index].boundingCircle)) {
-                    console.log(true);
+                    // console.log(element);
                 }
             }
     })
@@ -241,6 +248,11 @@ class BulletReimu {
         offScreenCtx.rotate(-angle * Math.PI / 180);
         element.drawFrame(this.game.clockTick, offScreenCtx, 0, 0, this.scaler);
         ctx.drawImage(offScreenCanvas, element.x, element.y);
+        /**
+         * @todo There is a bug where, if an orb is initialized at 0, 0, the first offscreen ctx
+         *  will be drawn there as well and cannot be deleted for some reason. A work around is to
+         *  drawn an orb offscreen.
+         */
 
     }
 

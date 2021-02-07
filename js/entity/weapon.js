@@ -25,25 +25,26 @@ class Weapon {
         this.orbFrameWidth = 16;
         this.orbFrameHeight = 16;
 
+        // Max value to initialize orb of screen
         // Level 1 orb
-        this.orbLocationX = 0;
-        this.orbLocationY = 0;
+        this.orbLocationX = Number.MAX_VALUE;
+        this.orbLocationY = Number.MAX_VALUE;
 
         // Level 2 orbs (4 orb) + orb level 1
-        this.orb2X_1 = 0;
-        this.orb2Y_1 = 0;
-        this.orb2X_2 = 0;
-        this.orb2Y_2 = 0;
-        this.orb2X_3 = 0;
-        this.orb2Y_3 = 0;
-        this.orb2X_4 = 0;
-        this.orb2Y_4 = 0;
+        this.orb2X_1 = Number.MAX_VALUE;
+        this.orb2Y_1 = Number.MAX_VALUE;
+        this.orb2X_2 = Number.MAX_VALUE;
+        this.orb2Y_2 = Number.MAX_VALUE;
+        this.orb2X_3 = Number.MAX_VALUE;
+        this.orb2Y_3 = Number.MAX_VALUE;
+        this.orb2X_4 = Number.MAX_VALUE;
+        this.orb2Y_4 = Number.MAX_VALUE;
 
         // Level 2 orbs (2 orbs) + orbs level 1 + orb lv 2
-        this.orb3X_1 = 0;
-        this.orb3Y_1 = 0;
-        this.orb3X_2 = 0;
-        this.orb3Y_2 = 0;
+        this.orb3X_1 = Number.MAX_VALUE;
+        this.orb3Y_1 = Number.MAX_VALUE;
+        this.orb3X_2 = Number.MAX_VALUE;
+        this.orb3Y_2 = Number.MAX_VALUE;
         this.orb3Accumulator = 0;
         this.orb3Direction = false; // False means moving out, true means inward
 

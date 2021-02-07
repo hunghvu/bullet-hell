@@ -2,10 +2,11 @@
  * This class represents player's score.
  */
 class Score {
-    constructor (weapon, canvas) {
+    constructor (weapon, canvas, enemy) {
         this.weapon = weapon;
         this.bullet = weapon.bullet;
         this.canvas = canvas;
+        this.enemy = enemy;
         // There is another canvas for info board to separate from game canvas.
         // Therefore, ctx passed to draw will not be used
         this.ctxInfoBoard = canvas.getContext("2d");
@@ -19,6 +20,6 @@ class Score {
     draw(ctx){
         this.ctxInfoBoard.font = "30px Arial";
         // For testing only
-        this.ctxInfoBoard.fillText(this.bullet.previousAngle, 10, 50);
+        this.ctxInfoBoard.fillText(this.enemy.damageReceived, 10, 50);
     }
 }
