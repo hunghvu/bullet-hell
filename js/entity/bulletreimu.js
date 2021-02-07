@@ -33,7 +33,7 @@ class BulletReimu {
         this.bulletState = weapon.orbState; // 0 is red bullet, 1 is orange bullet, 2 is purple bullet
         
         this.frameCount = 1;
-        this.bulletSpeed = 1;
+        this.bulletSpeed = 50;
 
         // Shot once every 10 degree of orb trajectory
         this.previousAngle = weapon.orbAngle;
@@ -53,28 +53,16 @@ class BulletReimu {
     }
 
     draw(ctx) {
-        ctx.save();
-        // Rotate 90 degrees counter clockwise
-        ctx.rotate(-Math.PI / 2);
-
-        this.bulletOnSceneList.forEach(element => {
-            if (element.side === null) {
-                element.drawFrame(this.game.clockTick, ctx, element.x, element.y, this.scaler);
-
-            // For dev only. Draw bounding circle
-            ctx.beginPath();
-            ctx.arc(element.boundingCircle.centerX, element.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
-            ctx.stroke();
-            }
-        })
-        ctx.restore();
-
         // Draw a rotated bullet on a separate canvas, then draw that canvas on the main one.
         this.bulletOnSceneList.forEach(element => {
             if (element.side === "left") {
-                this.privateDrawLeftRightBullet(105, element, ctx);
+                this.privateDrawRotatedBullet(105, element, ctx, 20, 60);
             } else if (element.side === "right") {
-                this.privateDrawLeftRightBullet(75, element, ctx);
+                this.privateDrawRotatedBullet(75, element, ctx, 20, 60);
+            } else if (element.side === null) {
+                this.privateDrawRotatedBullet(90, element, ctx, 0, 70);
+                // this.privateDraw90(element, ctx);
+                // element.drawFrame(this.game.clockTick, ctx, element.x, element.y, this.scaler);
             }
 
             // For dev only. Draw bounding circle
@@ -95,9 +83,9 @@ class BulletReimu {
         this.xLevel2_1 = this.weapon.orb2X_1;
         this.yLevel2_1 = this.weapon.orb2Y_1;
         this.xLevel2_2 = this.weapon.orb2X_2 + this.weapon.orbFrameWidth / 2;
-        this.yLevel2_2 = this.weapon.orb2Y_2 + this.weapon.orbFrameHeight * 3;
+        this.yLevel2_2 = this.weapon.orb2Y_2;
         this.xLevel2_3 = this.weapon.orb2X_3;
-        this.yLevel2_3 = this.weapon.orb2Y_3 + this.weapon.orbFrameHeight * 3;
+        this.yLevel2_3 = this.weapon.orb2Y_3;
         this.xLevel2_4 = this.weapon.orb2X_4;
         this.yLevel2_4 = this.weapon.orb2Y_4;
         
@@ -121,11 +109,10 @@ class BulletReimu {
 
         // Level 1
         bulletOnSceneOne = new Animator(this.spriteSheet, 15, 193, 65, 13, this.frameCount, this.frameTime, 0, false, true); // red bullet
-        bulletOnSceneOne.x = -this.yLevel1;
-        bulletOnSceneOne.y = this.xLevel1;
-        bulletOnSceneOne.level = 0;
+        bulletOnSceneOne.x = this.xLevel1;
+        bulletOnSceneOne.y = this.yLevel1;
         bulletOnSceneOne.side = null;
-        bulletOnSceneOne.boundingCircle = new BoundingCircle(bulletOnSceneOne.x, bulletOnSceneOne.y, this.bcRadius);
+        bulletOnSceneOne.boundingCircle = new BoundingCircle(bulletOnSceneOne.x, bulletOnSceneOne.y, this.boundingCircleRadius);
         
 
         if (this.bulletState === 1 || this.bulletState === 2) { // Level 2
@@ -138,49 +125,43 @@ class BulletReimu {
             // X and Y are initial locations of a bullet on screen, which are used to draw.
             bulletOnSceneTwo_1.x = this.xLevel2_1 - this.weapon.orbFrameWidth * this.scaler;
             bulletOnSceneTwo_1.y = this.yLevel2_1 - this.weapon.orbFrameHeight * this.scaler;
-            bulletOnSceneTwo_1.level = 1;
             bulletOnSceneTwo_1.side = "right";
-            bulletOnSceneTwo_1.boundingCircle = new BoundingCircle(bulletOnSceneTwo_1.x, bulletOnSceneTwo_1.y, this.bcRadius);
+            bulletOnSceneTwo_1.boundingCircle = new BoundingCircle(bulletOnSceneTwo_1.x, bulletOnSceneTwo_1.y, this.boundingCircleRadius);
 
-            bulletOnSceneTwo_2.x = -this.yLevel2_2;
-            bulletOnSceneTwo_2.y = this.xLevel2_2;
-            bulletOnSceneTwo_2.level = 1;
+            bulletOnSceneTwo_2.x = this.xLevel2_2;
+            bulletOnSceneTwo_2.y = this.yLevel2_2;
             bulletOnSceneTwo_2.side = null;
-            bulletOnSceneTwo_2.boundingCircle = new BoundingCircle(bulletOnSceneTwo_2.x, bulletOnSceneTwo_2.y, this.bcRadius);
+            bulletOnSceneTwo_2.boundingCircle = new BoundingCircle(bulletOnSceneTwo_2.x, bulletOnSceneTwo_2.y, this.boundingCircleRadius);
 
-            bulletOnSceneTwo_3.x = -this.yLevel2_3;
-            bulletOnSceneTwo_3.y = this.xLevel2_3;
-            bulletOnSceneTwo_3.level = 1;
+            bulletOnSceneTwo_3.x = this.xLevel2_3;
+            bulletOnSceneTwo_3.y = this.yLevel2_3;
             bulletOnSceneTwo_3.side = null;
-            bulletOnSceneTwo_3.boundingCircle = new BoundingCircle(bulletOnSceneTwo_3.x, bulletOnSceneTwo_3.y, this.bcRadius);
+            bulletOnSceneTwo_3.boundingCircle = new BoundingCircle(bulletOnSceneTwo_3.x, bulletOnSceneTwo_3.y, this.boundingCircleRadius);
 
             bulletOnSceneTwo_4.x = this.xLevel2_4 - this.weapon.orbFrameWidth * this.scaler;
             bulletOnSceneTwo_4.y = this.yLevel2_4 - this.weapon.orbFrameHeight * this.scaler;
-            bulletOnSceneTwo_4.level = 1;
             bulletOnSceneTwo_4.side = "left";
-            bulletOnSceneTwo_4.boundingCircle = new BoundingCircle(bulletOnSceneTwo_4.x, bulletOnSceneTwo_4.y, this.bcRadius);
+            bulletOnSceneTwo_4.boundingCircle = new BoundingCircle(bulletOnSceneTwo_4.x, bulletOnSceneTwo_4.y, this.boundingCircleRadius);
             // console.log(bulletOnSceneTwo_4.x, bulletOnSceneTwo_4.y );
-            this.bulletSpeed = 5;
+            this.bulletSpeed = 50;
         } 
         
         // Also change bullet speed from 50 to 100.
         if (this.bulletState === 2) { // Level 3
             bulletOnSceneThree_1 = new Animator(this.spriteSheet, 152, 193, 56, 13, this.frameCount, this.frameTime, 0, false, true); // purple bullet
-            bulletOnSceneThree_1.x = -this.yLevel3_1;
-            bulletOnSceneThree_1.y = this.xLevel3_1;
-            bulletOnSceneThree_1.level = 2;
+            bulletOnSceneThree_1.x = this.xLevel3_1;
+            bulletOnSceneThree_1.y = this.yLevel3_1;
             bulletOnSceneThree_1.side = null;
-            bulletOnSceneThree_1.boundingCircle = new BoundingCircle(bulletOnSceneThree_1.x, bulletOnSceneThree_1.y, this.bcRadius);
+            bulletOnSceneThree_1.boundingCircle = new BoundingCircle(bulletOnSceneThree_1.x, bulletOnSceneThree_1.y, this.boundingCircleRadius);
             // console.log(bulletOnSceneThree_1.x);
             
             bulletOnSceneThree_2 = new Animator(this.spriteSheet, 152, 193, 56, 13, this.frameCount, this.frameTime, 0, false, true); // purple bullet
-            bulletOnSceneThree_2.x = -this.yLevel3_2;
-            bulletOnSceneThree_2.y = this.xLevel3_2;
-            bulletOnSceneThree_2.level = 2;
+            bulletOnSceneThree_2.x = this.xLevel3_2;
+            bulletOnSceneThree_2.y = this.yLevel3_2;
             bulletOnSceneThree_2.side = null;
-            bulletOnSceneThree_2.boundingCircle = new BoundingCircle(bulletOnSceneThree_2.x, bulletOnSceneThree_2.y, this.bcRadius);
+            bulletOnSceneThree_2.boundingCircle = new BoundingCircle(bulletOnSceneThree_2.x, bulletOnSceneThree_2.y, this.boundingCircleRadius);
 
-            this.bulletSpeed = 5;
+            this.bulletSpeed = 100;
         }
 
         if (this.weapon.orbAngle - this.previousAngle === this.bulletAngleInterval || this.weapon.orbAngle === 0) {
@@ -206,37 +187,21 @@ class BulletReimu {
     privateUpdateBulletLocation(){
         if (this.bulletOnSceneList !== undefined) {
             for (var i = this.bulletOnSceneList.length - 1; i > 0; i--) {
-
-                // Remove the bullet when it is nearly out of canvas.
-                //  Initially, it should be fully out of canvas, however,
-                //  when a bullet is removed from the list, there is a bug where
-                //  its bounding circle unexpectedly move to left screen.
-                //  Remove the bullet sooner at x = -65 is a work around to fix this bug.
-                //  This makes a buggy bounding circle appear off canvas.
-                // Straight bullet (or "null") works on axis where X-north, y-east.
-                // While "left" and "right" works on axis where X-east, y-south.
-                if (this.bulletOnSceneList[i].x >= -65 && this.bulletOnSceneList[i].side === null){
+                if (this.bulletOnSceneList[i].y <= 0){
                     this.bulletOnSceneList.splice(i, 1);
-
-                } else if (this.bulletOnSceneList[i].y <= 0 
-                    && (this.bulletOnSceneList[i].side === "left" || this.bulletOnSceneList[i].side === "right")) {
-                        this.bulletOnSceneList.splice(i, 1);
-
-                } else {
+                }  else {
+                    this.bulletOnSceneList[i].y -= this.bulletSpeed;
                     // Manually tune the location of circle.
                     if (this.bulletOnSceneList[i].side === null) {
-                        this.bulletOnSceneList[i].x += this.bulletSpeed;
                         this.bulletOnSceneList[i].boundingCircle.setLocation(
-                            this.bulletOnSceneList[i].x + 55, 
-                            this.bulletOnSceneList[i].y + 5);
+                            this.bulletOnSceneList[i].x, 
+                            this.bulletOnSceneList[i].y);
                     } else if (this.bulletOnSceneList[i].side === "left") {
-                        this.bulletOnSceneList[i].y -= this.bulletSpeed;
                         this.bulletOnSceneList[i].x -= this.bulletSpeed / 5;
                         this.bulletOnSceneList[i].boundingCircle.setLocation(
                             this.bulletOnSceneList[i].x + 10, 
                             this.bulletOnSceneList[i].y + 10);
                     } else if (this.bulletOnSceneList[i].side === "right") {
-                        this.bulletOnSceneList[i].y -= this.bulletSpeed;
                         this.bulletOnSceneList[i].x += this.bulletSpeed / 5;
                         this.bulletOnSceneList[i].boundingCircle.setLocation(
                             this.bulletOnSceneList[i].x + 35, 
@@ -260,21 +225,23 @@ class BulletReimu {
     }
 
     /**
-     * This function draw left/right bullet of a level 2 weapon.
+     * This function helps draw a bullet with a rotated angle.
      * @param {*} angle 
      * @param {*} element 
-     * @param {*} ctx j
+     * @param {*} ctx 
+     * @param {*} translateX the location X to translate canvas, manually tuned.
+     * @param {*} translateY the location Y to translate canvas, manually tuned.
      */
-    privateDrawLeftRightBullet(angle, element, ctx) {
+    privateDrawRotatedBullet(angle, element, ctx, translateX, translateY) {
         let offScreenCanvas = document.createElement("canvas");
-        offScreenCanvas.width = 210;
-        offScreenCanvas.height = 210;
+        offScreenCanvas.width = 70;
+        offScreenCanvas.height = 70;
         let offScreenCtx = offScreenCanvas.getContext("2d");
-        offScreenCtx.save();
-        offScreenCtx.translate(20 * this.scaler, 60 * this.scaler);
+        offScreenCtx.translate(translateX, translateY);
         offScreenCtx.rotate(-angle * Math.PI / 180);
         element.drawFrame(this.game.clockTick, offScreenCtx, 0, 0, this.scaler);
         ctx.drawImage(offScreenCanvas, element.x, element.y);
+
     }
 
     /**
