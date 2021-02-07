@@ -18,8 +18,9 @@ class Score {
     }
 
     draw(ctx){
-        this.ctxInfoBoard.font = "30px Arial";
+        this.ctxInfoBoard.font = "20px Arial";
         // For testing only
-        this.ctxInfoBoard.fillText(this.enemy.damageReceived, 10, 50);
+        this.ctxInfoBoard.fillText("Total damage: ", 10, 50)
+        this.ctxInfoBoard.fillText(this.enemy.damageReceived, 10, 70);
     }
 }

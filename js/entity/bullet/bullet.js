@@ -1,3 +1,6 @@
+/**
+ * This class represents a generic bullet in game.
+ */
 class Bullet {
     constructor(animator, x, y, side, boundingCircle, bulletManager){
         Object.assign(this, {animator, x, y, side, boundingCircle, bulletManager});
@@ -14,32 +17,31 @@ class Bullet {
          */
     }
 
+    /**
+     * This function decides whether a bullet is removable from a map.
+     */
     isRemovable() {
-        // console.log(this.y);
-        this.removeFromWorld = true;
+        this.y <= 0 ? this.removeFromWorld = true : this.removeFromWorld = false;
         return this.y <= 0;
     }
+
+    /**
+     * This function update the location of a bullet.
+     */
     updateLocation() {
         this.y -= this.bulletManager.bulletSpeed;
 
         // this.y -= this.bulletSpeed;
         // Manually tune the location of circle.
         if (this.side === null) {
-            this.boundingCircle.setLocation(
-                this.x, 
-                this.y);
+            this.boundingCircle.setLocation(this.x, this.y);
         } else if (this.side === "left") {
             this.x -= this.bulletManager.bulletSpeed / 5;
-            this.boundingCircle.setLocation(
-                this.x + 10, 
-                this.y + 10);
+            this.boundingCircle.setLocation(this.x + 10, this.y + 10);
         } else if (this.side === "right") {
             this.x += this.bulletManager.bulletSpeed / 5;
-            this.boundingCircle.setLocation(
-                this.x + 35, 
-                this.y + 10);
+            this.boundingCircle.setLocation(this.x + 35, this.y + 10);
         }
-        
     }
 
     handleCollision(){
