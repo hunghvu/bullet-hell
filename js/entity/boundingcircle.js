@@ -3,9 +3,24 @@ class BoundingCircle {
         Object.assign(this, {centerX, centerY, radius});
     }
 
+    /**
+     * Use for player only. Might update the implementation later.
+     * @param {number} centerX 
+     * @param {number} centerY 
+     */
     setLocation(centerX, centerY) {
         this.centerX = centerX;
         this.centerY = centerY;
+    }
+
+    /**
+     * Use for enemy only.
+     * @param {number} velX 
+     * @param {number} velY 
+     */
+    setLocationWithVector(velX, velY) {
+        this.centerX += velX;
+        this.centerY += velY;
     }
     
     isCollided(otherBoundingCircle) {

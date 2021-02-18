@@ -45,10 +45,13 @@ class Bullet {
         }
     }
 
+    /**
+     * This function update bullet location with a given vector, used for enemy only. 
+     */
     updateLocationWithVector() {
         this.x += this.vector.velX;
         this.y += this.vector.velY;
-        this.boundingCircle.setLocation(this.x, this.y)
+        this.boundingCircle.setLocationWithVector(this.vector.velX, this.vector.velY);
     }
 
     handleCollision(){

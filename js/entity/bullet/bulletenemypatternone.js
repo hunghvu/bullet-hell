@@ -29,12 +29,13 @@ class BulletEnemyPatternOne {
 
         // Shot once every 10 degree of orb trajectory
         this.previousAngle = weapon.orbAngle;
-        this.bulletAngleInterval = 10;
+        this.bulletAngleInterval = 5;
 
         // Add bounding circle for each bullet, bullet will have its own bounding circle
         this.boundingCircleRadius = 10;
 
         this.buggyBulletRemoved = false;
+        this.frameWidthAndHeight = 16;
         this.bulletOnSceneList = [];
     }
 
@@ -85,33 +86,33 @@ class BulletEnemyPatternOne {
         let bulletOnSceneThree = null;
 
         bulletOnSceneOne = new Bullet(
-            new Animator(this.spriteSheet, 4, 37, 16, 16, this.frameCount, this.frameTime, 0, false, true),
+            new Animator(this.spriteSheet, 4, 37, this.frameWidthAndHeight, this.frameWidthAndHeight, this.frameCount, this.frameTime, 0, false, true),
             this.x1,
             this.y1,
             null,
-            new BoundingCircle(this.x1, this.y1, this.boundingCircleRadius),
+            new BoundingCircle(this.x1 + this.frameWidthAndHeight / 2, this.y1 + this.frameWidthAndHeight / 2, this.boundingCircleRadius),
             this, 1,
-            new Vector(this.x1 - this.weapon.enemyX, this.y1 - this.weapon.enemyY)
+            new Vector(this.x1 - this.weapon.enemy.boundingCircle.centerX, this.y1 - this.weapon.enemy.boundingCircle.centerY)
             );
         
         bulletOnSceneTwo = new Bullet(
-            new Animator(this.spriteSheet, 20, 37, 16, 16, this.frameCount, this.frameTime, 0, false, true),
+            new Animator(this.spriteSheet, 20, 37, this.frameWidthAndHeight, this.frameWidthAndHeight, this.frameCount, this.frameTime, 0, false, true),
             this.x2,
             this.y2,
             null,
-            new BoundingCircle(this.x2, this.y2, this.boundingCircleRadius),
+            new BoundingCircle(this.x2 + this.frameWidthAndHeight / 2, this.y2 + this.frameWidthAndHeight / 2, this.boundingCircleRadius),
             this, 1,
-            new Vector(this.x2 - this.weapon.enemyX, this.y2 - this.weapon.enemyY)
+            new Vector(this.x2 - this.weapon.enemy.boundingCircle.centerX, this.y2 - this.weapon.enemy.boundingCircle.centerY)
             );
 
         bulletOnSceneThree = new Bullet(
-            new Animator(this.spriteSheet, 36, 37, 16, 16, this.frameCount, this.frameTime, 0, false, true),
+            new Animator(this.spriteSheet, 36, 37, this.frameWidthAndHeight, this.frameWidthAndHeight, this.frameCount, this.frameTime, 0, false, true),
             this.x3,
             this.y3,
             null,
-            new BoundingCircle(this.x3, this.y3, this.boundingCircleRadius),
+            new BoundingCircle(this.x3 + this.frameWidthAndHeight / 2, this.y3 + this.frameWidthAndHeight / 2, this.boundingCircleRadius),
             this, 1,
-            new Vector(this.x3 - this.weapon.enemyX, this.y3 - this.weapon.enemyY)
+            new Vector(this.x3 - this.weapon.enemy.boundingCircle.centerX, this.y3 - this.weapon.enemy.boundingCircle.centerY)
             );
         
         if (this.weapon.orbAngle - this.previousAngle === this.bulletAngleInterval || this.weapon.orbAngle === 0) {
