@@ -21,9 +21,9 @@ class Bullet {
      * This function decides whether a bullet is removable from a map.
      */
     isRemovable() {
-        this.y <= 0 || this.y >= 768 || this.x <= 0 || this.y >= 388
+        (this.y <= 0 || this.y >= 768 || this.x <= 0 || this.x >= 388)
         ? this.removeFromWorld = true : this.removeFromWorld = false;
-        return this.y <= 0;
+        return this.removeFromWorld;
     }
 
     /**

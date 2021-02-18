@@ -132,7 +132,7 @@ class BulletEnemyPatternOne {
     privateUpdateBulletLocation(){
         if (this.bulletOnSceneList !== undefined) {
             for (var i = this.bulletOnSceneList.length - 1; i >= 0; i--) {
-                // console.log(this.bulletOnSceneList[i]);
+                // console.log(this.bulletOnSceneList[i].isRemovable());
                 if (this.bulletOnSceneList[i].isRemovable()){
                     this.bulletOnSceneList.splice(i, 1);
                 }  else {
