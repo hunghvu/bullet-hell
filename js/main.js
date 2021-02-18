@@ -5,6 +5,7 @@ let ASSET_MANAGER = new AssetManager();
 // Download sprite sheet
 ASSET_MANAGER.queueDownload("./assets/sprites/playerSprite.png");
 ASSET_MANAGER.queueDownload("./assets/sprites/enemySprite.png");
+ASSET_MANAGER.queueDownload("./assets/sprites/bulletSprite.png");
 
 // Download background
 ASSET_MANAGER.queueDownload("./assets/background-near.png");

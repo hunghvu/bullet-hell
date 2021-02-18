@@ -4,8 +4,8 @@ class EnemyWeapon {
         // Define properties based on enemy.
         this.enemy = enemy
         this.game = enemy.game;
-        this.x = enemy.x;
-        this.y = enemy.y;
+        this.enemyX = enemy.x;
+        this.enemyY = enemy.y;
         this.scaler = enemy.scaler;
         this.frameTime = enemy.frameTime
 
