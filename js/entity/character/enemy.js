@@ -20,7 +20,7 @@ class Enemy extends Character{
         this.enemyFrameHeight = 93;
         this.frameTime = 0.333;
         this.scaler = 1;
-        this.frameCount = 3;
+        this.frameCount = 1;
 
         // Attach weapons to player
         // this.weapon = new Weapon(this);
@@ -37,7 +37,7 @@ class Enemy extends Character{
 
     setEnemyInitialPosition(canvas) {
         this.canvasX = canvas.width / 2 - this.enemyFrameWidth / 2 * this.scaler;
-        this.canvasY = canvas.height / 3;
+        this.canvasY = canvas.height / 5;
     }
 
     loadAnimations() {
@@ -55,6 +55,7 @@ class Enemy extends Character{
 
     update() {
         this.privateUpdateBC();
+        // console.log(this.weapon);
     }
 
     draw(ctx) {

@@ -1,7 +1,7 @@
 /**
  * This class represents player's weapon.
  */
-class Weapon {
+class PlayerWeapon {
     constructor(player) {
         
         // Define properties based on player.
