@@ -23,7 +23,7 @@ class Enemy extends Character{
         this.frameCount = 1;
 
         // Attach weapons to player
-        // this.weapon = new Weapon(this);
+        this.weapon = new EnemyWeapon(this);
         this.boundingCircleRadius = 40;
         this.boundingCircle = new BoundingCircle(this.canvasX + this.enemyFrameWidth / 2, this.canvasY + this.enemyFrameHeight / 2, this.boundingCircleRadius);
 

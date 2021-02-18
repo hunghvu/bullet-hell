@@ -37,7 +37,7 @@ ASSET_MANAGER.downloadAll(function () {
 	let enemy = new Enemy(gameEngine, 100, 100);
 	enemy.setEnemyInitialPosition(canvas);
 	gameEngine.addEntity(enemy);
-	// gameEngine.addEntity(enemy.weapon);
+	gameEngine.addEntity(enemy.weapon);
 	// console.log(enemy.weaponEnemy)
 	// gameEngine.addEntity(enemy.weapon.bullet);
 
