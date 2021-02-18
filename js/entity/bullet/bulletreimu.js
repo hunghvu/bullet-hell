@@ -118,7 +118,7 @@ class BulletReimu {
             this.yLevel1,
             null,
             new BoundingCircle(this.xLevel1, this.yLevel1, this.boundingCircleRadius),
-            this);
+            this, 1);
 
         if (this.bulletState === 1 || this.bulletState === 2) { // Level 2, orange bullet
             // X and Y for left and right are manually tuned.
@@ -132,7 +132,7 @@ class BulletReimu {
                     this.xLevel2_1 - this.weapon.orbFrameWidth * this.scaler, 
                     this.yLevel2_1 - this.weapon.orbFrameHeight * this.scalery, 
                     this.boundingCircleRadius),
-                this);
+                this, 2);
 
             bulletOnSceneTwo_2 = new Bullet(
                 new Animator(this.spriteSheet, 83, 192, 57, 7, this.frameCount, this.frameTime, 0, false, true),
@@ -140,7 +140,7 @@ class BulletReimu {
                 this.yLevel2_2,
                 null,
                 new BoundingCircle(this.xLevel2_2, this.yLevel2_2, this.boundingCircleRadius),
-                this);
+                this, 2);
 
             bulletOnSceneTwo_3 = new Bullet(
                 new Animator(this.spriteSheet, 83, 192, 57, 7, this.frameCount, this.frameTime, 0, false, true),
@@ -148,7 +148,7 @@ class BulletReimu {
                 this.yLevel2_3,
                 null,
                 new BoundingCircle(this.xLevel2_3, this.yLevel2_3, this.boundingCircleRadius),
-                this);
+                this, 2);
 
             bulletOnSceneTwo_4 = new Bullet(
                 new Animator(this.spriteSheet, 83, 192, 57, 7, this.frameCount, this.frameTime, 0, false, true),
@@ -159,7 +159,7 @@ class BulletReimu {
                     this.xLevel2_4 - this.weapon.orbFrameWidth * this.scaler, 
                     this.yLevel2_4 - this.weapon.orbFrameHeight * this.scaler, 
                     this.boundingCircleRadius), 
-                this);
+                this, 2);
             this.bulletSpeed = 50;
         } 
         
@@ -171,7 +171,7 @@ class BulletReimu {
                 this.yLevel3_1,
                 null,
                 new BoundingCircle(this.xLevel3_1, this.yLevel3_1, this.boundingCircleRadius), 
-                this);
+                this, 3);
 
             bulletOnSceneThree_2 = new Bullet(
                 new Animator(this.spriteSheet, 152, 193, 56, 13, this.frameCount, this.frameTime, 0, false, true),
@@ -179,7 +179,7 @@ class BulletReimu {
                 this.yLevel3_2,
                 null,
                 new BoundingCircle(this.xLevel3_2, this.yLevel3_2, this.boundingCircleRadius),
-                this);
+                this, 3);
             this.bulletSpeed = 100;
         }
 

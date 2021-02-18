@@ -73,7 +73,9 @@ class Enemy extends Character{
         this.game.entities.forEach(element => {
                 if (element.boundingCircle && element.boundingCircle !== this.boundingCircle) {
                     if (element.boundingCircle.isCollided(this.boundingCircle)) {
-                        this.damageReceived++;
+                        if (element.damage != undefined){
+                            this.damageReceived += element.damage;
+                        }
                     }
                 }
         })
