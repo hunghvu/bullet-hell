@@ -211,7 +211,7 @@ class BulletReimu {
      */
     privateUpdateBulletLocation(){
         if (this.bulletOnSceneList !== undefined) {
-            for (var i = this.bulletOnSceneList.length - 1; i > 0; i--) {
+            for (var i = this.bulletOnSceneList.length - 1; i >= 0; i--) {
                 if (this.bulletOnSceneList[i].isRemovable()){
                     this.bulletOnSceneList.splice(i, 1);
                 }  else {

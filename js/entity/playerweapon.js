@@ -25,7 +25,7 @@ class PlayerWeapon {
         this.orbFrameWidth = 16;
         this.orbFrameHeight = 16;
 
-        // Max value to initialize orb of screen
+        // Max value to initialize orb off screen
         // Level 1 orb
         this.orbLocationX = Number.MAX_VALUE;
         this.orbLocationY = Number.MAX_VALUE;

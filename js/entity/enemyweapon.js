@@ -22,8 +22,7 @@ class EnemyWeapon {
         this.orbFrameWidth = 16;
         this.orbFrameHeight = 16;
 
-        // Max value to initialize orb of screen
-        // Level 1 orb
+        // Max value to initialize orb off screen
         this.orb1LocationX = Number.MAX_VALUE;
         this.orb1LocationY = Number.MAX_VALUE;
 
@@ -35,7 +34,7 @@ class EnemyWeapon {
 
 
         this.frameCount = 1;
-
+        this.bullet = new BulletEnemyPatternOne(this);
 
         this.loadAnimation();
     }
