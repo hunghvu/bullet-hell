@@ -34,11 +34,10 @@ class BulletEnemyPatternOne {
         this.frameTime = weapon.frameTime;
         
         this.frameCount = 1;
-        this.bulletSpeed = 50;
 
         // Shot once every 10 degree of orb trajectory
         this.previousAngle = weapon.orbAngle;
-        this.bulletAngleInterval = 5;
+        this.bulletAngleInterval = 5; // Must be an integer
 
         // Add bounding circle for each bullet, bullet will have its own bounding circle
         this.boundingCircleRadius = 10;
@@ -125,7 +124,7 @@ class BulletEnemyPatternOne {
             this.y2,
             null,
             new BoundingCircle(this.x2 + this.frameWidthAndHeight / 2, this.y2 + this.frameWidthAndHeight / 2, this.boundingCircleRadius),
-            this, 1,
+            this, 1.5,
             new Vector(this.x2 - this.weapon.enemy.boundingCircle.centerX, this.y2 - this.weapon.enemy.boundingCircle.centerY)
             );
 
@@ -136,7 +135,7 @@ class BulletEnemyPatternOne {
             this.y3,
             null,
             new BoundingCircle(this.x3 + this.frameWidthAndHeight / 2, this.y3 + this.frameWidthAndHeight / 2, this.boundingCircleRadius),
-            this, 1,
+            this, 2,
             new Vector(this.x3 - this.weapon.enemy.boundingCircle.centerX, this.y3 - this.weapon.enemy.boundingCircle.centerY)
             );
 
@@ -147,24 +146,24 @@ class BulletEnemyPatternOne {
             this.y4,
             null,
             new BoundingCircle(this.x4 + this.frameWidthAndHeight / 2, this.y4 + this.frameWidthAndHeight / 2, this.boundingCircleRadius),
-            this, 1,
+            this, 2,
             new Vector(this.x4 - this.weapon.enemy.boundingCircle.centerX, this.y4 - this.weapon.enemy.boundingCircle.centerY)
             );
 
         bulletOnSceneFive = new Bullet(
             this.weapon.enemy,
-            new Animator(this.spriteSheet, 36, 37, this.frameWidthAndHeight, this.frameWidthAndHeight, this.frameCount, this.frameTime, 0, false, true),
+            new Animator(this.spriteSheet, 20, 37, this.frameWidthAndHeight, this.frameWidthAndHeight, this.frameCount, this.frameTime, 0, false, true),
             this.x5,
             this.y5,
             null,
             new BoundingCircle(this.x5 + this.frameWidthAndHeight / 2, this.y5 + this.frameWidthAndHeight / 2, this.boundingCircleRadius),
-            this, 1,
+            this, 1.5,
             new Vector(this.x5 - this.weapon.enemy.boundingCircle.centerX, this.y5 - this.weapon.enemy.boundingCircle.centerY)
             );
 
         bulletOnSceneSix = new Bullet(
             this.weapon.enemy,
-            new Animator(this.spriteSheet, 36, 37, this.frameWidthAndHeight, this.frameWidthAndHeight, this.frameCount, this.frameTime, 0, false, true),
+            new Animator(this.spriteSheet, 4, 37, this.frameWidthAndHeight, this.frameWidthAndHeight, this.frameCount, this.frameTime, 0, false, true),
             this.x6,
             this.y6,
             null,

@@ -29,6 +29,9 @@ class Enemy extends Character{
 
         // Mainly for testing
         this.damageReceived = 0;
+        this.fullHealthCircle = Math.PI * 2
+        this.fullHelathThreshold = 1000;
+        this.levelUpOne = false; // Flag to boost enemy at stage 1.
 
         // load will stays at bottom
         this.loadAnimations();
@@ -54,15 +57,32 @@ class Enemy extends Character{
     }
 
     update() {
+
+        // Stage 1 enemy boost when below they are below 50% health.
+        if (this.damageReceived >= this.fullHelathThreshold / 2 && !this.levelUpOne) {
+            this.weapon.bullet.bulletAngleInterval = this.weapon.bullet.bulletAngleInterval * 60 / 100;
+            this.weapon.orbAngle = 0;
+            // Sudden change in the angle interval so it needs there is a temporary pause so the angle can be in line again ?
+            // Rare bug, work around by reset orb angle.
+            this.levelUpOne = true;
+        }
         this.privateUpdateBC();
-        // console.log(this.weapon);
     }
 
     draw(ctx) {
 
         this.animation[this.animationState].drawFrame(this.game.clockTick, ctx, this.canvasX, this.canvasY, this.scaler);
 
-        // For dev only
+        // Draw HP bar.
+        ctx.beginPath()
+        ctx.lineWidth = 20;
+        ctx.arc(this.boundingCircle.centerX, this.boundingCircle.centerY, this.boundingCircleRadius * 2, -Math.PI / 2, this.fullHealthCircle - Math.PI / 2, false);
+        ctx.strokeStyle = "Red";
+        ctx.stroke();
+        ctx.lineWidth = 1;
+        ctx.closePath();
+
+        // For dev only, draw bounding box.
         ctx.strokeStyle = "Blue";
         ctx.beginPath();
         ctx.arc(this.boundingCircle.centerX, this.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
@@ -76,6 +96,7 @@ class Enemy extends Character{
                     if (element.boundingCircle.isCollided(this.boundingCircle) && element.owner !== this) {
                         if (element.damage != undefined && !element.isCollided){
                             this.damageReceived += element.damage;
+                            this.fullHealthCircle = Math.PI * 2 * (this.fullHelathThreshold - this.damageReceived) / this.fullHelathThreshold;
                             element.isCollided = true;
                         }
                     }
