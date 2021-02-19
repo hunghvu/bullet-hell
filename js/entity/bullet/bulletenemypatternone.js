@@ -201,7 +201,7 @@ class BulletEnemyPatternOne {
                     this.bulletOnSceneList.splice(i, 1);
                 }  else {
                     this.bulletOnSceneList[i].updateLocationWithVector();
-                    this.bulletOnSceneList[i].handleCollision();
+                    // this.bulletOnSceneList[i].handleCollision();
                 }
                 // console.log(this.game.entities);
             }

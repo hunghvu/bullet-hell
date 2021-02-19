@@ -44,7 +44,7 @@ ASSET_MANAGER.downloadAll(function () {
 	// gameEngine.addEntity(enemy.weapon.bullet);
 
 	// Add score info to the game
-	let score = new Score(player.weapon, canvasInfoBoard, enemy);
+	let score = new Score(player.weapon, canvasInfoBoard, enemy, player);
 	gameEngine.addEntity(score);
 
 	// For testing only

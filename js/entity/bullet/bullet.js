@@ -5,6 +5,7 @@ class Bullet {
     constructor(owner,animator, x, y, side, boundingCircle, bulletManager, damage, vector = null){
         Object.assign(this, {owner, animator, x, y, side, boundingCircle, bulletManager, damage, vector});
         this.removeFromWorld = false;
+        this.isCollided = false;
     }
 
     update() {
@@ -54,18 +55,21 @@ class Bullet {
         this.boundingCircle.setLocationWithVector(this.vector.velX, this.vector.velY);
     }
 
-    handleCollision(){
-        this.bulletManager.game.entities.forEach( element => {
-            if (element.boundingCircle 
-                && element.boundingCircle !== this.boundingCircle // Not collide itself
-                && element instanceof Enemy // Bullet should only hit enemy. Not collide with previously shot bullet in some cases
-                ) {
-                if (element.boundingCircle.isCollided(this.boundingCircle)) {
-                    // console.log(element);
-                }
-            }
-    })
-    }
+
+
+
+    // handleCollision(){
+    //     this.bulletManager.game.entities.forEach( element => {
+    //         if (element.boundingCircle 
+    //             && element.boundingCircle !== this.boundingCircle // Not collide itself
+    //             && element instanceof Enemy // Bullet should only hit enemy. Not collide with previously shot bullet in some cases
+    //             ) {
+    //             if (element.boundingCircle.isCollided(this.boundingCircle)) {
+    //                 // console.log(element);
+    //             }
+    //         }
+    // })
+    // }
 
  
 

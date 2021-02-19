@@ -223,7 +223,7 @@ class BulletReimu {
                     this.bulletOnSceneList.splice(i, 1);
                 }  else {
                     this.bulletOnSceneList[i].updateLocation();
-                    this.bulletOnSceneList[i].handleCollision();
+                    // this.bulletOnSceneList[i].handleCollision();
                 }
                 // console.log(this.game.entities);
             }

@@ -27,6 +27,7 @@ class Player extends Character{
 
         this.boundingCircleRadius = 15;
         this.boundingCircle = new BoundingCircle(this.canvasX + this.playerFrameWidth / 2, this.canvasY + this.playerFrameHeight / 2, this.boundingCircleRadius);
+        this.damageReceived = 0;
 
         // load will stays at bottom
         this.loadAnimations();
@@ -108,9 +109,12 @@ class Player extends Character{
     privateUpdateBC(){
         this.boundingCircle.setLocation(this.canvasX + this.playerFrameWidth / 2, this.canvasY + this.playerFrameHeight / 2);
         this.game.entities.forEach( element => {
-                if (element.boundingCircle && element.boundingCircle !== this.boundingCircle) {
-                    if (element.boundingCircle.isCollided(this.boundingCircle)) {
-                        // console.log(element.boundingCircle.isCollided(this.boundingCircle));
+                if (element.boundingCircle && (element.boundingCircle !== this.boundingCircle)) {
+                    if (element.boundingCircle.isCollided(this.boundingCircle) && element.owner !== this) {
+                        if (element.damage != undefined && !element.isCollided){
+                            this.damageReceived += element.damage;
+                            element.isCollided = true;
+                        }
                     }
                 }
         })

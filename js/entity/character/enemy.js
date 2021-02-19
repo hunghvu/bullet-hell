@@ -72,10 +72,11 @@ class Enemy extends Character{
     privateUpdateBC() {
         this.boundingCircle.setLocation(this.canvasX + this.enemyFrameWidth / 2, this.canvasY + this.enemyFrameHeight / 2);
         this.game.entities.forEach(element => {
-                if (element.boundingCircle && element.boundingCircle !== this.boundingCircle) {
+                if (element.boundingCircle && (element.boundingCircle !== this.boundingCircle)) {
                     if (element.boundingCircle.isCollided(this.boundingCircle) && element.owner !== this) {
-                        if (element.damage != undefined){
+                        if (element.damage != undefined && !element.isCollided){
                             this.damageReceived += element.damage;
+                            element.isCollided = true;
                         }
                     }
                 }
