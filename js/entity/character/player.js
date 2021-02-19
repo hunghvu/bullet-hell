@@ -27,7 +27,12 @@ class Player extends Character{
 
         this.boundingCircleRadius = 8;
         this.boundingCircle = new BoundingCircle(this.canvasX + this.playerFrameWidth / 2, this.canvasY + this.playerFrameHeight / 2, this.boundingCircleRadius);
+
         this.damageReceived = 0;
+        this.damageThreshold = 100; // Should be changeable depended on difficulty later on.
+        this.invulnerability = true;
+        this.lastDeadTimeStamp = 0; // Set this to 0 at the beginning so we can have invulnerability period, will update again when dead.
+        this.invulnerabilityPeriod = 3;
 
         // load will stays at bottom
         this.loadAnimations();
@@ -92,6 +97,17 @@ class Player extends Character{
 
     update() {
         this.privateUpdateBC();
+
+        // Invunerable at the beginning and after dead.
+        // console.log(this.game.timer.gameTime - this.lastDeadTimeStamp)
+        if(this.game.timer.gameTime - this.lastDeadTimeStamp >= this.invulnerabilityPeriod) {
+            this.invulnerability = false;
+        }
+        if(this.damageReceived >= this.damageThreshold) {
+            this.lastDeadTimeStamp = this.game.timer.gameTime;
+            this.invulnerability = true;
+            this.damageReceived = 0;
+        }
     }
 
     draw(ctx) {
@@ -111,7 +127,7 @@ class Player extends Character{
         this.game.entities.forEach( element => {
                 if (element.boundingCircle && (element.boundingCircle !== this.boundingCircle)) {
                     if (element.boundingCircle.isCollided(this.boundingCircle) && element.owner !== this) {
-                        if (element.damage != undefined && !element.isCollided){
+                        if (element.damage != undefined && !element.isCollided && !this.invulnerability){
                             this.damageReceived += element.damage;
                             element.isCollided = true;
                         }

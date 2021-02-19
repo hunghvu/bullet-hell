@@ -32,7 +32,7 @@ class Score {
         this.ctxInfoBoard.fillText("Dmg received (enemy): ", 10, 50)
         this.ctxInfoBoard.fillText(this.enemy.damageReceived, 10, 70);
 
-        this.ctxInfoBoard.fillText("Dmg received (player): ", 10, 100)
-        this.ctxInfoBoard.fillText(this.player.damageReceived, 10, 120);
+        this.ctxInfoBoard.fillText("Player's HP: ", 10, 100)
+        this.ctxInfoBoard.fillText(this.player.damageThreshold - this.player.damageReceived, 10, 120);
     }
 }
