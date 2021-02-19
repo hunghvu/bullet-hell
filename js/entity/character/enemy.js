@@ -7,7 +7,8 @@ class Enemy extends Character{
         Object.assign(this, {game, x, y});
 
         // Link sprite sheet
-        this.spriteSheet = ASSET_MANAGER.getAsset("./assets/sprites/enemySprite.png");
+        this.enemySheet = ASSET_MANAGER.getAsset("./assets/sprites/enemySprite.png");
+        this.bulletSheet = ASSET_MANAGER.getAsset("./assets/sprites/bulletSprite.png")
 
         // Frames for animation
         // this.animation = [];
@@ -33,6 +34,11 @@ class Enemy extends Character{
         this.fullHelathThreshold = 1000;
         this.levelUpOne = false; // Flag to boost enemy at stage 1.
 
+
+        this.magicCircleAngle = 0;
+        this.magicCircleSpeed = 1;
+        this.magicCircleFrameWidth = 128;
+        this.magicCircleFrameHeight = 124;
         // load will stays at bottom
         this.loadAnimations();
     }
@@ -45,13 +51,14 @@ class Enemy extends Character{
 
     loadAnimations() {
 
-        let enemyStill = new Animator(this.spriteSheet, 356, 986, this.enemyFrameWidth, this.enemyFrameHeight, this.frameCount, this.frameTime, 0, false, true);
+        let enemyStill = new Animator(this.enemySheet, 356, 986, this.enemyFrameWidth, this.enemyFrameHeight, this.frameCount, this.frameTime, 0, false, true);
         // let playerLeft = new Animator(this.spriteSheet, 16, 64, this.playerFrameWidth, this.playerFrameHeight, this.frameCount, this.frameTime, 0, false, true);
         // let playerRight = new Animator(this.spriteSheet, 16, 112, this.playerFrameWidth, this.playerFrameHeight, this.frameCount, this.frameTime, 0, false, true);
         this.animation.push(enemyStill);
         // this.animation.push(playerLeft);
         // this.animation.push(playerRight);
-
+        let magicCircle = new Animator(this.bulletSheet, 404, 89, this.magicCircleFrameWidth, this.magicCircleFrameHeight, this.frameCount, this.frameTime, 0, false, true);
+        this.animation.push(magicCircle);
 
 
     }
@@ -70,14 +77,14 @@ class Enemy extends Character{
     }
 
     draw(ctx) {
-
+        this.privateDrawMagicCircle(ctx);
         this.animation[this.animationState].drawFrame(this.game.clockTick, ctx, this.canvasX, this.canvasY, this.scaler);
 
         // Draw HP bar.
         ctx.beginPath()
         ctx.lineWidth = 20;
         ctx.arc(this.boundingCircle.centerX, this.boundingCircle.centerY, this.boundingCircleRadius * 2, -Math.PI / 2, this.fullHealthCircle - Math.PI / 2, false);
-        ctx.strokeStyle = "Red";
+        ctx.strokeStyle = "Orange";
         ctx.stroke();
         ctx.lineWidth = 1;
         ctx.closePath();
@@ -88,7 +95,33 @@ class Enemy extends Character{
         ctx.arc(this.boundingCircle.centerX, this.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
         ctx.stroke();
 
+
+
     }
+
+    /**
+     * This function helps draw a magic circle behind an enemy.
+     * @param {context} ctx 
+     */
+    privateDrawMagicCircle(ctx) {
+        let offScreenCanvas = document.createElement("canvas");
+        offScreenCanvas.width = 256;
+        offScreenCanvas.height = 256;
+        let offScreenCtx = offScreenCanvas.getContext("2d");
+        // offScreenCtx.translate(translateX, translateY);
+        offScreenCtx.save();
+        offScreenCtx.translate(128, 128);
+        offScreenCtx.rotate(-this.magicCircleAngle * Math.PI / 180);
+        offScreenCtx.translate(-128, -128);
+        this.magicCircleAngle -= this.magicCircleSpeed;
+        this.animation[1].drawFrame(this.game.clockTick, offScreenCtx, 0, 0, this.scaler * 2);
+        offScreenCtx.restore();
+        ctx.drawImage(offScreenCanvas, 65, 70);  
+    }
+
+    /**
+     * This function help check whether a BC collision happens, and perform approriate actions.
+     */
     privateUpdateBC() {
         this.boundingCircle.setLocation(this.canvasX + this.enemyFrameWidth / 2, this.canvasY + this.enemyFrameHeight / 2);
         this.game.entities.forEach(element => {
