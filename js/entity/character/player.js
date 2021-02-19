@@ -30,6 +30,7 @@ class Player extends Character{
 
         this.damageReceived = 0;
         this.damageThreshold = 100; // Should be changeable depended on difficulty later on.
+        this.initialHealth = 300; // Should be changeable depended on difficulty later on.
         this.invulnerability = true;
         this.lastDeadTimeStamp = 0; // Set this to 0 at the beginning so we can have invulnerability period, will update again when dead.
         this.invulnerabilityPeriod = 3;
@@ -128,8 +129,10 @@ class Player extends Character{
                 if (element.boundingCircle && (element.boundingCircle !== this.boundingCircle)) {
                     if (element.boundingCircle.isCollided(this.boundingCircle) && element.owner !== this) {
                         if (element.damage != undefined && !element.isCollided && !this.invulnerability){
-                            this.damageReceived += element.damage;
-                            element.isCollided = true;
+                            this.damageReceived += element.damage; // Increase damage received. Separately keep track the dmg received so it
+                                                                   //  is easier to modify and use later on.
+                            this.initialHealth -= element.damage; // Reduce HP.
+                            element.isCollided = true; // Bullet can only collide once.
                         }
                     }
                 }
