@@ -21,6 +21,15 @@ class BulletEnemyPatternOne {
         this.x3 = weapon.orb3LocationX;
         this.y3 = weapon.orb3LocationY;
 
+        this.x4 = weapon.orb4LocationX;
+        this.y4 = weapon.orb4LocationY;
+
+        this.x5 = weapon.orb5LocationX;
+        this.y5 = weapon.orb5LocationY;
+
+        this.x6 = weapon.orb6LocationX;
+        this.y6 = weapon.orb6LocationY;
+
         this.scaler = weapon.scaler;
         this.frameTime = weapon.frameTime;
         
@@ -75,6 +84,15 @@ class BulletEnemyPatternOne {
 
         this.x3 = this.weapon.orb3LocationX;
         this.y3 = this.weapon.orb3LocationY;
+
+        this.x4 = this.weapon.orb4LocationX;
+        this.y4 = this.weapon.orb4LocationY;
+
+        this.x5 = this.weapon.orb5LocationX;
+        this.y5 = this.weapon.orb5LocationY;
+
+        this.x6 = this.weapon.orb6LocationX;
+        this.y6 = this.weapon.orb6LocationY;
     }
 
     /**
@@ -84,6 +102,10 @@ class BulletEnemyPatternOne {
         let bulletOnSceneOne = null;
         let bulletOnSceneTwo = null;
         let bulletOnSceneThree = null;
+        let bulletOnSceneFour = null;
+        let bulletOnSceneFive = null;
+        let bulletOnSceneSix = null;
+
 
         bulletOnSceneOne = new Bullet(
             new Animator(this.spriteSheet, 4, 37, this.frameWidthAndHeight, this.frameWidthAndHeight, this.frameCount, this.frameTime, 0, false, true),
@@ -114,6 +136,36 @@ class BulletEnemyPatternOne {
             this, 1,
             new Vector(this.x3 - this.weapon.enemy.boundingCircle.centerX, this.y3 - this.weapon.enemy.boundingCircle.centerY)
             );
+
+        bulletOnSceneFour = new Bullet(
+            new Animator(this.spriteSheet, 36, 37, this.frameWidthAndHeight, this.frameWidthAndHeight, this.frameCount, this.frameTime, 0, false, true),
+            this.x4,
+            this.y4,
+            null,
+            new BoundingCircle(this.x4 + this.frameWidthAndHeight / 2, this.y4 + this.frameWidthAndHeight / 2, this.boundingCircleRadius),
+            this, 1,
+            new Vector(this.x4 - this.weapon.enemy.boundingCircle.centerX, this.y4 - this.weapon.enemy.boundingCircle.centerY)
+            );
+
+        bulletOnSceneFive = new Bullet(
+            new Animator(this.spriteSheet, 36, 37, this.frameWidthAndHeight, this.frameWidthAndHeight, this.frameCount, this.frameTime, 0, false, true),
+            this.x5,
+            this.y5,
+            null,
+            new BoundingCircle(this.x5 + this.frameWidthAndHeight / 2, this.y5 + this.frameWidthAndHeight / 2, this.boundingCircleRadius),
+            this, 1,
+            new Vector(this.x5 - this.weapon.enemy.boundingCircle.centerX, this.y5 - this.weapon.enemy.boundingCircle.centerY)
+            );
+
+        bulletOnSceneSix = new Bullet(
+            new Animator(this.spriteSheet, 36, 37, this.frameWidthAndHeight, this.frameWidthAndHeight, this.frameCount, this.frameTime, 0, false, true),
+            this.x6,
+            this.y6,
+            null,
+            new BoundingCircle(this.x6 + this.frameWidthAndHeight / 2, this.y6 + this.frameWidthAndHeight / 2, this.boundingCircleRadius),
+            this, 1,
+            new Vector(this.x6 - this.weapon.enemy.boundingCircle.centerX, this.y6 - this.weapon.enemy.boundingCircle.centerY)
+            );
         
         if (this.weapon.orbAngle - this.previousAngle === this.bulletAngleInterval || this.weapon.orbAngle === 0) {
             this.bulletOnSceneList.push(bulletOnSceneOne);
@@ -122,6 +174,12 @@ class BulletEnemyPatternOne {
             this.game.addEntity(bulletOnSceneTwo);
             this.bulletOnSceneList.push(bulletOnSceneThree);
             this.game.addEntity(bulletOnSceneThree);
+            this.bulletOnSceneList.push(bulletOnSceneFour);
+            this.game.addEntity(bulletOnSceneFour);
+            this.bulletOnSceneList.push(bulletOnSceneFive);
+            this.game.addEntity(bulletOnSceneFive);
+            this.bulletOnSceneList.push(bulletOnSceneSix);
+            this.game.addEntity(bulletOnSceneSix);
             this.previousAngle = this.weapon.orbAngle;
         }
     }

@@ -25,7 +25,7 @@ class Player extends Character{
         // Attach weapons to player
         this.weapon = new PlayerWeapon(this);
 
-        this.boundingCircleRadius = 20;
+        this.boundingCircleRadius = 15;
         this.boundingCircle = new BoundingCircle(this.canvasX + this.playerFrameWidth / 2, this.canvasY + this.playerFrameHeight / 2, this.boundingCircleRadius);
 
         // load will stays at bottom

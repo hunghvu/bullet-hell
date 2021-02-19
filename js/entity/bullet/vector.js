@@ -3,7 +3,7 @@
  */
 class Vector {
     constructor (x, y) {
-        this.velX = x / 40;
-        this.velY = y / 40;
+        this.velX = x / 30;
+        this.velY = y / 30;
     }
 }
