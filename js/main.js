@@ -10,6 +10,7 @@ ASSET_MANAGER.queueDownload("./assets/sprites/bulletSprite.png");
 // Download background
 ASSET_MANAGER.queueDownload("./assets/background-near.png");
 ASSET_MANAGER.queueDownload("./assets/background-far.png");
+ASSET_MANAGER.queueDownload("./assets/background-score.png");
 
 
 ASSET_MANAGER.downloadAll(function () {
@@ -44,7 +45,7 @@ ASSET_MANAGER.downloadAll(function () {
 	// gameEngine.addEntity(enemy.weapon.bullet);
 
 	// Add score info to the game
-	let score = new Score(player.weapon, canvasInfoBoard, enemy, player);
+	let score = new Score(player.weapon, canvasInfoBoard, enemy, player, gameEngine);
 	gameEngine.addEntity(score);
 
 	// For testing only

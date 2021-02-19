@@ -3,6 +3,8 @@
  */
 class Score {
     constructor (weapon, canvas, enemy, player) {
+
+
         this.weapon = weapon;
         this.bullet = weapon.bullet;
         this.canvas = canvas;
@@ -11,6 +13,9 @@ class Score {
         // There is another canvas for info board to separate from game canvas.
         // Therefore, ctx passed to draw will not be used
         this.ctxInfoBoard = canvas.getContext("2d");
+
+        this.backgroundScore = new Image();
+        this.backgroundScore.src = ASSET_MANAGER.getAsset("./assets/background-score.png").src;
     }
 
     update() {
@@ -19,7 +24,10 @@ class Score {
     }
 
     draw(ctx){
+
+        this.ctxInfoBoard.drawImage(this.backgroundScore, 771, 1, 256, 255, 0, 0, 200, 768);
         this.ctxInfoBoard.font = "20px Arial";
+        this.ctxInfoBoard.fillStyle = "Red";
         // For testing only
         this.ctxInfoBoard.fillText("Dmg received (enemy): ", 10, 50)
         this.ctxInfoBoard.fillText(this.enemy.damageReceived, 10, 70);
