@@ -113,6 +113,7 @@ class BulletReimu {
 
         // Level 1
         bulletOnSceneOne = new Bullet(
+            this.weapon.player,
             new Animator(this.spriteSheet, 15, 193, 65, 13, this.frameCount, this.frameTime, 0, false, true),
             this.xLevel1,
             this.yLevel1,
@@ -124,6 +125,7 @@ class BulletReimu {
             // X and Y for left and right are manually tuned.
             // X and Y are initial locations of a bullet on screen, which are used to draw.
             bulletOnSceneTwo_1 = new Bullet(
+                this.weapon.player,
                 new Animator(this.spriteSheet, 83, 192, 57, 7, this.frameCount, this.frameTime, 0, false, true),
                 this.xLevel2_1 - this.weapon.orbFrameWidth * this.scaler,
                 this.yLevel2_1 - this.weapon.orbFrameHeight * this.scaler,
@@ -135,6 +137,7 @@ class BulletReimu {
                 this, 2);
 
             bulletOnSceneTwo_2 = new Bullet(
+                this.weapon.player,
                 new Animator(this.spriteSheet, 83, 192, 57, 7, this.frameCount, this.frameTime, 0, false, true),
                 this.xLevel2_2,
                 this.yLevel2_2,
@@ -143,6 +146,7 @@ class BulletReimu {
                 this, 2);
 
             bulletOnSceneTwo_3 = new Bullet(
+                this.weapon.player,
                 new Animator(this.spriteSheet, 83, 192, 57, 7, this.frameCount, this.frameTime, 0, false, true),
                 this.xLevel2_3,
                 this.yLevel2_3,
@@ -151,6 +155,7 @@ class BulletReimu {
                 this, 2);
 
             bulletOnSceneTwo_4 = new Bullet(
+                this.weapon.player,
                 new Animator(this.spriteSheet, 83, 192, 57, 7, this.frameCount, this.frameTime, 0, false, true),
                 this.xLevel2_4 - this.weapon.orbFrameWidth * this.scaler,
                 this.yLevel2_4 - this.weapon.orbFrameHeight * this.scaler,
@@ -166,6 +171,7 @@ class BulletReimu {
         // Also change bullet speed from 50 to 100.
         if (this.bulletState === 2) { // Level 3, purple bullet
             bulletOnSceneThree_1 = new Bullet(
+                this.weapon.player,
                 new Animator(this.spriteSheet, 152, 193, 56, 13, this.frameCount, this.frameTime, 0, false, true),
                 this.xLevel3_1,
                 this.yLevel3_1,
@@ -174,6 +180,7 @@ class BulletReimu {
                 this, 3);
 
             bulletOnSceneThree_2 = new Bullet(
+                this.weapon.player,
                 new Animator(this.spriteSheet, 152, 193, 56, 13, this.frameCount, this.frameTime, 0, false, true),
                 this.xLevel3_2,
                 this.yLevel3_2,

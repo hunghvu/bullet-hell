@@ -2,8 +2,8 @@
  * This class represents a generic bullet in game.
  */
 class Bullet {
-    constructor(animator, x, y, side, boundingCircle, bulletManager, damage, vector = null){
-        Object.assign(this, {animator, x, y, side, boundingCircle, bulletManager, damage, vector});
+    constructor(owner,animator, x, y, side, boundingCircle, bulletManager, damage, vector = null){
+        Object.assign(this, {owner, animator, x, y, side, boundingCircle, bulletManager, damage, vector});
         this.removeFromWorld = false;
     }
 

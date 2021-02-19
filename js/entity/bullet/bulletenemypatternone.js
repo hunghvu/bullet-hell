@@ -108,6 +108,7 @@ class BulletEnemyPatternOne {
 
 
         bulletOnSceneOne = new Bullet(
+            this.weapon.enemy,
             new Animator(this.spriteSheet, 4, 37, this.frameWidthAndHeight, this.frameWidthAndHeight, this.frameCount, this.frameTime, 0, false, true),
             this.x1,
             this.y1,
@@ -118,6 +119,7 @@ class BulletEnemyPatternOne {
             );
         
         bulletOnSceneTwo = new Bullet(
+            this.weapon.enemy,
             new Animator(this.spriteSheet, 20, 37, this.frameWidthAndHeight, this.frameWidthAndHeight, this.frameCount, this.frameTime, 0, false, true),
             this.x2,
             this.y2,
@@ -128,6 +130,7 @@ class BulletEnemyPatternOne {
             );
 
         bulletOnSceneThree = new Bullet(
+            this.weapon.enemy,
             new Animator(this.spriteSheet, 36, 37, this.frameWidthAndHeight, this.frameWidthAndHeight, this.frameCount, this.frameTime, 0, false, true),
             this.x3,
             this.y3,
@@ -138,6 +141,7 @@ class BulletEnemyPatternOne {
             );
 
         bulletOnSceneFour = new Bullet(
+            this.weapon.enemy,
             new Animator(this.spriteSheet, 36, 37, this.frameWidthAndHeight, this.frameWidthAndHeight, this.frameCount, this.frameTime, 0, false, true),
             this.x4,
             this.y4,
@@ -148,6 +152,7 @@ class BulletEnemyPatternOne {
             );
 
         bulletOnSceneFive = new Bullet(
+            this.weapon.enemy,
             new Animator(this.spriteSheet, 36, 37, this.frameWidthAndHeight, this.frameWidthAndHeight, this.frameCount, this.frameTime, 0, false, true),
             this.x5,
             this.y5,
@@ -158,6 +163,7 @@ class BulletEnemyPatternOne {
             );
 
         bulletOnSceneSix = new Bullet(
+            this.weapon.enemy,
             new Animator(this.spriteSheet, 36, 37, this.frameWidthAndHeight, this.frameWidthAndHeight, this.frameCount, this.frameTime, 0, false, true),
             this.x6,
             this.y6,
