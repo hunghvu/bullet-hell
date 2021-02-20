@@ -34,6 +34,7 @@ class Enemy extends Character{
         this.initialHealth = 1000;
         this.levelUpOne = false; // Flag to boost enemy at stage 1.
 
+        this.damage = 3;
 
         this.magicCircleAngle = 0;
         this.magicCircleSpeed = 1;

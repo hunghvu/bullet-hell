@@ -170,7 +170,7 @@ class Player extends Character{
                             this.damageReceived += element.damage; // Increase damage received. Separately keep track the dmg received so it
                                                                    //  is easier to modify and use later on.
                             this.initialHealth -= element.damage; // Reduce HP.
-                            element.isCollided = true; // Bullet can only collide once.
+                            element instanceof Bullet ? element.isCollided = true : element.isCollided = false; // Bullet can only collide once.
                         }
                     }
                 }

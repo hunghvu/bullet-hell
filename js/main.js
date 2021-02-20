@@ -46,6 +46,7 @@ function createMainMenu(){
 	mainMenu.addMainMenuListener(canvas);
 	mainMenu.setInitialButtonLocation(canvas);
 	gameEngine.addEntity(mainMenu);
+	console.log(gameEngine.entities)
 	gameEngine.start();
 }
 
@@ -107,8 +108,9 @@ function clearGameEngine() {
 	// ctxInfoBoard.clearRect(0, 0, 1000, 1000);
 	// Nullify all objects so they can be garbage collected.
 	for(let i = gameEngine.entities.length - 1; i >= 0; i --) {
-		gameEngine.entities[i] = null;
-		gameEngine.entities.splice(i, 1);
+		// gameEngine.entities[i] = null; // Forcing remove items not through game engine cause uncaught type err undefined.
+		// gameEngine.entities.splice(i, 1);
+		gameEngine.entities[i].removeFromWorld = true;
 	}
 	gameEngine = null;
 	gameEngine = new GameEngine(); // Start a new game engine.
