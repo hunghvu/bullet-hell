@@ -29,7 +29,9 @@ window.onload = () => {
 	canvasInfoBoard = document.getElementById("infoBoard");
 	ctxInfoBoard = canvasInfoBoard.getContext("2d");
 
-	createMainMenu();
+	ASSET_MANAGER.downloadAll(() => {
+		createMainMenu();
+	})
 	
 }
 
@@ -38,16 +40,13 @@ window.onload = () => {
 
 // This function will display a main menu for the game.
 function createMainMenu(){
-
-	ASSET_MANAGER.downloadAll(() => {
-		clearGameEngine();
-		gameEngine.init(ctx);
-		let mainMenu = new MenuMain(gameEngine, 100, 100);
-		mainMenu.addMainMenuListener(canvas);
-		mainMenu.setInitialButtonLocation(canvas);
-		gameEngine.addEntity(mainMenu);
-		gameEngine.start();
-	})
+	clearGameEngine();
+	gameEngine.init(ctx);
+	let mainMenu = new MenuMain(gameEngine, 100, 100);
+	mainMenu.addMainMenuListener(canvas);
+	mainMenu.setInitialButtonLocation(canvas);
+	gameEngine.addEntity(mainMenu);
+	gameEngine.start();
 }
 
 /**
