@@ -26,10 +26,10 @@ class Score {
     draw(ctx){
 
         this.ctxInfoBoard.drawImage(this.backgroundScore, 771, 1, 256, 255, 0, 0, 200, 768);
-        this.ctxInfoBoard.font = "20px Arial";
+        this.ctxInfoBoard.font = "24px Akaya Kanadaka";
         this.ctxInfoBoard.fillStyle = "Red";
         // For testing only
-        this.ctxInfoBoard.fillText("Dmg received (enemy): ", 10, 50)
+        this.ctxInfoBoard.fillText("Enemy's HP: ", 10, 50)
         this.ctxInfoBoard.fillText(this.enemy.initialHealth - this.enemy.damageReceived, 10, 70);
 
         this.ctxInfoBoard.fillText("Player's HP: ", 10, 100)

@@ -13,6 +13,7 @@ ASSET_MANAGER.queueDownload("./assets/background-far.png");
 ASSET_MANAGER.queueDownload("./assets/background-score.png");
 
 window.onload = () => {
+	// These must stays out side of function to have bigger scope.
 	let gameDiv = document.getElementById("gameScreen");
 
 	let canvas = document.getElementById("gameWorld");
@@ -21,24 +22,35 @@ window.onload = () => {
 	let canvasInfoBoard = document.getElementById("infoBoard");
 	let ctxInfoBoard = canvasInfoBoard.getContext("2d");
 
-	ASSET_MANAGER.downloadAll(() => {
-		let menuBackground = new Image(); // Set up menu background.
-		menuBackground.src = ASSET_MANAGER.getAsset("./assets/background-score.png").src;
-		ctx.drawImage(menuBackground, 513, 256, 256, 255, 0, 0, 388, 768);
 
-		
-        let infoBoardBackground = new Image(); // Set up infoboard background, kind of redundant because it is hidden.
-        infoBoardBackground.src = ASSET_MANAGER.getAsset("./assets/background-score.png").src;
-		ctxInfoBoard.drawImage(infoBoardBackground, 771, 1, 256, 255, 0, 0, 200, 768);
+	
+	createMainMenu();
+	
+	// This function will display a main menu for the game.
+	function createMainMenu(){
+	
+		ASSET_MANAGER.downloadAll(() => {
+			let menuBackground = new Image(); // Set up menu background.
+			menuBackground.src = ASSET_MANAGER.getAsset("./assets/background-score.png").src;
+			ctx.drawImage(menuBackground, 513, 256, 256, 255, 0, 0, 388, 768);
+	
+			
+			let infoBoardBackground = new Image(); // Set up infoboard background, kind of redundant because it is hidden.
+			infoBoardBackground.src = ASSET_MANAGER.getAsset("./assets/background-score.png").src;
+			ctxInfoBoard.drawImage(infoBoardBackground, 771, 1, 256, 255, 0, 0, 200, 768);
+	
+			// For testing only.
+			let startButton = document.createElement("button");
+			startButton.innerHTML = "Start";
+			startButton.onclick = startGame;
+			gameDiv.appendChild(startButton);
+			// console.log(gameDiv);
+		})
+	}
 
-		// For testing only.
-		let startButton = document.createElement("button");
-		startButton.innerHTML = "Start";
-		startButton.onclick = startGame;
-		gameDiv.appendChild(startButton);
-		// console.log(gameDiv);
-	})
-
+	/**
+	 * This function will start a game.
+	 */
 	function startGame() {
 		ctx.clearRect(0, 0, 1000, 1000); // Clear canvas
 		ctxInfoBoard.clearRect(0, 0, 1000, 1000);
