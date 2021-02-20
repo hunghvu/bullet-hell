@@ -1,5 +1,5 @@
 /**
- * This class represent a menu shown after a player is dead.
+ * This class represent a match conclusion menu.
  */
 class MenuResult {
     constructor(game, x, y, result) {
@@ -24,6 +24,9 @@ class MenuResult {
         this.startButtonCtx = this.startButtonCanvas.getContext("2d");
 
         this.buttonHover = false;
+
+        this.result ? ASSET_MANAGER.playAsset("./assets/sound/background-win.mp3") : ASSET_MANAGER.playAsset("./assets/sound/background-defeat.mp3");
+        ASSET_MANAGER.adjustVolume(0.3);
 
 
     }
@@ -56,7 +59,7 @@ class MenuResult {
 
     privateDrawButton(ctx) {
 
-        this.startButtonCanvas.width = 200;
+        this.startButtonCanvas.width = 250;
         this.startButtonCanvas.height = 125;
 
         this.startButtonCtx.font = "44px Akaya Kanadaka";
@@ -73,7 +76,7 @@ class MenuResult {
         } else {
             this.result ? this.startButtonCtx.fillStyle = "Orange" : this.startButtonCtx.fillStyle = "White";
         }
-        this.result ? this.startButtonCtx.fillText("Play again?", 0, 50) : this.startButtonCtx.fillText("Try again?", 0, 100); // Origin of fill text is bottom left, not top left.
+        this.result ? this.startButtonCtx.fillText("Play again?", 0, 100) : this.startButtonCtx.fillText("Try again?", 0, 100); // Origin of fill text is bottom left, not top left.
         ctx.drawImage(this.startButtonCanvas, this.startButtonAreaX, this.startButtonAreaY);
     }
 

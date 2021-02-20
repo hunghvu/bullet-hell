@@ -18,6 +18,7 @@ class Background {
         this.canvas = null;
 
         // Background music.
+        ASSET_MANAGER.pauseBackgroundMusic();
         ASSET_MANAGER.playAsset("./assets/sound/background-ingame.mp3")
         ASSET_MANAGER.adjustVolume(0.3);
     }

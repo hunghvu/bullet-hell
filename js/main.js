@@ -15,6 +15,8 @@ ASSET_MANAGER.queueDownload("./assets/background-score.png");
 
 // Download sound
 ASSET_MANAGER.queueDownload("./assets/sound/background-ingame.mp3");
+ASSET_MANAGER.queueDownload("./assets/sound/background-win.mp3");
+ASSET_MANAGER.queueDownload("./assets/sound/background-defeat.mp3");
 
 let canvas = null;
 let ctx = null;
@@ -57,7 +59,7 @@ function createMainMenu(){
 }
 
 function createResultMenu (result){
-	ASSET_MANAGER.muteAudio("./assets/sound/background-ingame.mp3");
+	ASSET_MANAGER.pauseBackgroundMusic();
 	clearGameEngine();
 	let resultMenu = new MenuResult(gameEngine, 100, 100, result);
 	resultMenu.addMainMenuListener(canvas);
