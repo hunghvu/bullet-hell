@@ -8,6 +8,7 @@ class Player extends Character{
 
         // Link sprite sheet
         this.spriteSheet = ASSET_MANAGER.getAsset("./assets/sprites/playerSprite.png");
+        this.bulletSheet = ASSET_MANAGER.getAsset("./assets/sprites/bulletSprite.png")
 
         // Frames for animation
         // this.animation = [];
@@ -34,6 +35,14 @@ class Player extends Character{
         this.invulnerability = true;
         this.lastDeadTimeStamp = 0; // Set this to 0 at the beginning so we can have invulnerability period, will update again when dead.
         this.invulnerabilityPeriod = 3;
+
+        // Draw barrier which appears when invurnerable
+        
+        // this.barrierAngle = 0;
+        // this.barrierSpeed = 1;
+
+        this.barrierAngle = 0;
+        this.barrierSpeed = 120; // Fast rotation so look like an energy field.
 
         // load will stays at bottom
         this.loadAnimations();
@@ -92,7 +101,8 @@ class Player extends Character{
         this.animation.push(playerLeft);
         this.animation.push(playerRight);
 
-
+        let playerBarrier = new Animator(this.bulletSheet, 404, 23, 63, 63, 1, this.frameTime, 0, false, true);
+        this.animation.push(playerBarrier);
 
     }
 
@@ -121,6 +131,30 @@ class Player extends Character{
         ctx.arc(this.boundingCircle.centerX, this.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
         ctx.stroke();
 
+        if (this.invulnerability) {
+            this.privateDrawBarrier(ctx);
+        }
+
+    }
+
+    /**
+     * This function helps draw a barrier after a player HP reduce to a certain threshold.
+     * @param {context} ctx 
+     */
+    privateDrawBarrier(ctx) {
+        let offScreenCanvas = document.createElement("canvas");
+        offScreenCanvas.width = 128;
+        offScreenCanvas.height = 128;
+        let offScreenCtx = offScreenCanvas.getContext("2d");
+        // offScreenCtx.translate(translateX, translateY);
+        offScreenCtx.save();
+        offScreenCtx.translate(64, 64);
+        offScreenCtx.rotate(-this.barrierAngle * Math.PI / 180);
+        offScreenCtx.translate(-64, -64);
+        this.barrierAngle += this.barrierSpeed;
+        this.animation[3].drawFrame(this.game.clockTick, offScreenCtx, 0, 0, this.scaler * 2);
+        offScreenCtx.restore();
+        ctx.drawImage(offScreenCanvas, this.canvasX - this.playerFrameWidth - 15, this.canvasY - this.playerFrameHeight);  // Hard coded value so reimu appears in the middle.
     }
 
     privateUpdateBC(){
