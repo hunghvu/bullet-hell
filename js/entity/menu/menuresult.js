@@ -2,8 +2,8 @@
  * This class represent a menu shown after a player is dead.
  */
 class MenuResult {
-    constructor(game, x, y) {
-        Object.assign(this, { game, x, y });
+    constructor(game, x, y, result) {
+        Object.assign(this, { game, x, y, result }); // result false means lost, true otherwise.
         this.background = new Image(); // Set up menu background.
         this.background.src = ASSET_MANAGER.getAsset("./assets/background-score.png").src;
 
@@ -49,7 +49,7 @@ class MenuResult {
 
     draw(ctx) {
         // console.log(true);
-        ctx.drawImage(this.background, 256, 1, 256, 255, 0, 0, 388, 768);
+        this.result ? ctx.drawImage(this.background, 256, 257, 256, 255, 0, 0, 388, 768) : ctx.drawImage(this.background, 256, 1, 256, 255, 0, 0, 388, 768);
         this.privateDrawButton(ctx);
         // this.ctxInfoBoard.drawImage(this.infoBoardBackground, 771, 1, 256, 255, 0, 0, 200, 768);
     }
@@ -61,7 +61,7 @@ class MenuResult {
 
         this.startButtonCtx.font = "44px Akaya Kanadaka";
         this.startButtonCtx.fillStyle = "White";
-        this.startButtonCtx.fillText("You lose.", 0, 50);
+        this.result ? this.startButtonCtx.fillText("You win.", 0, 50) : this.startButtonCtx.fillText("You lose.", 0, 50);
         // Button effect.
         if(this.buttonHover) {
             // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/shadowColor

@@ -53,9 +53,9 @@ function createMainMenu(){
 	}
 }
 
-function createResultMenu (){
+function createResultMenu (result){
 	clearGameEngine();
-	let resultMenu = new MenuResult(gameEngine, 100, 100);
+	let resultMenu = new MenuResult(gameEngine, 100, 100, result);
 	resultMenu.addMainMenuListener(canvas);
 	resultMenu.setInitialButtonLocation(canvas);
 	gameEngine.addEntity(resultMenu);
