@@ -23,13 +23,16 @@
     <script type="text/javascript" src="./js/entity/bullet/vector.js"></script>
     <!-- <script type="text/javascript" src="./js/entity/bulletreimu.js"></script> -->
 
-    <script type="text/javascript" src="./js/infoboard/score.js"></script>
+    <script type="text/javascript" src="./js/infoboard/infoboard.js"></script>
 
     <script type="text/javascript" src="./js/main.js"></script>
 </head>
 <body>
-    <canvas id="gameWorld" width="388" height="768" style="background: white; border: 1px solid black; display: block; float: left;"></canvas>
-    <canvas id="infoBoard" width="200" height="768" style="background: white; border: 1px solid black;"></canvas>
+    <div id="gameScreen">
+        <canvas id="gameWorld" width="388" height="768" style="background: white; border: 1px solid black; display: block; float: left;"></canvas>
+    </div>
+    
+    <canvas id="infoBoard" width="200" height="768" style="background: white; border: 1px solid black; visibility: hidden;"></canvas>
     <p>Sprite credit: ZUN and Team Shanghai Alice</p>
     <b><p>Hover mouse over canvas to move the character.</p></b>
     <b><p>Press J to change weapon state.</p></b>
