@@ -73,7 +73,7 @@ class MenuResult {
         } else {
             this.result ? this.startButtonCtx.fillStyle = "Orange" : this.startButtonCtx.fillStyle = "White";
         }
-        this.startButtonCtx.fillText("Try again?", 0, 100); // Origin of fill text is bottom left, not top left.
+        this.result ? this.startButtonCtx.fillText("Play again?", 0, 50) : this.startButtonCtx.fillText("Try again?", 0, 100); // Origin of fill text is bottom left, not top left.
         ctx.drawImage(this.startButtonCanvas, this.startButtonAreaX, this.startButtonAreaY);
     }
 

@@ -16,6 +16,10 @@ class Background {
         this.backgroundFar.src = ASSET_MANAGER.getAsset("./assets/background-far.png").src;
         this.backgroundFarPositionY = 0;
         this.canvas = null;
+
+        // Background music.
+        ASSET_MANAGER.playAsset("./assets/sound/background-ingame.mp3")
+        ASSET_MANAGER.adjustVolume(0.3);
     }
 
     setBackgroundInitialPosition(canvas){
