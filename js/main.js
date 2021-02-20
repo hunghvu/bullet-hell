@@ -46,11 +46,19 @@ function createMainMenu(){
 	mainMenu.addMainMenuListener(canvas);
 	mainMenu.setInitialButtonLocation(canvas);
 	gameEngine.addEntity(mainMenu);
-	console.log(gameEngine.entities)
+	// console.log(gameEngine.entities)
 	if(!isStart) {
 		gameEngine.start();
 		isStart = true;
 	}
+}
+
+function createResultMenu (){
+	clearGameEngine();
+	let resultMenu = new MenuResult(gameEngine, 100, 100);
+	resultMenu.addMainMenuListener(canvas);
+	resultMenu.setInitialButtonLocation(canvas);
+	gameEngine.addEntity(resultMenu);
 }
 
 /**

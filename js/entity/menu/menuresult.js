@@ -1,7 +1,7 @@
 /**
- * This class represents main menu of the game.
+ * This class represent a menu shown after a player is dead.
  */
-class MenuMain {
+class MenuResult {
     constructor(game, x, y) {
         Object.assign(this, { game, x, y });
         this.background = new Image(); // Set up menu background.
@@ -37,8 +37,8 @@ class MenuMain {
 
     setInitialButtonLocation(canvas) {
         //Menu choices location
-        this.startButtonAreaX = canvas.width / 12 * 5;
-        this.startButtonAreaY = canvas.height / 5 * 3 - 50; // Origin of fill text is bottom left, not top left (?)
+        this.startButtonAreaX = canvas.width / 12 * 4;
+        this.startButtonAreaY = canvas.height / 5 * 2; // Origin of fill text is bottom left, not top left (?)
     }
 
 
@@ -49,17 +49,19 @@ class MenuMain {
 
     draw(ctx) {
         // console.log(true);
-        ctx.drawImage(this.background, 513, 256, 256, 255, 0, 0, 388, 768);
+        ctx.drawImage(this.background, 256, 1, 256, 255, 0, 0, 388, 768);
         this.privateDrawButton(ctx);
         // this.ctxInfoBoard.drawImage(this.infoBoardBackground, 771, 1, 256, 255, 0, 0, 200, 768);
     }
 
     privateDrawButton(ctx) {
 
-        this.startButtonCanvas.width = 100;
-        this.startButtonCanvas.height = 75;
+        this.startButtonCanvas.width = 200;
+        this.startButtonCanvas.height = 125;
 
         this.startButtonCtx.font = "44px Akaya Kanadaka";
+        this.startButtonCtx.fillStyle = "White";
+        this.startButtonCtx.fillText("You lose.", 0, 50);
         // Button effect.
         if(this.buttonHover) {
             // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/shadowColor
@@ -71,7 +73,7 @@ class MenuMain {
         } else {
             this.startButtonCtx.fillStyle = "White";
         }
-        this.startButtonCtx.fillText("Start", 0, 50); // Origin of fill text is bottom left, not top left.
+        this.startButtonCtx.fillText("Try again?", 0, 100); // Origin of fill text is bottom left, not top left.
         ctx.drawImage(this.startButtonCanvas, this.startButtonAreaX, this.startButtonAreaY);
     }
 
@@ -81,8 +83,8 @@ class MenuMain {
         let newMouseX = event.clientX - canvasRect.left;
         let newMouseY = event.clientY - canvasRect.top;
 
-        if (newMouseX >= this.startButtonAreaX && newMouseX <= this.startButtonAreaX + 100
-            && newMouseY >= this.startButtonAreaY && newMouseY <= this.startButtonAreaY + 50) {
+        if(newMouseX >= this.startButtonAreaX && newMouseX <= this.startButtonAreaX + 200
+            && newMouseY >= this.startButtonAreaY + 50 && newMouseY <= this.startButtonAreaY + 100) {
             startGame();
         }
     }
@@ -93,8 +95,8 @@ class MenuMain {
         let newMouseX = event.clientX - canvasRect.left;
         let newMouseY = event.clientY - canvasRect.top;
 
-        if(newMouseX >= this.startButtonAreaX && newMouseX <= this.startButtonAreaX + 100
-            && newMouseY >= this.startButtonAreaY && newMouseY <= this.startButtonAreaY + 50) {
+        if(newMouseX >= this.startButtonAreaX && newMouseX <= this.startButtonAreaX + 200
+            && newMouseY >= this.startButtonAreaY + 50 && newMouseY <= this.startButtonAreaY + 100) {
             this.buttonHover = true;
         } else {
             this.buttonHover = false;
