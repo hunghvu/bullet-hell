@@ -34,9 +34,9 @@ class Score {
 
         this.ctxInfoBoard.fillText("Player's HP: ", 10, 100)
         this.ctxInfoBoard.fillText(this.player.initialHealth, 10, 120);
-        // if (this.enemy.initialHealth <= 0) {
-        //     createResultMenu(true);
-        // }
+        if (this.enemy.initialHealth - this.enemy.damageReceived <= 0) {
+            createResultMenu(true);
+        }
         if (this.player.initialHealth <= 0) { // This is put here, rather then in player b/c the info should be printed before display match result.
             createResultMenu(false);
         }

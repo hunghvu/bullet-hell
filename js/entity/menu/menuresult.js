@@ -60,7 +60,7 @@ class MenuResult {
         this.startButtonCanvas.height = 125;
 
         this.startButtonCtx.font = "44px Akaya Kanadaka";
-        this.startButtonCtx.fillStyle = "White";
+        this.result ? this.startButtonCtx.fillStyle = "Orange" : this.startButtonCtx.fillStyle = "White";
         this.result ? this.startButtonCtx.fillText("You win.", 0, 50) : this.startButtonCtx.fillText("You lose.", 0, 50);
         // Button effect.
         if(this.buttonHover) {
@@ -71,7 +71,7 @@ class MenuResult {
             this.startButtonCtx.shadowOffsetY = 0;
             this.startButtonCtx.fillStyle = "Red" 
         } else {
-            this.startButtonCtx.fillStyle = "White";
+            this.result ? this.startButtonCtx.fillStyle = "Orange" : this.startButtonCtx.fillStyle = "White";
         }
         this.startButtonCtx.fillText("Try again?", 0, 100); // Origin of fill text is bottom left, not top left.
         ctx.drawImage(this.startButtonCanvas, this.startButtonAreaX, this.startButtonAreaY);

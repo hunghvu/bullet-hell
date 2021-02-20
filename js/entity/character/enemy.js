@@ -31,7 +31,7 @@ class Enemy extends Character{
         // Mainly for testing
         this.damageReceived = 0;
         this.fullHealthCircle = Math.PI * 2
-        this.initialHealth = 1000;
+        this.initialHealth = 1000; // Cannot modify initial health directly as it's used like a const to draw hp circle.
         this.levelUpOne = false; // Flag to boost enemy at stage 1.
 
         this.damage = 3;
