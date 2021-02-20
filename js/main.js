@@ -23,6 +23,7 @@ window.onload = () => {
 	let ctxInfoBoard = canvasInfoBoard.getContext("2d");
 
 
+
 	
 	createMainMenu();
 	
@@ -30,21 +31,20 @@ window.onload = () => {
 	function createMainMenu(){
 	
 		ASSET_MANAGER.downloadAll(() => {
-			let menuBackground = new Image(); // Set up menu background.
-			menuBackground.src = ASSET_MANAGER.getAsset("./assets/background-score.png").src;
-			ctx.drawImage(menuBackground, 513, 256, 256, 255, 0, 0, 388, 768);
-	
-			
-			let infoBoardBackground = new Image(); // Set up infoboard background, kind of redundant because it is hidden.
-			infoBoardBackground.src = ASSET_MANAGER.getAsset("./assets/background-score.png").src;
-			ctxInfoBoard.drawImage(infoBoardBackground, 771, 1, 256, 255, 0, 0, 200, 768);
-	
+			clearGameEngine();
+			gameEngine.init(ctx);
+			let mainMenu = new MenuMain(gameEngine, 100, 100);
+			mainMenu.addMainMenuListener(canvas);
+			mainMenu.setInitialButtonLocation(canvas);
+			gameEngine.addEntity(mainMenu);
+			gameEngine.start();
+
 			// For testing only.
 			let startButton = document.createElement("button");
 			startButton.innerHTML = "Start";
 			startButton.onclick = startGame;
 			gameDiv.appendChild(startButton);
-			// console.log(gameDiv);
+			console.log(gameDiv);
 		})
 	}
 
@@ -52,16 +52,8 @@ window.onload = () => {
 	 * This function will start a game.
 	 */
 	function startGame() {
-		ctx.clearRect(0, 0, 1000, 1000); // Clear canvas
-		ctxInfoBoard.clearRect(0, 0, 1000, 1000);
-		// Nullify all objects so they can be garbage collected.
-		for(let i = gameEngine.entities.length - 1; i >= 0; i --) {
-			gameEngine.entities[i] = null;
-			gameEngine.entities.splice(i, 1);
-		}
-		gameEngine = null;
-		gameEngine = new GameEngine(); // Start a new game engine.
 
+		clearGameEngine();
 		gameEngine.init(ctx);
 		
 		// Order is important, being added first means being drawn first
@@ -107,6 +99,18 @@ window.onload = () => {
 			}
 		});
 		gameEngine.start();
+	}
+
+	function clearGameEngine() {
+		ctx.clearRect(0, 0, 1000, 1000); // Clear canvas
+		ctxInfoBoard.clearRect(0, 0, 1000, 1000);
+		// Nullify all objects so they can be garbage collected.
+		for(let i = gameEngine.entities.length - 1; i >= 0; i --) {
+			gameEngine.entities[i] = null;
+			gameEngine.entities.splice(i, 1);
+		}
+		gameEngine = null;
+		gameEngine = new GameEngine(); // Start a new game engine.
 	}
 }
 
