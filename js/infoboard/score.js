@@ -30,7 +30,7 @@ class Score {
         this.ctxInfoBoard.fillStyle = "Red";
         // For testing only
         this.ctxInfoBoard.fillText("Dmg received (enemy): ", 10, 50)
-        this.ctxInfoBoard.fillText(this.enemy.damageReceived, 10, 70);
+        this.ctxInfoBoard.fillText(this.enemy.initialHealth - this.enemy.damageReceived, 10, 70);
 
         this.ctxInfoBoard.fillText("Player's HP: ", 10, 100)
         this.ctxInfoBoard.fillText(this.player.initialHealth, 10, 120);
