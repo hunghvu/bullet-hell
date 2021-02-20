@@ -2,8 +2,8 @@
  * This class represents background of the game.
  */
 class MenuMain {
-    constructor (game, x, y){
-        Object.assign(this, {game, x, y});
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y });
         this.background = new Image(); // Set up menu background.
         this.background.src = ASSET_MANAGER.getAsset("./assets/background-score.png").src;
 
@@ -21,49 +21,36 @@ class MenuMain {
         this.startButtonAreaY = 0;
 
         this.startButtonCanvas = document.createElement("canvas");
-        this.startButtonCtx =  this.startButtonCanvas.getContext("2d");
+        this.startButtonCtx = this.startButtonCanvas.getContext("2d");
+
+        this.buttonHover = false;
 
 
     }
 
     addMainMenuListener(canvas) {
-        canvas.addEventListener('mousemove', event => {
-
-            // Only get mouse coordinate inside canvas
-            let canvasRect = canvas.getBoundingClientRect();
-            let newMouseX = event.clientX - canvasRect.left;
-            let newMouseY = event.clientY - canvasRect.top;
-            
-            if(newMouseX >= this.startButtonAreaX && newMouseX <= this.startButtonAreaX + 100
-                && newMouseY >= this.startButtonAreaY && newMouseY <= this.startButtonAreaY + 50) {
-                    // this.startButtonCtx.clearRect(0, 0, this.startButtonCanvas.width, this.startButtonCanvas.height);
-                    // ctx.drawImage(startButtonCanvas, startButtonAreaX, startButtonAreaY)
-                    // console.log(true)
-                    // startButtonCtx.fillStyle = "Red";
-                    // startButtonCtx.fillText("Start", 0, 50); // Origin of fill text is bottom left, not top left.
-            } 
-        })
-
-
+        // Technically the menu is still there, but it is hidden behind a game screen layer, so might not be a problem.
+        canvas.addEventListener("click", event => {this.privateCaptureButtonClick(event)}, {once: true});
+        canvas.addEventListener("mousemove", event => {this.privateButtonVisualEffect(event)});
 
     }
 
-    setInitialButtonLocation(canvas){
+    setInitialButtonLocation(canvas) {
         //Menu choices location
         this.startButtonAreaX = canvas.width / 12 * 5;
-        this.startButtonAreaY = canvas.height / 5 * 3 - 50
+        this.startButtonAreaY = canvas.height / 5 * 3 - 50; // Origin of fill text is bottom left, not top left (?)
     }
 
 
 
-    update(){
+    update() {
 
     }
 
-    draw(ctx){
+    draw(ctx) {
         // console.log(true);
         ctx.drawImage(this.background, 513, 256, 256, 255, 0, 0, 388, 768);
-        // this.privateDrawButton(ctx);
+        this.privateDrawButton(ctx);
         // this.ctxInfoBoard.drawImage(this.infoBoardBackground, 771, 1, 256, 255, 0, 0, 200, 768);
     }
 
@@ -73,8 +60,44 @@ class MenuMain {
         this.startButtonCanvas.height = 50;
 
         this.startButtonCtx.font = "44px Akaya Kanadaka";
-        this.startButtonCtx.fillStyle = "White";
+        // Button effect.
+        if(this.buttonHover) {
+            // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/shadowColor
+            this.startButtonCtx.shadowColor = 'rgba(255, 255, 255, .8)';
+            this.startButtonCtx.shadowBlur = 5;
+            this.startButtonCtx.shadowOffsetX = 0;
+            this.startButtonCtx.shadowOffsetY = 0;
+            this.startButtonCtx.fillStyle = "Red" 
+        } else {
+            this.startButtonCtx.fillStyle = "White";
+        }
         this.startButtonCtx.fillText("Start", 0, 50); // Origin of fill text is bottom left, not top left.
-        ctx.drawImage( this.startButtonCanvas, this.startButtonAreaX, this.startButtonAreaY);
+        ctx.drawImage(this.startButtonCanvas, this.startButtonAreaX, this.startButtonAreaY);
+    }
+
+    privateCaptureButtonClick(event) {
+        // Only get mouse coordinate inside canvas
+        let canvasRect = canvas.getBoundingClientRect();
+        let newMouseX = event.clientX - canvasRect.left;
+        let newMouseY = event.clientY - canvasRect.top;
+
+        if (newMouseX >= this.startButtonAreaX && newMouseX <= this.startButtonAreaX + 100
+            && newMouseY >= this.startButtonAreaY && newMouseY <= this.startButtonAreaY + 50) {
+            startGame();
+        }
+    }
+
+    privateButtonVisualEffect(event) {
+        // Only get mouse coordinate inside canvas
+        let canvasRect = canvas.getBoundingClientRect();
+        let newMouseX = event.clientX - canvasRect.left;
+        let newMouseY = event.clientY - canvasRect.top;
+
+        if(newMouseX >= this.startButtonAreaX && newMouseX <= this.startButtonAreaX + 100
+            && newMouseY >= this.startButtonAreaY && newMouseY <= this.startButtonAreaY + 50) {
+            this.buttonHover = true;
+        } else {
+            this.buttonHover = false;
+        }
     }
 }
