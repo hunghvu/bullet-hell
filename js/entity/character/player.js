@@ -119,10 +119,6 @@ class Player extends Character{
             this.invulnerability = true;
             this.damageReceived = 0;
         }
-
-        if (this.initialHealth <= 0) {
-            createMainMenu();
-        }
     }
 
     draw(ctx) {

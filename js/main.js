@@ -37,17 +37,20 @@ window.onload = () => {
 
 
 // Global functions.
-
+let isStart = false; // flag to not re-init and restart game engine
 // This function will display a main menu for the game.
 function createMainMenu(){
 	clearGameEngine();
-	gameEngine.init(ctx);
+	if(!isStart) gameEngine.init(ctx);
 	let mainMenu = new MenuMain(gameEngine, 100, 100);
 	mainMenu.addMainMenuListener(canvas);
 	mainMenu.setInitialButtonLocation(canvas);
 	gameEngine.addEntity(mainMenu);
 	console.log(gameEngine.entities)
-	gameEngine.start();
+	if(!isStart) {
+		gameEngine.start();
+		isStart = true;
+	}
 }
 
 /**
@@ -100,20 +103,16 @@ function startGame() {
 			accumulator ++;
 		}
 	});
-	gameEngine.start();
+	// gameEngine.start();
 }
 
+/**
+ * This function clear all items in game engine for scence transition.
+ */
 function clearGameEngine() {
-	// ctx.clearRect(0, 0, 1000, 1000); // Clear canvas
-	// ctxInfoBoard.clearRect(0, 0, 1000, 1000);
-	// Nullify all objects so they can be garbage collected.
-	for(let i = gameEngine.entities.length - 1; i >= 0; i --) {
-		// gameEngine.entities[i] = null; // Forcing remove items not through game engine cause uncaught type err undefined.
-		// gameEngine.entities.splice(i, 1);
+	for(let i = gameEngine.entities.length - 1; i >= 0; i --) {		
 		gameEngine.entities[i].removeFromWorld = true;
 	}
-	gameEngine = null;
-	gameEngine = new GameEngine(); // Start a new game engine.
 }
 
 
