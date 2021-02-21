@@ -40,7 +40,7 @@ class MenuResult {
 
     setInitialButtonLocation(canvas) {
         //Menu choices location
-        this.startButtonAreaX = canvas.width / 12 * 4;
+        this.startButtonAreaX = canvas.width / 12 * 3.5;
         this.startButtonAreaY = canvas.height / 5 * 2; // Origin of fill text is bottom left, not top left (?)
     }
 

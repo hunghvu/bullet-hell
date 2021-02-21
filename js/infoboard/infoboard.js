@@ -37,12 +37,12 @@ class InfoBoard {
         this.ctxInfoBoard.drawImage(this.backgroundScore, 771, 1, 256, 255, 0, 0, 200, 768);
         this.ctxInfoBoard.font = "24px Akaya Kanadaka";
         this.ctxInfoBoard.fillStyle = "Red";
-        // For testing only
+        // Mainly for testing, but may keep them as is.
         this.ctxInfoBoard.fillText("Enemy's HP: ", 10, 50)
-        this.ctxInfoBoard.fillText(this.enemy.initialHealth - this.enemy.damageReceived + " / " + this.enemy.initialHealth, 10, 70);
-
+        this.ctxInfoBoard.fillText(Math.max(0, this.enemy.initialHealth - this.enemy.damageReceived) + " / " + this.enemy.initialHealth, 10, 70);
         this.ctxInfoBoard.fillText("Player's HP: ", 10, 100)
-        this.ctxInfoBoard.fillText(this.player.initialHealth, 10, 120);
+        this.ctxInfoBoard.fillText(Math.max(0, this.player.initialHealth), 10, 120);
+
         if (this.enemy.initialHealth - this.enemy.damageReceived <= 0) {
             createResultMenu(true);
             clearInterval(this.bulletSound);
