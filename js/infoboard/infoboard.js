@@ -41,7 +41,7 @@ class InfoBoard {
         this.ctxInfoBoard.fillText("Enemy's HP: ", 10, 50)
         this.ctxInfoBoard.fillText(Math.max(0, this.enemy.initialHealth - this.enemy.damageReceived) + " / " + this.enemy.initialHealth, 10, 70);
         this.ctxInfoBoard.fillText("Player's HP: ", 10, 100)
-        this.ctxInfoBoard.fillText(Math.max(0, this.player.initialHealth), 10, 120);
+        this.ctxInfoBoard.fillText(Math.max(0, this.player.initialHealth) + " / " + this.player.maxHP, 10, 120);
 
         if (this.enemy.initialHealth - this.enemy.damageReceived <= 0) {
             createResultMenu(true);

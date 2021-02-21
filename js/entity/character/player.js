@@ -32,6 +32,7 @@ class Player extends Character{
         this.damageReceived = 0;
         this.damageThreshold = 100; // Should be changeable depended on difficulty later on.
         this.initialHealth = 300; // Should be changeable depended on difficulty later on.
+        this.maxHP = this.initialHealth; // Temporary value only used to printed out on screen. Might remove later on.
         this.invulnerability = true;
         this.lastDeadTimeStamp = 0; // Set this to 0 at the beginning so we can have invulnerability period, will update again when dead.
         this.invulnerabilityPeriod = 3;
