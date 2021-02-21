@@ -1,7 +1,7 @@
 /**
  * This class represents player's score.
  */
-class Score {
+class InfoBoard {
     constructor (weapon, canvas, enemy, player) {
 
 
@@ -16,6 +16,15 @@ class Score {
 
         this.backgroundScore = new Image();
         this.backgroundScore.src = ASSET_MANAGER.getAsset("./assets/background-score.png").src;
+
+        // Logic-wise, this is really weird.
+        //  1. Bullet should handle its own sound, however, too many bullet => too many sound being played and therefore
+        //    the quality is heavily reduced due to multiple repeat.
+        //  2. We can use as a background in background.js, however, the match conclusion is in this class, so we
+        //    need to put this in here so the interval can be canceled.
+        this.bulletSound = setInterval(() => {
+            ASSET_MANAGER.playAsset("./assets/sound/bullet-shot.mp3");
+        }, 100);
     }
 
     update() {
@@ -36,9 +45,11 @@ class Score {
         this.ctxInfoBoard.fillText(this.player.initialHealth, 10, 120);
         if (this.enemy.initialHealth - this.enemy.damageReceived <= 0) {
             createResultMenu(true);
+            clearInterval(this.bulletSound);
         }
         if (this.player.initialHealth <= 0) { // This is put here, rather then in player b/c the info should be printed before display match result.
             createResultMenu(false);
+            clearInterval(this.bulletSound);
         }
     }
 }

@@ -17,6 +17,7 @@ ASSET_MANAGER.queueDownload("./assets/background-score.png");
 ASSET_MANAGER.queueDownload("./assets/sound/background-ingame.mp3");
 ASSET_MANAGER.queueDownload("./assets/sound/background-win.mp3");
 ASSET_MANAGER.queueDownload("./assets/sound/background-defeat.mp3");
+ASSET_MANAGER.queueDownload("./assets/sound/bullet-shot.mp3");
 
 let canvas = null;
 let ctx = null;
@@ -100,8 +101,8 @@ function startGame() {
 	// gameEngine.addEntity(enemy.weapon.bullet);
 
 	// Add score info to the game
-	let score = new Score(player.weapon, canvasInfoBoard, enemy, player, gameEngine);
-	gameEngine.addEntity(score);
+	let infoBoard = new InfoBoard(player.weapon, canvasInfoBoard, enemy, player, gameEngine);
+	gameEngine.addEntity(infoBoard);
 
 	canvasInfoBoard.style.visibility = "visible"; // Show infoboard when the game is started.
 
@@ -115,6 +116,22 @@ function startGame() {
 			player.weapon.orbState = accumulator;
 			player.weapon.bullet.bulletState = accumulator;
 			accumulator ++;
+			if (player.weapon.bullet.bulletState === 0) {
+				clearInterval(infoBoard.bulletSound);
+				infoBoard.bulletSound = setInterval(() => {
+					ASSET_MANAGER.playAsset("./assets/sound/bullet-shot.mp3");
+				}, 100);
+			} else if (player.weapon.bullet.bulletState === 1) {
+				clearInterval(infoBoard.bulletSound);
+				infoBoard.bulletSound = setInterval(() => {
+					ASSET_MANAGER.playAsset("./assets/sound/bullet-shot.mp3");
+				}, 75);
+			} else if (player.weapon.bullet.bulletState === 2){
+				clearInterval(infoBoard.bulletSound);
+				infoBoard.bulletSound = setInterval(() => {
+					ASSET_MANAGER.playAsset("./assets/sound/bullet-shot.mp3");
+				}, 50);
+			}
 		}
 	});
 	// gameEngine.start();
