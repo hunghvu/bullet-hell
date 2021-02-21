@@ -1,5 +1,5 @@
 /**
- * This class represents background of the game.
+ * This class represents background of the game, which includes both background IMG and BGM.
  */
 class Background {
     constructor (game, x, y){
@@ -19,7 +19,8 @@ class Background {
 
         // Background music.
         ASSET_MANAGER.pauseBackgroundMusic();
-        ASSET_MANAGER.playAsset("./assets/sound/background-ingame.mp3")
+        ASSET_MANAGER.playAsset("./assets/sound/background-ingame.mp3");
+        ASSET_MANAGER.autoRepeat("./assets/sound/background-ingame.mp3");
         ASSET_MANAGER.adjustVolume(0.1);
     }
 
