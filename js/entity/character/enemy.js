@@ -84,7 +84,13 @@ class Enemy extends Character{
             this.initialHealth *= 1.5;
             this.damageReceived = 0;
             this.weapon.secondStage = true;
+            setPlayerWeaponLevelTwo();
         } 
+        if (this.damageReceived >= this.initialHealth / 2 && this.firstStageDone && !this.levelUpTwo) {
+            this.weapon.bullet.bulletAngleInterval = this.weapon.bullet.bulletAngleInterval * 60 / 80;
+            this.weapon.orbAngle = 0;
+            this.levelUpTwo = true;
+        }
         this.privateUpdateBC();
     }
 

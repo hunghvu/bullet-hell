@@ -68,6 +68,8 @@ function createResultMenu (result){
 	gameEngine.addEntity(resultMenu);
 }
 
+let player;
+let infoboard;
 /**
  * This function will start a game.
  */
@@ -84,7 +86,7 @@ function startGame() {
 	gameEngine.addEntity(background);
 
 	// Add player to the game
-	let player = new Player(gameEngine, 100, 100);
+	player = new Player(gameEngine, 100, 100);
 	player.addMouseListenerCanvas(canvas)
 	player.setPlayerInitialPosition(canvas);
 	gameEngine.addEntity(player);
@@ -101,7 +103,7 @@ function startGame() {
 	// gameEngine.addEntity(enemy.weapon.bullet);
 
 	// Add score info to the game
-	let infoBoard = new InfoBoard(player.weapon, canvasInfoBoard, enemy, player, gameEngine);
+	infoBoard = new InfoBoard(player.weapon, canvasInfoBoard, enemy, player, gameEngine);
 	gameEngine.addEntity(infoBoard);
 
 	canvasInfoBoard.style.visibility = "visible"; // Show infoboard when the game is started.
@@ -122,19 +124,31 @@ function startGame() {
 					ASSET_MANAGER.playAsset("./assets/sound/bullet-shot.mp3");
 				}, 100);
 			} else if (player.weapon.bullet.bulletState === 1) {
-				clearInterval(infoBoard.bulletSound);
-				infoBoard.bulletSound = setInterval(() => {
-					ASSET_MANAGER.playAsset("./assets/sound/bullet-shot.mp3");
-				}, 75);
+				setPlayerWeaponLevelTwo();
 			} else if (player.weapon.bullet.bulletState === 2){
-				clearInterval(infoBoard.bulletSound);
-				infoBoard.bulletSound = setInterval(() => {
-					ASSET_MANAGER.playAsset("./assets/sound/bullet-shot.mp3");
-				}, 50);
+				setPlayerWeaponLevelThree();
 			}
 		}
 	});
 	// gameEngine.start();
+}
+
+function setPlayerWeaponLevelTwo() {
+	player.weapon.orbState = 1;
+	player.weapon.bullet.bulletState = 1;
+	clearInterval(infoBoard.bulletSound);
+	infoBoard.bulletSound = setInterval(() => {
+		ASSET_MANAGER.playAsset("./assets/sound/bullet-shot.mp3");
+	}, 75);
+}
+
+function setPlayerWeaponLevelThree() {
+	player.weapon.orbState = 2;
+	player.weapon.bullet.bulletState = 2;
+	clearInterval(infoBoard.bulletSound);
+	infoBoard.bulletSound = setInterval(() => {
+		ASSET_MANAGER.playAsset("./assets/sound/bullet-shot.mp3");
+	}, 60);
 }
 
 /**
