@@ -63,6 +63,10 @@ class GameEngine {
             that.rightclick = getXandY(e);
             e.preventDefault();
         }, false);
+
+        document.getElementById("debug").addEventListener("change", () => {
+            params.DEBUG = document.getElementById("debug").checked;
+        })
     };
 
     addEntity(entity) {

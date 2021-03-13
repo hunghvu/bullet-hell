@@ -43,7 +43,6 @@ class BulletReimu {
         // Add bounding circle for each bullet, bullet will have its own bounding circle
         this.boundingCircleRadius = 10;
 
-
         this.bulletOnSceneList = [];
     }
 
@@ -71,9 +70,11 @@ class BulletReimu {
             }
 
             // For dev only. Draw bounding circle
-            ctx.beginPath();
-            ctx.arc(element.boundingCircle.centerX, element.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
-            ctx.stroke();
+            if (params.DEBUG) {
+                ctx.beginPath();
+                ctx.arc(element.boundingCircle.centerX, element.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
+                ctx.stroke();
+            }
         });
     }
 

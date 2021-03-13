@@ -64,18 +64,20 @@ class BulletEnemyPatternOne {
             element.animator.drawFrame(this.game.clockTick, ctx, element.x, element.y, this.scaler);
 
             // For dev only. Draw bounding circle
-            ctx.beginPath();
-            ctx.fillStyle = "green"
-            ctx.arc(element.boundingCircle.centerX, element.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
-            ctx.stroke();
-            ctx.closePath()
-            // Draw heat seeking circle
-            if (element.radar) {
-                ctx.beginPath()
-                ctx.filStyle = "yellow"
-                ctx.arc(element.radar.centerX, element.radar.centerY, element.radar.radius, 0, Math.PI * 2);
-                ctx.stroke();  
-                ctx.closePath();
+            if (params.DEBUG) {
+                ctx.beginPath();
+                ctx.fillStyle = "green"
+                ctx.arc(element.boundingCircle.centerX, element.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.closePath()
+                // Draw heat seeking circle
+                if (element.radar) {
+                    ctx.beginPath()
+                    ctx.filStyle = "yellow"
+                    ctx.arc(element.radar.centerX, element.radar.centerY, element.radar.radius, 0, Math.PI * 2);
+                    ctx.stroke();  
+                    ctx.closePath();
+                }
             }
         });
     }

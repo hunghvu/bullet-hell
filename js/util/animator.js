@@ -4,7 +4,6 @@ class Animator {
 
         this.elapsedTime = 0;
         this.totalTime = this.frameCount * this.frameDuration;
-        // console.log(this.spritesheet);
     };
 
     drawFrame(tick, ctx, x, y, scale) {
@@ -29,7 +28,7 @@ class Animator {
             this.width * scale,
             this.height * scale);
 
-        // if (PARAMS.DEBUG) {
+        if (params.DEBUG) {
             ctx.strokeStyle = 'Green';
             ctx.strokeRect(x, y, this.width * scale, this.height * scale);
             ctx.beginPath();
@@ -38,7 +37,7 @@ class Animator {
             ctx.moveTo(0, ctx.canvas.height / 2,);
             ctx.lineTo(ctx.canvas.width, ctx.canvas.height/ 2);
             ctx.stroke();
-        // }
+        }
     };
 
     currentFrame() {

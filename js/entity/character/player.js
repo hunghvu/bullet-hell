@@ -127,10 +127,13 @@ class Player extends Character{
         this.animation[this.animationState].drawFrame(this.game.clockTick, ctx, this.canvasX, this.canvasY, this.scaler);
 
         // For dev only
-        ctx.strokeStyle = "Blue";
-        ctx.beginPath();
-        ctx.arc(this.boundingCircle.centerX, this.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
-        ctx.stroke();
+        if (params.DEBUG) {
+            ctx.strokeStyle = "Blue";
+            ctx.beginPath();
+            ctx.arc(this.boundingCircle.centerX, this.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+
 
         if (this.invulnerability) {
             this.privateDrawBarrier(ctx);

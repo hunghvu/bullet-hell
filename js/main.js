@@ -1,5 +1,5 @@
 // Global vars.
-let gameEngine = new GameEngine();
+let gameEngine;
 
 let ASSET_MANAGER = new AssetManager();
 
@@ -34,7 +34,7 @@ window.onload = () => {
 
 	canvasInfoBoard = document.getElementById("infoBoard");
 	ctxInfoBoard = canvasInfoBoard.getContext("2d");
-
+	gameEngine = new GameEngine();
 	ASSET_MANAGER.downloadAll(() => {
 		createMainMenu();
 	})

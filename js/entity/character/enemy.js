@@ -91,12 +91,12 @@ class Enemy extends Character{
         ctx.closePath();
 
         // For dev only, draw bounding box.
-        ctx.strokeStyle = "Blue";
-        ctx.beginPath();
-        ctx.arc(this.boundingCircle.centerX, this.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
-        ctx.stroke();
-
-
+        if (params.DEBUG) {
+            ctx.strokeStyle = "Blue";
+            ctx.beginPath();
+            ctx.arc(this.boundingCircle.centerX, this.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
+            ctx.stroke();
+        }
 
     }
 
