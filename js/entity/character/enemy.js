@@ -32,7 +32,12 @@ class Enemy extends Character{
         this.damageReceived = 0;
         this.fullHealthCircle = Math.PI * 2
         this.initialHealth = 1000; // Cannot modify initial health directly as it's used like a const to draw hp circle.
+        this.firstStageDone = false;
+        this.secondStageDone = false;
+        this.lastStageDone = false;
         this.levelUpOne = false; // Flag to boost enemy at stage 1.
+        this.levelUpTwo = false; // Flag to boost enemy at stage 2.
+        this.levelUpThree = false;
 
         this.damage = 3;
 
@@ -74,6 +79,12 @@ class Enemy extends Character{
             // Rare bug, work around by reset orb angle.
             this.levelUpOne = true;
         }
+        if (this.damageReceived >= this.initialHealth && !this.firstStageDone) {
+            this.firstStageDone = true;
+            this.initialHealth *= 1.5;
+            this.damageReceived = 0;
+            this.weapon.secondStage = true;
+        } 
         this.privateUpdateBC();
     }
 
@@ -85,7 +96,9 @@ class Enemy extends Character{
         ctx.beginPath()
         ctx.lineWidth = 20;
         ctx.arc(this.boundingCircle.centerX, this.boundingCircle.centerY, this.boundingCircleRadius * 2, -Math.PI / 2, this.fullHealthCircle - Math.PI / 2, false);
-        ctx.strokeStyle = "Orange";
+        ctx.strokeStyle = "orange";
+        if (this.firstStageDone) ctx.strokeStyle = "yellow";
+        if (this.secondStageDone) ctx.strokeStyle = "green";
         ctx.stroke();
         ctx.lineWidth = 1;
         ctx.closePath();

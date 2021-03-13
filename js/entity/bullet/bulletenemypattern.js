@@ -184,12 +184,12 @@ class BulletEnemyPatternOne {
             );
         
         if (this.weapon.orbAngle - this.previousAngle === this.bulletAngleInterval || this.weapon.orbAngle === 0) {
-            bulletOnSceneOne.activateHeatSeeking(this.x1, this.y1);
-            bulletOnSceneTwo.activateHeatSeeking(this.x2, this.y2);
-            bulletOnSceneThree.activateHeatSeeking(this.x3, this.y3);
-            bulletOnSceneFour.activateHeatSeeking(this.x4, this.y4);
-            bulletOnSceneFive.activateHeatSeeking(this.x5, this.y5);
-            bulletOnSceneSix.activateHeatSeeking(this.x6, this.y6);
+            // bulletOnSceneOne.activateHeatSeeking(this.x1, this.y1);
+            // bulletOnSceneTwo.activateHeatSeeking(this.x2, this.y2);
+            // bulletOnSceneThree.activateHeatSeeking(this.x3, this.y3);
+            // bulletOnSceneFour.activateHeatSeeking(this.x4, this.y4);
+            // bulletOnSceneFive.activateHeatSeeking(this.x5, this.y5);
+            // bulletOnSceneSix.activateHeatSeeking(this.x6, this.y6);
             this.bulletOnSceneList.push(bulletOnSceneOne);
             this.game.addEntity(bulletOnSceneOne);
             this.bulletOnSceneList.push(bulletOnSceneTwo);
