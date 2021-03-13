@@ -45,12 +45,16 @@ class Enemy extends Character{
         this.magicCircleSpeed = 1;
         this.magicCircleFrameWidth = 128;
         this.magicCircleFrameHeight = 124;
+
+        this.canvas = null;
+        this.movementTick = 0;
         // load will stays at bottom
         this.loadAnimations();
     }
 
 
     setEnemyInitialPosition(canvas) {
+        this.canvas = canvas;
         this.canvasX = canvas.width / 2 - this.enemyFrameWidth / 2 * this.scaler;
         this.canvasY = canvas.height / 5;
     }
@@ -67,6 +71,12 @@ class Enemy extends Character{
         this.animation.push(magicCircle);
 
 
+    }
+
+    generateMovementVector() {
+        let velX = Math.random() * 100 - 60;
+        let velY = Math.random() * 100 - 60;
+        this.vector = new Vector(velX, velY);
     }
 
     update() {
@@ -86,12 +96,36 @@ class Enemy extends Character{
             this.weapon.secondStage = true;
             setPlayerWeaponLevelTwo();
         } 
+
+        // Stage 2, the bullet pattern become more random (visually).
         if (this.damageReceived >= this.initialHealth / 2 && this.firstStageDone && !this.levelUpTwo) {
             this.weapon.bullet.bulletAngleInterval = this.weapon.bullet.bulletAngleInterval * 60 / 80;
             this.weapon.bullet.notBouncedBackRate = 0.8;
             this.weapon.orbAngle = 0;
             this.levelUpTwo = true;
         }
+
+        if (this.damageReceived > this.initialHealth && this.firstStageDone && !this.secondStageDone) {
+            this.secondStageDone = true;
+            this.initialHealth *= 1.5;
+            this.damageReceived = 0;
+            this.weapon.thirdStage = true;
+            setPlayerWeaponLevelThree();
+        }
+
+        // Stage 3, the CPU now has random movement.
+        if (this.firstStageDone && this.secondStageDone && this.movementTick % 180 === 0) {
+            this.generateMovementVector();
+        }
+        if (this.vector) {
+            let newX = this.canvasX + this.vector.velX;
+            let newY = this.canvasY + this.vector.velY;
+            if (newX >= 0 && newX <= this.canvas.width - this.enemyFrameWidth) this.canvasX = newX;
+            if (newY >= 0 && newY <= this.canvas.height - this.enemyFrameHeight) this.canvasY = newY;
+            if (this.movementTick === 180) this.movementTick = 0;
+            this.movementTick ++;
+        }
+        
         this.privateUpdateBC();
     }
 
@@ -137,7 +171,7 @@ class Enemy extends Character{
         this.magicCircleAngle -= this.magicCircleSpeed;
         this.animation[1].drawFrame(this.game.clockTick, offScreenCtx, 0, 0, this.scaler * 2);
         offScreenCtx.restore();
-        ctx.drawImage(offScreenCanvas, 65, 70);  
+        ctx.drawImage(offScreenCanvas, this.canvasX - 90, this.canvasY - 80);  
     }
 
     /**
