@@ -88,6 +88,7 @@ class Enemy extends Character{
         } 
         if (this.damageReceived >= this.initialHealth / 2 && this.firstStageDone && !this.levelUpTwo) {
             this.weapon.bullet.bulletAngleInterval = this.weapon.bullet.bulletAngleInterval * 60 / 80;
+            this.weapon.bullet.notBouncedBackRate = 0.8;
             this.weapon.orbAngle = 0;
             this.levelUpTwo = true;
         }

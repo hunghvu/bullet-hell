@@ -43,6 +43,8 @@ class BulletEnemyPatternOne {
         this.boundingCircleRadius = 10;
 
         this.frameWidthAndHeight = 16;
+
+        this.notBouncedBackRate = 0.9;
         this.bulletOnSceneList = [];
     }
 
@@ -215,7 +217,7 @@ class BulletEnemyPatternOne {
                 // console.log(this.bulletOnSceneList[i].isRemovable());
                 if (this.bulletOnSceneList[i].radar) this.bulletOnSceneList[i].privateUpdateRadar();
                 if (this.bulletOnSceneList[i].isRemovable()){
-                    if (Math.random() >= 0.9) {
+                    if (Math.random() >= this.notBouncedBackRate) {
                         this.bulletOnSceneList[i].removeFromWorld = false;
                         this.bulletOnSceneList[i].vector.velX *= -1;
                         this.bulletOnSceneList[i].vector.velY *= -1;
