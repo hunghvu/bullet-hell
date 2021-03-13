@@ -65,8 +65,18 @@ class BulletEnemyPatternOne {
 
             // For dev only. Draw bounding circle
             ctx.beginPath();
+            ctx.fillStyle = "green"
             ctx.arc(element.boundingCircle.centerX, element.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
             ctx.stroke();
+            ctx.closePath()
+            // Draw heat seeking circle
+            if (element.radar) {
+                ctx.beginPath()
+                ctx.filStyle = "yellow"
+                ctx.arc(element.radar.centerX, element.radar.centerY, element.radar.radius, 0, Math.PI * 2);
+                ctx.stroke();  
+                ctx.closePath();
+            }
         });
     }
 
@@ -172,6 +182,12 @@ class BulletEnemyPatternOne {
             );
         
         if (this.weapon.orbAngle - this.previousAngle === this.bulletAngleInterval || this.weapon.orbAngle === 0) {
+            bulletOnSceneOne.activateHeatSeeking(this.x1, this.y1);
+            bulletOnSceneTwo.activateHeatSeeking(this.x2, this.y2);
+            bulletOnSceneThree.activateHeatSeeking(this.x3, this.y3);
+            bulletOnSceneFour.activateHeatSeeking(this.x4, this.y4);
+            bulletOnSceneFive.activateHeatSeeking(this.x5, this.y5);
+            bulletOnSceneSix.activateHeatSeeking(this.x6, this.y6);
             this.bulletOnSceneList.push(bulletOnSceneOne);
             this.game.addEntity(bulletOnSceneOne);
             this.bulletOnSceneList.push(bulletOnSceneTwo);
@@ -195,6 +211,7 @@ class BulletEnemyPatternOne {
         if (this.bulletOnSceneList !== undefined) {
             for (var i = this.bulletOnSceneList.length - 1; i >= 0; i--) {
                 // console.log(this.bulletOnSceneList[i].isRemovable());
+                if (this.bulletOnSceneList[i].radar) this.bulletOnSceneList[i].privateUpdateRadar();
                 if (this.bulletOnSceneList[i].isRemovable()){
                     if (Math.random() >= 0.9) {
                         this.bulletOnSceneList[i].removeFromWorld = false;

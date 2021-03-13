@@ -66,6 +66,9 @@ class EnemyWeapon {
 
     update() {
         let radian1 = -this.orbAngle * Math.PI / 180;
+        // if (Math.random() < 0.1) 
+        // this.bullet.bulletAngleInterval = 180
+            // radian1 *= -Math.PI;
         this.orb1LocationX = this.enemy.canvasX + this.orbFrameWidth + 10 * this.scaler + this.radius * Math.cos(radian1);
         this.orb1LocationY = this.enemy.canvasY + this.enemy.enemyFrameHeight / 2 * this.scaler - this.orbFrameHeight / 2 * this.scaler +  this.radius * Math.sin(radian1);
 

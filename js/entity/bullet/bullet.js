@@ -6,6 +6,7 @@ class Bullet {
         Object.assign(this, {owner, animator, x, y, side, boundingCircle, bulletManager, damage, vector});
         this.removeFromWorld = false;
         this.isCollided = false;
+        this.radarRadius = 25
     }
 
     update() {
@@ -53,25 +54,27 @@ class Bullet {
         this.x += this.vector.velX;
         this.y += this.vector.velY;
         this.boundingCircle.setLocationWithVector(this.vector.velX, this.vector.velY);
+        if(this.radar) this.radar.setLocationWithVector(this.vector.velX, this.vector.velY);
     }
 
+    /**
+     * This will initialize the radar circle for the bullet
+     * @param {number} x an original x coord when a bullet is spawned
+     * @param {number} y an original y coord when a bullet is spawned
+     */
+    activateHeatSeeking(x, y) {
+        this.radar = new BoundingCircle(x + this.owner.weapon.bullet.frameWidthAndHeight / 2, 
+                                        y + this.owner.weapon.bullet.frameWidthAndHeight / 2, this.radarRadius);
+    }
 
-
-
-    // handleCollision(){
-    //     this.bulletManager.game.entities.forEach( element => {
-    //         if (element.boundingCircle 
-    //             && element.boundingCircle !== this.boundingCircle // Not collide itself
-    //             && element instanceof Enemy // Bullet should only hit enemy. Not collide with previously shot bullet in some cases
-    //             ) {
-    //             if (element.boundingCircle.isCollided(this.boundingCircle)) {
-    //                 // console.log(element);
-    //             }
-    //         }
-    // })
-    // }
-
- 
-
+    privateUpdateRadar(){
+        this.owner.game.entities.forEach( element => {
+            if (element.boundingCircle && (element.boundingCircle !== this.radar)) {
+                if (element.boundingCircle.isCollided(this.radar) && element instanceof Player) {
+                    this.vector = new Vector((element.boundingCircle.centerX - this.x) / 3, (element.boundingCircle.centerY - this.y) / 3);
+                }
+            }
+        })
+    }
 
 }
