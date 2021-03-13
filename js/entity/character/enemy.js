@@ -34,10 +34,10 @@ class Enemy extends Character{
         this.initialHealth = 1000; // Cannot modify initial health directly as it's used like a const to draw hp circle.
         this.firstStageDone = false;
         this.secondStageDone = false;
-        this.lastStageDone = false;
+        this.thirdStageDone = false;
         this.levelUpOne = false; // Flag to boost enemy at stage 1.
         this.levelUpTwo = false; // Flag to boost enemy at stage 2.
-        this.levelUpThree = false;
+        this.levelUpThree = false; // Not use as of now.
 
         this.damage = 3;
 
@@ -113,7 +113,7 @@ class Enemy extends Character{
             setPlayerWeaponLevelThree();
         }
 
-        // Stage 3, the CPU now has random movement.
+        // Stage 3, the CPU now has random movement (change direction per about 3 secs).
         if (this.firstStageDone && this.secondStageDone && this.movementTick % 180 === 0) {
             this.generateMovementVector();
         }
@@ -125,7 +125,9 @@ class Enemy extends Character{
             if (this.movementTick === 180) this.movementTick = 0;
             this.movementTick ++;
         }
-        
+        if (this.damageReceived > this.initialHealth && this.firstStageDone && this.secondStageDone && !this.thirdStageDone) {
+            this.thirdStageDone = true;
+        }
         this.privateUpdateBC();
     }
 

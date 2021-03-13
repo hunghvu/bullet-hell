@@ -43,9 +43,9 @@ class InfoBoard {
         this.ctxInfoBoard.fillText("Player's HP: ", 10, 100)
         this.ctxInfoBoard.fillText(Math.max(0, this.player.initialHealth) + " / " + this.player.maxHP, 10, 120);
 
-        if (this.enemy.initialHealth - this.enemy.damageReceived <= 0) {
-            // createResultMenu(true);
-            // clearInterval(this.bulletSound);
+        if (this.enemy.firstStageDone && this.enemy.secondStageDone && this.enemy.thirdStageDone) {
+            createResultMenu(true);
+            clearInterval(this.bulletSound);
         }
         if (this.player.initialHealth <= 0) { // This is put here, rather then in player b/c the info should be printed before display match result.
             createResultMenu(false);

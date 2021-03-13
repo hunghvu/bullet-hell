@@ -64,7 +64,7 @@ class MenuResult {
 
         this.startButtonCtx.font = "44px Akaya Kanadaka";
         this.result ? this.startButtonCtx.fillStyle = "Orange" : this.startButtonCtx.fillStyle = "White";
-        this.result ? this.startButtonCtx.fillText("You win.", 0, 50) : this.startButtonCtx.fillText("You lose.", 0, 50);
+        this.result ? this.startButtonCtx.fillText("You won.", 0, 50) : this.startButtonCtx.fillText("You lost.", 0, 50);
         // Button effect.
         if(this.buttonHover) {
             // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/shadowColor

@@ -44,7 +44,8 @@ class BulletEnemyPatternOne {
 
         this.frameWidthAndHeight = 16;
 
-        this.notBouncedBackRate = 0.9;
+        this.notBouncedBackRate = 0.9; // The rate that bullets will NOT bounce back
+        this.notHeatSeekingRate = 0.8; // The rate that bullets will NOT have heat seeking feature
         this.bulletOnSceneList = [];
     }
 
@@ -186,12 +187,13 @@ class BulletEnemyPatternOne {
             );
         
         if (this.weapon.orbAngle - this.previousAngle === this.bulletAngleInterval || this.weapon.orbAngle === 0) {
-            // bulletOnSceneOne.activateHeatSeeking(this.x1, this.y1);
-            // bulletOnSceneTwo.activateHeatSeeking(this.x2, this.y2);
-            // bulletOnSceneThree.activateHeatSeeking(this.x3, this.y3);
-            // bulletOnSceneFour.activateHeatSeeking(this.x4, this.y4);
-            // bulletOnSceneFive.activateHeatSeeking(this.x5, this.y5);
-            // bulletOnSceneSix.activateHeatSeeking(this.x6, this.y6);
+            // Randomly add heat seeking feature to a bullet at level 3
+            if(this.weapon.thirdStage && Math.random() > this.notHeatSeekingRate) bulletOnSceneOne.activateHeatSeeking(this.x1, this.y1);
+            if(this.weapon.thirdStage && Math.random() > this.notHeatSeekingRate) bulletOnSceneTwo.activateHeatSeeking(this.x2, this.y2);
+            if(this.weapon.thirdStage && Math.random() > this.notHeatSeekingRate) bulletOnSceneThree.activateHeatSeeking(this.x3, this.y3);
+            if(this.weapon.thirdStage && Math.random() > this.notHeatSeekingRate) bulletOnSceneFour.activateHeatSeeking(this.x4, this.y4);
+            if(this.weapon.thirdStage && Math.random() > this.notHeatSeekingRate) bulletOnSceneFive.activateHeatSeeking(this.x5, this.y5);
+            if(this.weapon.thirdStage && Math.random() > this.notHeatSeekingRate) bulletOnSceneSix.activateHeatSeeking(this.x6, this.y6);
             this.bulletOnSceneList.push(bulletOnSceneOne);
             this.game.addEntity(bulletOnSceneOne);
             this.bulletOnSceneList.push(bulletOnSceneTwo);
