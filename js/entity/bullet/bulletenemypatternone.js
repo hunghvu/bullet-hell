@@ -42,7 +42,6 @@ class BulletEnemyPatternOne {
         // Add bounding circle for each bullet, bullet will have its own bounding circle
         this.boundingCircleRadius = 10;
 
-        this.buggyBulletRemoved = false;
         this.frameWidthAndHeight = 16;
         this.bulletOnSceneList = [];
     }
@@ -197,10 +196,17 @@ class BulletEnemyPatternOne {
             for (var i = this.bulletOnSceneList.length - 1; i >= 0; i--) {
                 // console.log(this.bulletOnSceneList[i].isRemovable());
                 if (this.bulletOnSceneList[i].isRemovable()){
-                    this.bulletOnSceneList.splice(i, 1);
+                    if (Math.random() >= 0.9) {
+                        this.bulletOnSceneList[i].removeFromWorld = false;
+                        this.bulletOnSceneList[i].vector.velX *= -1;
+                        this.bulletOnSceneList[i].vector.velY *= -1;
+                        this.bulletOnSceneList[i].updateLocationWithVector();
+                        // continue;
+                    } else {
+                        this.bulletOnSceneList.splice(i, 1);
+                    }
                 }  else {
                     this.bulletOnSceneList[i].updateLocationWithVector();
-                    // this.bulletOnSceneList[i].handleCollision();
                 }
                 // console.log(this.game.entities);
             }

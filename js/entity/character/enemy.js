@@ -68,7 +68,7 @@ class Enemy extends Character{
 
         // Stage 1 enemy boost when below they are below 50% health.
         if (this.damageReceived >= this.initialHealth / 2 && !this.levelUpOne) {
-            this.weapon.bullet.bulletAngleInterval = this.weapon.bullet.bulletAngleInterval * 60 / 100;
+            this.weapon.bullet.bulletAngleInterval = this.weapon.bullet.bulletAngleInterval * 80 / 100;
             this.weapon.orbAngle = 0;
             // Sudden change in the angle interval so it needs there is a temporary pause so the angle can be in line again ?
             // Rare bug, work around by reset orb angle.
