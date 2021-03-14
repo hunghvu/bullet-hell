@@ -103,7 +103,7 @@ class Enemy extends Character{
 
         // Stage 2, the bullet pattern become more random (visually).
         if (this.damageReceived >= this.initialHealth / 2 && this.firstStageDone && !this.levelUpTwo) {
-            this.weapon.bullet.notBouncedBackRate = 0.8;
+            this.weapon.bullet.notBouncedBackRate *= (8/10);
             this.weapon.orbAngle = 0;
             this.levelUpTwo = true;
         }
@@ -137,7 +137,7 @@ class Enemy extends Character{
 
         if (this.damageReceived >= this.initialHealth / 2 && this.firstStageDone && this.secondStageDone && !this.levelUpThree) { // Middle stage buff
             this.weapon.bullet.bulletAngleInterval = this.weapon.bullet.bulletAngleInterval * 60 / 80;
-            this.weapon.bullet.notBouncedBackRate = 0.5;
+            this.weapon.bullet.notBouncedBackRate *= (5/10);
             this.weapon.orbAngle = 0;
             this.levelUpThree = true;
         }
