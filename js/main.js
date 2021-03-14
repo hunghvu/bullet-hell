@@ -24,7 +24,6 @@ let ctx = null;
 
 let canvasInfoBoard = null;
 let ctxInfoBoard = null;
-
 window.onload = () => {
 
 	// Only onload the canvas, etc are defined.
@@ -36,27 +35,28 @@ window.onload = () => {
 	ctxInfoBoard = canvasInfoBoard.getContext("2d");
 	gameEngine = new GameEngine();
 	ASSET_MANAGER.downloadAll(() => {
+		clearGameEngine();
+		gameEngine.init(ctx);
 		createMainMenu();
+		gameEngine.start();
+
 	})
 	
 }
 
 
 // Global functions.
-let isStart = false; // flag to not re-init and restart game engine
+
 // This function will display a main menu for the game.
 function createMainMenu(){
 	clearGameEngine();
-	if(!isStart) gameEngine.init(ctx);
+	ASSET_MANAGER.pauseBackgroundMusic();
 	let mainMenu = new MenuMain(gameEngine, 100, 100);
 	mainMenu.addMainMenuListener(canvas);
 	mainMenu.setInitialButtonLocation(canvas);
 	gameEngine.addEntity(mainMenu);
 	// console.log(gameEngine.entities)
-	if(!isStart) {
-		gameEngine.start();
-		isStart = true;
-	}
+
 }
 
 function createResultMenu (result){

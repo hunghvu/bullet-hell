@@ -128,7 +128,7 @@ class MenuMain {
 
         if (newMouseX >= this.lunaticButtonAreaX && newMouseX <= this.lunaticButtonAreaX + 100
             && newMouseY >= this.lunaticButtonAreaY && newMouseY <= this.lunaticButtonAreaY + 50) {
-            startGame(5, 0.7, 200, 2000);
+            startGame(5, 0.7, 300, 2000);
         }
     }
 
