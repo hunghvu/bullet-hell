@@ -7,6 +7,7 @@ class BulletReimu {
 
         // Link sprite sheet
         this.spriteSheet = ASSET_MANAGER.getAsset("./assets/sprites/playerSprite.png");
+        this.bulletSheet = ASSET_MANAGER.getAsset("./assets/sprites/bulletSprite.png");
 
         // Weapon coords
         this.weapon = weapon;
@@ -31,7 +32,7 @@ class BulletReimu {
 
         this.scaler = weapon.scaler;
         this.frameTime = weapon.frameTime;
-        this.bulletState = weapon.orbState; // 0 is red bullet, 1 is orange bullet, 2 is purple bullet
+        this.bulletState = weapon.orbState; // 0 is red bullet, 1 is orange bullet, 2 is purple bullet, 3 for heat seeking bullet
         
         this.frameCount = 1;
         this.bulletSpeed = 50;
@@ -67,6 +68,8 @@ class BulletReimu {
                 this.privateDrawRotatedBullet(75, element, ctx, 20, 60);
             } else if (element.side === null) {
                 this.privateDrawRotatedBullet(90, element, ctx, 0, 70);
+            } else if (element.side === "straight") {
+                this.privateDrawRotatedBullet(0, element, ctx, 0, 0)
             }
 
             // For dev only. Draw bounding circle
@@ -74,7 +77,17 @@ class BulletReimu {
                 ctx.beginPath();
                 ctx.arc(element.boundingCircle.centerX, element.boundingCircle.centerY, this.boundingCircleRadius, 0, Math.PI * 2);
                 ctx.stroke();
+
+                // Draw heat seeking circle
+                if (element.radar) {
+                    ctx.beginPath()
+                    ctx.filStyle = "yellow"
+                    ctx.arc(element.radar.centerX, element.radar.centerY, element.radar.radius, 0, Math.PI * 2);
+                    ctx.stroke();  
+                    ctx.closePath();
+                }
             }
+
         });
     }
 
@@ -111,6 +124,8 @@ class BulletReimu {
         let bulletOnSceneTwo_4 = null;
         let bulletOnSceneThree_1 = null;
         let bulletOnSceneThree_2 = null;
+        let bulletOnSceneFour_1 = null;
+        let bulletOnSceneFour_2 = null;
 
         // Level 1
         bulletOnSceneOne = new Bullet(
@@ -122,7 +137,7 @@ class BulletReimu {
             new BoundingCircle(this.xLevel1, this.yLevel1, this.boundingCircleRadius),
             this, 1);
 
-        if (this.bulletState === 1 || this.bulletState === 2) { // Level 2, orange bullet
+        if (this.bulletState === 1 || this.bulletState === 2 || this.bulletState === 3) { // Level 2, orange bullet
             // X and Y for left and right are manually tuned.
             // X and Y are initial locations of a bullet on screen, which are used to draw.
             bulletOnSceneTwo_1 = new Bullet(
@@ -170,7 +185,7 @@ class BulletReimu {
         } 
         
         // Also change bullet speed from 50 to 100.
-        if (this.bulletState === 2) { // Level 3, purple bullet
+        if (this.bulletState === 2 || this.bulletState === 3) { // Level 3, purple bullet
             bulletOnSceneThree_1 = new Bullet(
                 this.weapon.player,
                 new Animator(this.spriteSheet, 152, 193, 56, 13, this.frameCount, this.frameTime, 0, false, true),
@@ -191,11 +206,35 @@ class BulletReimu {
             this.bulletSpeed = 100;
         }
 
+        if (this.bulletState === 3) {
+            bulletOnSceneFour_1 = new Bullet(
+                this.weapon.player,
+                new Animator(this.bulletSheet, 278, 314, 61, 54, this.frameCount, this.frameTime, 0, false, true),
+                this.xLevel3_1 - 60,
+                this.yLevel3_1 - 55,
+                "straight",
+                new BoundingCircle(this.xLevel3_1 - 60 + 61 / 6, this.yLevel3_1 - 55 + 54 / 6, this.boundingCircleRadius),
+                this, 1,
+                new Vector (0, -1000));
+            bulletOnSceneFour_1.radarRadius = 75;
+
+            bulletOnSceneFour_2 = new Bullet(
+                this.weapon.player,
+                new Animator(this.bulletSheet, 278, 314, 61, 54, this.frameCount, this.frameTime, 0, false, true),
+                this.xLevel3_2 + 60,
+                this.yLevel3_2 - 55,
+                "straight",
+                new BoundingCircle(this.xLevel3_2 + 60 + 61 / 6, this.yLevel3_2 - 55 + 54 / 6, this.boundingCircleRadius),
+                this, 1, 
+                new Vector (0, -1000));
+            bulletOnSceneFour_2.radarRadius = 75;
+        }
+
         if (this.weapon.orbAngle - this.previousAngle === this.bulletAngleInterval || this.weapon.orbAngle === 0) {
             this.privateAddBulletOnScreen(bulletOnSceneOne);
             this.game.addEntity(bulletOnSceneOne);
             this.previousAngle = this.weapon.orbAngle;
-            if (this.bulletState === 1 || this.bulletState === 2) {
+            if (this.bulletState === 1 || this.bulletState === 2 || this.bulletState === 3) {
                 this.privateAddBulletOnScreen(bulletOnSceneTwo_1);
                 this.privateAddBulletOnScreen(bulletOnSceneTwo_2);
                 this.privateAddBulletOnScreen(bulletOnSceneTwo_3);
@@ -205,11 +244,20 @@ class BulletReimu {
                 this.game.addEntity(bulletOnSceneTwo_3);
                 this.game.addEntity(bulletOnSceneTwo_4);
             }
-            if (this.bulletState === 2) {
+            if (this.bulletState === 2 || this.bulletState === 3) {
                 this.privateAddBulletOnScreen(bulletOnSceneThree_1);
                 this.privateAddBulletOnScreen(bulletOnSceneThree_2);
                 this.game.addEntity(bulletOnSceneThree_1);
                 this.game.addEntity(bulletOnSceneThree_2);
+            }
+
+            if (this.bulletState === 3) {
+                bulletOnSceneFour_1.activateHeatSeeking((this.xLevel3_1 - 60), (this.yLevel3_1 - 55));
+                bulletOnSceneFour_2.activateHeatSeeking((this.xLevel3_2 + 60), (this.yLevel3_2 - 55));
+                this.privateAddBulletOnScreen(bulletOnSceneFour_1);
+                this.privateAddBulletOnScreen(bulletOnSceneFour_2);
+                this.game.addEntity(bulletOnSceneFour_1);
+                this.game.addEntity(bulletOnSceneFour_2);
             }
         }
     }
@@ -220,13 +268,14 @@ class BulletReimu {
     privateUpdateBulletLocation(){
         if (this.bulletOnSceneList !== undefined) {
             for (var i = this.bulletOnSceneList.length - 1; i >= 0; i--) {
+                if (this.bulletOnSceneList[i].radar) this.bulletOnSceneList[i].privateUpdateRadar();
                 if (this.bulletOnSceneList[i].isRemovable()){
                     this.bulletOnSceneList.splice(i, 1);
                 }  else {
-                    this.bulletOnSceneList[i].updateLocation();
-                    // this.bulletOnSceneList[i].handleCollision();
+                    this.bulletOnSceneList[i].vector
+                    ? this.bulletOnSceneList[i].updateLocationWithVector()
+                    : this.bulletOnSceneList[i].updateLocation();
                 }
-                // console.log(this.game.entities);
             }
             // Use to check if a bullet is deleted by observing the list, for dev only.
             // console.log(this.bulletOnSceneList);
@@ -249,7 +298,9 @@ class BulletReimu {
         let offScreenCtx = offScreenCanvas.getContext("2d");
         offScreenCtx.translate(translateX, translateY);
         offScreenCtx.rotate(-angle * Math.PI / 180);
-        element.animator.drawFrame(this.game.clockTick, offScreenCtx, 0, 0, this.scaler);
+        element.vector
+        ? element.animator.drawFrame(this.game.clockTick, offScreenCtx, 0, 0, 1/3)
+        : element.animator.drawFrame(this.game.clockTick, offScreenCtx, 0, 0, this.scaler);
         ctx.drawImage(offScreenCanvas, element.x, element.y);
         /**
          * @todo There is a bug where, if an orb is initialized at 0, 0, the first offscreen ctx

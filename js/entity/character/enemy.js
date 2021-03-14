@@ -140,6 +140,7 @@ class Enemy extends Character{
             this.weapon.bullet.notBouncedBackRate *= (5/10);
             this.weapon.orbAngle = 0;
             this.levelUpThree = true;
+            enhancedPlayerWeaponLevelThree();
         }
 
         if (this.damageReceived > this.initialHealth && this.firstStageDone && this.secondStageDone && !this.thirdStageDone) {

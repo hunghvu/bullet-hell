@@ -63,14 +63,25 @@ class Bullet {
      * @param {number} y an original y coord when a bullet is spawned
      */
     activateHeatSeeking(x, y) {
-        this.radar = new BoundingCircle(x + this.owner.weapon.bullet.frameWidthAndHeight / 2, 
-                                        y + this.owner.weapon.bullet.frameWidthAndHeight / 2, this.radarRadius);
+        if (this.owner instanceof Enemy) {
+            this.radar = new BoundingCircle(x + this.owner.weapon.bullet.frameWidthAndHeight / 2, 
+                y + this.owner.weapon.bullet.frameWidthAndHeight / 2, this.radarRadius);
+        }
+        if (this.owner instanceof Player) {
+            this.radar = new BoundingCircle(x + 61 / 6, 
+                y + 54 / 6, this.radarRadius);
+        }
+                                        // console.log(this.owner.weapon.bullet.frameWidthAndHeight);
     }
 
     privateUpdateRadar(){
         this.owner.game.entities.forEach( element => {
             if (element.boundingCircle && (element.boundingCircle !== this.radar)) {
-                if (element.boundingCircle.isCollided(this.radar) && element instanceof Player) {
+                if (this.owner instanceof Enemy && element.boundingCircle.isCollided(this.radar) && element instanceof Player) {
+                    this.vector = new Vector((element.boundingCircle.centerX - this.x) / 3, (element.boundingCircle.centerY - this.y) / 3);
+                }
+
+                if (this.owner instanceof Player && element.boundingCircle.isCollided(this.radar) && element instanceof Enemy) {
                     this.vector = new Vector((element.boundingCircle.centerX - this.x) / 3, (element.boundingCircle.centerY - this.y) / 3);
                 }
             }

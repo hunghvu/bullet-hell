@@ -152,7 +152,15 @@ function setPlayerWeaponLevelThree() {
 	clearInterval(infoBoard.bulletSound);
 	infoBoard.bulletSound = setInterval(() => {
 		ASSET_MANAGER.playAsset("./assets/sound/bullet-shot.mp3");
-	}, 60);
+	}, 65);
+}
+
+function enhancedPlayerWeaponLevelThree() {
+	player.weapon.bullet.bulletState = 3;
+	clearInterval(infoBoard.bulletSound);
+	infoBoard.bulletSound = setInterval(() => {
+		ASSET_MANAGER.playAsset("./assets/sound/bullet-shot.mp3");
+	}, 55);
 }
 
 /**
