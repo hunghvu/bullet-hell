@@ -113,22 +113,22 @@ class MenuMain {
 
         if (newMouseX >= this.easyButtonAreaX && newMouseX <= this.easyButtonAreaX + 100
             && newMouseY >= this.easyButtonAreaY && newMouseY <= this.easyButtonAreaY + 50) {
-            startGame();
+            startGame(8, 0.9, 1000, 1000);
         }
 
         if (newMouseX >= this.normalButtonAreaX && newMouseX <= this.normalButtonAreaX + 100
             && newMouseY >= this.normalButtonAreaY && newMouseY <= this.normalButtonAreaY + 50) {
-            startGame();
+            startGame(7, 0.85, 700, 1300);
         }
 
         if (newMouseX >= this.hardButtonAreaX && newMouseX <= this.hardButtonAreaX + 100
             && newMouseY >= this.hardButtonAreaY && newMouseY <= this.hardButtonAreaY + 50) {
-            startGame();
+            startGame(6, 0.8, 400, 1500);
         }
 
         if (newMouseX >= this.lunaticButtonAreaX && newMouseX <= this.lunaticButtonAreaX + 100
             && newMouseY >= this.lunaticButtonAreaY && newMouseY <= this.lunaticButtonAreaY + 50) {
-            startGame();
+            startGame(5, 0.7, 200, 2000);
         }
     }
 

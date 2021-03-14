@@ -73,7 +73,7 @@ let infoboard;
 /**
  * This function will start a game.
  */
-function startGame() {
+function startGame(bulletAngleInterval, notBouncedBackRate, playerInitHealth, enemyInitHealth) {
 
 	clearGameEngine();
 	gameEngine.init(ctx);
@@ -89,6 +89,8 @@ function startGame() {
 	player = new Player(gameEngine, 100, 100);
 	player.addMouseListenerCanvas(canvas)
 	player.setPlayerInitialPosition(canvas);
+	player.initialHealth = playerInitHealth;
+	player.maxHP = playerInitHealth;
 	gameEngine.addEntity(player);
 	gameEngine.addEntity(player.weapon);
 	gameEngine.addEntity(player.weapon.bullet);
@@ -96,6 +98,9 @@ function startGame() {
 	// Add enemy to the game
 	let enemy = new Enemy(gameEngine, 100, 100);
 	enemy.setEnemyInitialPosition(canvas);
+	enemy.weapon.bullet.bulletAngleInterval = bulletAngleInterval;
+	enemy.weapon.bullet.notBouncedBackRate = notBouncedBackRate;
+	enemy.initialHealth = enemyInitHealth;
 	gameEngine.addEntity(enemy);
 	gameEngine.addEntity(enemy.weapon);
 	gameEngine.addEntity(enemy.weapon.bullet);
