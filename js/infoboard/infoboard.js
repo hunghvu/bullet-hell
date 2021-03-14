@@ -38,10 +38,22 @@ class InfoBoard {
         this.ctxInfoBoard.font = "24px Akaya Kanadaka";
         this.ctxInfoBoard.fillStyle = "Red";
         // Mainly for testing, but may keep them as is.
-        this.ctxInfoBoard.fillText("Enemy's HP: ", 10, 50)
-        this.ctxInfoBoard.fillText(Math.max(0, this.enemy.initialHealth - this.enemy.damageReceived) + " / " + this.enemy.initialHealth, 10, 70);
-        this.ctxInfoBoard.fillText("Player's HP: ", 10, 100)
-        this.ctxInfoBoard.fillText(Math.max(0, this.player.initialHealth) + " / " + this.player.maxHP, 10, 120);
+
+        let stage;
+        if (!this.enemy.firstStageDone) {
+            stage = 1;
+        }
+        if (this.enemy.firstStageDone && !this.enemy.secondStageDone) {
+            stage = 2;
+        }
+        if (this.enemy.secondStageDone) {
+            stage = 3;
+        }
+        this.ctxInfoBoard.fillText("Stage: " + stage + " / 3", 10, 50)
+        this.ctxInfoBoard.fillText("Enemy's HP: ", 10, 100)
+        this.ctxInfoBoard.fillText(Math.max(0, this.enemy.initialHealth - this.enemy.damageReceived) + " / " + this.enemy.initialHealth, 10, 120);
+        this.ctxInfoBoard.fillText("Player's HP: ", 10, 150)
+        this.ctxInfoBoard.fillText(Math.max(0, this.player.initialHealth) + " / " + this.player.maxHP, 10, 170);
 
         if (this.enemy.firstStageDone && this.enemy.secondStageDone && this.enemy.thirdStageDone) {
             createResultMenu(true);
