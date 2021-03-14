@@ -114,28 +114,27 @@ function startGame(bulletAngleInterval, notBouncedBackRate, playerInitHealth, en
 	canvasInfoBoard.style.visibility = "visible"; // Show infoboard when the game is started.
 
 	// For testing only
-	let accumulator = 1;
-	window.addEventListener("keydown", event => {
-		if (event.code === "KeyJ") {
-			if (accumulator > 2) {
-				accumulator = 0;
-			}
-			player.weapon.orbState = accumulator;
-			player.weapon.bullet.bulletState = accumulator;
-			accumulator ++;
-			if (player.weapon.bullet.bulletState === 0) {
-				clearInterval(infoBoard.bulletSound);
-				infoBoard.bulletSound = setInterval(() => {
-					ASSET_MANAGER.playAsset("./assets/sound/bullet-shot.mp3");
-				}, 100);
-			} else if (player.weapon.bullet.bulletState === 1) {
-				setPlayerWeaponLevelTwo();
-			} else if (player.weapon.bullet.bulletState === 2){
-				setPlayerWeaponLevelThree();
-			}
-		}
-	});
-	// gameEngine.start();
+	// let accumulator = 1;
+	// window.addEventListener("keydown", event => {
+	// 	if (event.code === "KeyJ") {
+	// 		if (accumulator > 2) {
+	// 			accumulator = 0;
+	// 		}
+	// 		player.weapon.orbState = accumulator;
+	// 		player.weapon.bullet.bulletState = accumulator;
+	// 		accumulator ++;
+	// 		if (player.weapon.bullet.bulletState === 0) {
+	// 			clearInterval(infoBoard.bulletSound);
+	// 			infoBoard.bulletSound = setInterval(() => {
+	// 				ASSET_MANAGER.playAsset("./assets/sound/bullet-shot.mp3");
+	// 			}, 100);
+	// 		} else if (player.weapon.bullet.bulletState === 1) {
+	// 			setPlayerWeaponLevelTwo();
+	// 		} else if (player.weapon.bullet.bulletState === 2){
+	// 			setPlayerWeaponLevelThree();
+	// 		}
+	// 	}
+	// });
 }
 
 function setPlayerWeaponLevelTwo() {
