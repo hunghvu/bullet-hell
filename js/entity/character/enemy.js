@@ -17,11 +17,11 @@ class Enemy extends Character{
         this.animationState = 0; // 0 means stands still, 1 is moving to the left, 2 is moving to the right.
         // this.lastMouseX = 0;
         // this.lastMouseY = 0;
-        this.enemyFrameWidth = 80;
-        this.enemyFrameHeight = 93;
+        this.enemyFrameWidth = 48;
+        this.enemyFrameHeight = 64;
         this.frameTime = 0.333;
         this.scaler = 1;
-        this.frameCount = 1;
+        this.frameCount = 4;
 
         // Attach weapons to player
         this.weapon = new EnemyWeapon(this);
@@ -61,13 +61,15 @@ class Enemy extends Character{
 
     loadAnimations() {
 
-        let enemyStill = new Animator(this.enemySheet, 356, 986, this.enemyFrameWidth, this.enemyFrameHeight, this.frameCount, this.frameTime, 0, false, true);
-        // let playerLeft = new Animator(this.spriteSheet, 16, 64, this.playerFrameWidth, this.playerFrameHeight, this.frameCount, this.frameTime, 0, false, true);
-        // let playerRight = new Animator(this.spriteSheet, 16, 112, this.playerFrameWidth, this.playerFrameHeight, this.frameCount, this.frameTime, 0, false, true);
+        let enemyStill = new Animator(this.enemySheet, 412, 388, this.enemyFrameWidth, this.enemyFrameHeight, this.frameCount, this.frameTime, 0, false, true);
+        let enemyLeft = new Animator(this.enemySheet, 412, 452, this.enemyFrameWidth, this.enemyFrameHeight, this.frameCount, this.frameTime, 0, false, true);
+        let enemyRight = new Animator(this.enemySheet, 412, 516, this.enemyFrameWidth, this.enemyFrameHeight, this.frameCount, this.frameTime, 0, false, true);
         this.animation.push(enemyStill);
+        this.animation.push(enemyLeft);
+        this.animation.push(enemyRight);
         // this.animation.push(playerLeft);
         // this.animation.push(playerRight);
-        let magicCircle = new Animator(this.bulletSheet, 404, 89, this.magicCircleFrameWidth, this.magicCircleFrameHeight, this.frameCount, this.frameTime, 0, false, true);
+        let magicCircle = new Animator(this.bulletSheet, 404, 89, this.magicCircleFrameWidth, this.magicCircleFrameHeight, 1, this.frameTime, 0, false, true);
         this.animation.push(magicCircle);
 
 
@@ -77,6 +79,8 @@ class Enemy extends Character{
         let velX = Math.random() * 100 - 60;
         let velY = Math.random() * 100 - 60;
         this.vector = new Vector(velX, velY);
+        if (velX < 0) this.animationState = 1;
+        if (velX > 0) this.animationState = 2;
     }
 
     update() {
@@ -120,8 +124,13 @@ class Enemy extends Character{
         if (this.vector) {
             let newX = this.canvasX + this.vector.velX;
             let newY = this.canvasY + this.vector.velY;
-            if (newX >= 0 && newX <= this.canvas.width - this.enemyFrameWidth) this.canvasX = newX;
+            let ableToMoveX = false;
+            if (newX >= 0 && newX <= this.canvas.width - this.enemyFrameWidth) { 
+                this.canvasX = newX;
+                ableToMoveX = true;
+            }
             if (newY >= 0 && newY <= this.canvas.height - this.enemyFrameHeight) this.canvasY = newY;
+            if (!ableToMoveX) this.animationState = 0;
             if (this.movementTick === 180) this.movementTick = 0;
             this.movementTick ++;
         }
@@ -171,9 +180,9 @@ class Enemy extends Character{
         offScreenCtx.rotate(-this.magicCircleAngle * Math.PI / 180);
         offScreenCtx.translate(-128, -128);
         this.magicCircleAngle -= this.magicCircleSpeed;
-        this.animation[1].drawFrame(this.game.clockTick, offScreenCtx, 0, 0, this.scaler * 2);
+        this.animation[3].drawFrame(this.game.clockTick, offScreenCtx, 0, 0, this.scaler * 2);
         offScreenCtx.restore();
-        ctx.drawImage(offScreenCanvas, this.canvasX - 90, this.canvasY - 80);  
+        ctx.drawImage(offScreenCanvas, this.canvasX - 105, this.canvasY - 95);  
     }
 
     /**
@@ -182,15 +191,15 @@ class Enemy extends Character{
     privateUpdateBC() {
         this.boundingCircle.setLocation(this.canvasX + this.enemyFrameWidth / 2, this.canvasY + this.enemyFrameHeight / 2);
         this.game.entities.forEach(element => {
-                if (element.boundingCircle && (element.boundingCircle !== this.boundingCircle)) {
-                    if (element.boundingCircle.isCollided(this.boundingCircle) && element.owner !== this) {
-                        if (element.damage != undefined && !element.isCollided){
-                            this.damageReceived += element.damage;
-                            this.fullHealthCircle = Math.PI * 2 * (this.initialHealth - this.damageReceived) / this.initialHealth;
-                            element.isCollided = true;
-                        }
+            if (element.boundingCircle && (element.boundingCircle !== this.boundingCircle)) {
+                if (element.boundingCircle.isCollided(this.boundingCircle) && element.owner !== this) {
+                    if (element.damage != undefined && !element.isCollided){
+                        this.damageReceived += element.damage;
+                        this.fullHealthCircle = Math.PI * 2 * (this.initialHealth - this.damageReceived) / this.initialHealth;
+                        element.isCollided = true;
                     }
                 }
+            }
         })
     }
 }
