@@ -50,12 +50,12 @@ class EnemyWeapon {
     }
 
     loadAnimation() {
-        let orb1 = new Animator (this.spriteSheet, 80, 160, this.orbFrameWidth, this.orbFrameHeight, this.frameCount, this.frameTime, 0, false, true);
-        let orb2 = new Animator (this.spriteSheet, 80, 160, this.orbFrameWidth, this.orbFrameHeight, this.frameCount, this.frameTime, 0, false, true);
-        let orb3 = new Animator (this.spriteSheet, 80, 160, this.orbFrameWidth, this.orbFrameHeight, this.frameCount, this.frameTime, 0, false, true);
-        let orb4 = new Animator (this.spriteSheet, 80, 160, this.orbFrameWidth, this.orbFrameHeight, this.frameCount, this.frameTime, 0, false, true);
-        let orb5 = new Animator (this.spriteSheet, 80, 160, this.orbFrameWidth, this.orbFrameHeight, this.frameCount, this.frameTime, 0, false, true);
-        let orb6 = new Animator (this.spriteSheet, 80, 160, this.orbFrameWidth, this.orbFrameHeight, this.frameCount, this.frameTime, 0, false, true);
+        let orb1 = new Animator (this.spriteSheet, 0, 0, this.orbFrameWidth, this.orbFrameHeight, this.frameCount, this.frameTime, 0, false, true);
+        let orb2 = new Animator (this.spriteSheet, 0, 0, this.orbFrameWidth, this.orbFrameHeight, this.frameCount, this.frameTime, 0, false, true);
+        let orb3 = new Animator (this.spriteSheet, 0, 0, this.orbFrameWidth, this.orbFrameHeight, this.frameCount, this.frameTime, 0, false, true);
+        let orb4 = new Animator (this.spriteSheet, 0, 0, this.orbFrameWidth, this.orbFrameHeight, this.frameCount, this.frameTime, 0, false, true);
+        let orb5 = new Animator (this.spriteSheet, 0, 0, this.orbFrameWidth, this.orbFrameHeight, this.frameCount, this.frameTime, 0, false, true);
+        let orb6 = new Animator (this.spriteSheet, 0, 0, this.orbFrameWidth, this.orbFrameHeight, this.frameCount, this.frameTime, 0, false, true);
         this.orbList.push(orb1);
         this.orbList.push(orb2);
         this.orbList.push(orb3);
@@ -67,9 +67,39 @@ class EnemyWeapon {
 
     update() {
         let radian1 = -this.orbAngle * Math.PI / 180;
-        // if (Math.random() < 0.1) 
-        // this.bullet.bulletAngleInterval = 180
-        if(this.secondStage) radian1 *= -Math.PI;
+
+        // Second stage, flower petal like pattern
+        if (this.secondStage && !this.thirdStage) {
+            let distance = Math.cos(5 * radian1) * 15 + this.radius;
+            this.orb1LocationX = this.enemy.canvasX + this.orbFrameWidth + 10 * this.scaler + distance * Math.cos(radian1);
+            this.orb1LocationY = this.enemy.canvasY + this.enemy.enemyFrameHeight / 2 * this.scaler - this.orbFrameHeight / 2 * this.scaler +  distance * Math.sin(radian1);
+    
+            let radian2 = radian1 + 90;
+            this.orb2LocationX = this.enemy.canvasX + this.orbFrameWidth + 10 * this.scaler + distance * Math.cos(radian2);
+            this.orb2LocationY = this.enemy.canvasY + this.enemy.enemyFrameHeight / 2 * this.scaler - this.orbFrameHeight / 2 * this.scaler +  distance * Math.sin(radian2);
+    
+            let radian3 = radian1 + 180;
+            this.orb3LocationX = this.enemy.canvasX + this.orbFrameWidth + 10 * this.scaler + this.radius * Math.cos(radian3);
+            this.orb3LocationY = this.enemy.canvasY + this.enemy.enemyFrameHeight / 2 * this.scaler - this.orbFrameHeight / 2 * this.scaler +  distance * Math.sin(radian3);
+    
+            let radian4 = this.orbAngle * Math.PI / 180;
+            this.orb4LocationX = this.enemy.canvasX + this.orbFrameWidth + 10 * this.scaler + this.radius * Math.cos(radian1);
+            this.orb4LocationY = this.enemy.canvasY + this.enemy.enemyFrameHeight / 2 * this.scaler - this.orbFrameHeight / 2 * this.scaler +  distance * Math.sin(radian4);
+    
+            let radian5 = radian4 + 90;
+            this.orb5LocationX = this.enemy.canvasX + this.orbFrameWidth + 10 * this.scaler + this.radius * Math.cos(radian2);
+            this.orb5LocationY = this.enemy.canvasY + this.enemy.enemyFrameHeight / 2 * this.scaler - this.orbFrameHeight / 2 * this.scaler +  distance * Math.sin(radian5);
+    
+            let radian6 = radian4 + 180;
+            this.orb6LocationX = this.enemy.canvasX + this.orbFrameWidth + 10 * this.scaler + this.radius * Math.cos(radian3);
+            this.orb6LocationY = this.enemy.canvasY + this.enemy.enemyFrameHeight / 2 * this.scaler - this.orbFrameHeight / 2 * this.scaler +  distance * Math.sin(radian6);
+            return;
+        }
+        
+        // Third stage, pattern looks to be more randomized visually
+        if(this.thirdStage) radian1 *= -Math.PI;
+
+        // First stage, spriral like pattern
         this.orb1LocationX = this.enemy.canvasX + this.orbFrameWidth + 10 * this.scaler + this.radius * Math.cos(radian1);
         this.orb1LocationY = this.enemy.canvasY + this.enemy.enemyFrameHeight / 2 * this.scaler - this.orbFrameHeight / 2 * this.scaler +  this.radius * Math.sin(radian1);
 

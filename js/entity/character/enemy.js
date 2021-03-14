@@ -37,7 +37,7 @@ class Enemy extends Character{
         this.thirdStageDone = false;
         this.levelUpOne = false; // Flag to boost enemy at stage 1.
         this.levelUpTwo = false; // Flag to boost enemy at stage 2.
-        this.levelUpThree = false; // Not use as of now.
+        this.levelUpThree = false; // Flag to boost enemy at stage 3.
 
         this.damage = 3;
 
@@ -93,7 +93,7 @@ class Enemy extends Character{
             // Rare bug, work around by reset orb angle.
             this.levelUpOne = true;
         }
-        if (this.damageReceived >= this.initialHealth && !this.firstStageDone) {
+        if (this.damageReceived >= this.initialHealth && !this.firstStageDone) { // Middle stage buff
             this.firstStageDone = true;
             this.initialHealth *= 1.5;
             this.damageReceived = 0;
@@ -103,13 +103,12 @@ class Enemy extends Character{
 
         // Stage 2, the bullet pattern become more random (visually).
         if (this.damageReceived >= this.initialHealth / 2 && this.firstStageDone && !this.levelUpTwo) {
-            this.weapon.bullet.bulletAngleInterval = this.weapon.bullet.bulletAngleInterval * 60 / 80;
             this.weapon.bullet.notBouncedBackRate = 0.8;
             this.weapon.orbAngle = 0;
             this.levelUpTwo = true;
         }
 
-        if (this.damageReceived > this.initialHealth && this.firstStageDone && !this.secondStageDone) {
+        if (this.damageReceived > this.initialHealth && this.firstStageDone && !this.secondStageDone) { // Middle stage buff
             this.secondStageDone = true;
             this.initialHealth *= 1.5;
             this.damageReceived = 0;
@@ -121,7 +120,8 @@ class Enemy extends Character{
         if (this.firstStageDone && this.secondStageDone && this.movementTick % 180 === 0) {
             this.generateMovementVector();
         }
-        if (this.vector) {
+
+        if (this.vector) { // Produce movement for an enemy
             let newX = this.canvasX + this.vector.velX;
             let newY = this.canvasY + this.vector.velY;
             let ableToMoveX = false;
@@ -134,9 +134,18 @@ class Enemy extends Character{
             if (this.movementTick === 180) this.movementTick = 0;
             this.movementTick ++;
         }
+
+        if (this.damageReceived >= this.initialHealth / 2 && this.firstStageDone && this.secondStageDone && !this.levelUpThree) { // Middle stage buff
+            this.weapon.bullet.bulletAngleInterval = this.weapon.bullet.bulletAngleInterval * 60 / 80;
+            this.weapon.bullet.notBouncedBackRate = 0.5;
+            this.weapon.orbAngle = 0;
+            this.levelUpThree = true;
+        }
+
         if (this.damageReceived > this.initialHealth && this.firstStageDone && this.secondStageDone && !this.thirdStageDone) {
             this.thirdStageDone = true;
         }
+
         this.privateUpdateBC();
     }
 
