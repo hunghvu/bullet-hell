@@ -1,6 +1,7 @@
 # Bullet Hell
 
-A browser game of Bullet Hell genre based on Touhou franchise, built on JavaScript.
+- A browser game of Bullet Hell genre based on Touhou franchise, built on JavaScript.
+- Try out now: https://hunghvu.github.io/bullet-hell/.
 
 ## Gameplay
 
@@ -8,6 +9,9 @@ Hover mouse over canvas to control your player. There will be 3 stages, with eac
 
 ## Screenshot
 
+From left to right, main menu and in-game screen.
+
+![image](https://user-images.githubusercontent.com/62678592/111561066-13401680-8751-11eb-8eb8-b6b34dd3cbad.png)
 
 
 ## Credits
